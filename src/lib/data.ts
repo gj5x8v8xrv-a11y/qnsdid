@@ -42,9 +42,14 @@ type InquiryRow = {
   project_id: string | null;
   status: Inquiry["status"];
   created_at: string;
-  projects: null | {
-    name: string;
-  };
+  projects:
+    | null
+    | {
+        name: string;
+      }
+    | Array<{
+        name: string;
+      }>;
 };
 
 function mapProject(row: ProjectRow): Project {
@@ -81,13 +86,17 @@ function mapImage(row: ProjectImageRow): ProjectImage {
 }
 
 function mapInquiry(row: InquiryRow): Inquiry {
+  const projectName = Array.isArray(row.projects)
+    ? row.projects[0]?.name || null
+    : row.projects?.name || null;
+
   return {
     id: row.id,
     name: row.name,
     phone: row.phone,
     message: row.message,
     projectId: row.project_id,
-    projectName: row.projects?.name || null,
+    projectName,
     status: row.status,
     createdAt: row.created_at
   };
