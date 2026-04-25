@@ -4,14 +4,14 @@ import { redirect } from "next/navigation";
 
 import { isAllowedAdminEmail } from "@/lib/admin-access";
 import { getServerSupabaseClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/utils";
+import { isSupabasePublicConfigured } from "@/lib/utils";
 
 export function isAllowedAdmin(email?: string | null) {
   return isAllowedAdminEmail(email);
 }
 
 export async function getCurrentAdminUser() {
-  if (!isSupabaseConfigured()) return null;
+  if (!isSupabasePublicConfigured()) return null;
 
   const supabase = await getServerSupabaseClient();
   const {

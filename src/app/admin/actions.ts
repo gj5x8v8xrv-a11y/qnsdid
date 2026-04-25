@@ -9,7 +9,7 @@ import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { getServerSupabaseClient } from "@/lib/supabase/server";
 import { removeProjectAsset, uploadProjectAsset } from "@/lib/storage";
 import type { InquiryStatus, ProjectStatus } from "@/lib/types";
-import { isSupabaseConfigured } from "@/lib/utils";
+import { isSupabaseConfigured, isSupabasePublicConfigured } from "@/lib/utils";
 
 function buildRedirectUrl(
   path: string,
@@ -163,7 +163,7 @@ export async function loginAction(formData: FormData) {
   const email = getTextField(formData, "email", "이메일");
   const password = getTextField(formData, "password", "비밀번호");
 
-  if (!isSupabaseConfigured()) {
+  if (!isSupabasePublicConfigured()) {
     redirect(
       buildRedirectUrl("/admin/login", {
         error: "Supabase 환경변수 설정 후 관리자 로그인이 가능합니다."
@@ -202,7 +202,7 @@ export async function loginAction(formData: FormData) {
 }
 
 export async function logoutAction() {
-  if (isSupabaseConfigured()) {
+  if (isSupabasePublicConfigured()) {
     const supabase = await getServerSupabaseClient();
     await supabase.auth.signOut();
   }

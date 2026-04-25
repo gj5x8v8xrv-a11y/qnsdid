@@ -5,7 +5,7 @@ import { AdminSetupNotice } from "@/components/admin/admin-setup-notice";
 import { FlashBanner } from "@/components/ui/flash-banner";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { getCurrentAdminUser } from "@/lib/auth";
-import { isSupabaseConfigured } from "@/lib/utils";
+import { isSupabasePublicConfigured } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +41,7 @@ export default async function AdminLoginPage({
 
           <div className="mt-10 rounded-[1.75rem] border border-white/10 bg-white p-6">
             <FlashBanner message={error} tone="error" />
-            {isSupabaseConfigured() ? (
+            {isSupabasePublicConfigured() ? (
               <form action={loginAction} className="mt-4 space-y-4">
                 <label className="grid gap-2 text-sm font-semibold">
                   이메일
