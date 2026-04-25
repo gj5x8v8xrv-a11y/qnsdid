@@ -28,10 +28,19 @@ export default async function ContactPage({
   return (
     <>
       <PageHero
-        actions={<a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>전화문의</a>}
-        description="대표번호와 상담문의 폼을 통해 관심 현장 상담과 방문 예약 문의를 편하게 남길 수 있도록 구성했습니다."
+        actions={
+          <>
+            <a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              전화문의
+            </a>
+            <a className="button-secondary" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              대표번호 {site.companyPhone}
+            </a>
+          </>
+        }
+        description="관심 현장, 분양조건, 방문 희망일을 남겨주시면 대표번호 또는 상담신청으로 빠르게 연결해드립니다."
         eyebrow="Contact"
-        title="관심 현장 상담을 간편하게 접수해보세요"
+        title="관심 현장 상담과 방문 문의를 바로 접수해보세요"
         visual={
           <div className="grid gap-4">
             {[
@@ -61,9 +70,9 @@ export default async function ContactPage({
           <div className="surface-panel p-6 sm:p-8">
             <h2 className="text-3xl">응대 기준</h2>
             <div className="mt-5 space-y-3 text-sm leading-8 text-muted">
-              <p>관심 현장과 문의 내용을 남겨주시면 상담 흐름이 더 빠르게 진행됩니다.</p>
-              <p>방문예약이 필요한 경우 별도 안내 또는 네이버 예약 연결이 가능합니다.</p>
-              <p>남겨주신 연락처로 순차적으로 안내드리며 필요한 분양 정보를 상세히 설명해드립니다.</p>
+              <p>관심 현장과 문의 내용을 함께 남겨주시면 상담 흐름이 훨씬 빨라집니다.</p>
+              <p>방문예약이 필요한 경우 별도 안내 또는 네이버 예약 링크로 연결해드립니다.</p>
+              <p>남겨주신 연락처로 분양조건, 일정, 현장 분위기까지 순차적으로 안내드립니다.</p>
             </div>
           </div>
 

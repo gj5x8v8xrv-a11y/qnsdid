@@ -11,15 +11,16 @@ export function SiteFooter() {
       <div className="page-shell grid gap-10 py-14 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div className="space-y-5">
           <p className="text-[11px] uppercase tracking-[0.34em] text-white/50">
-            Representative Homepage
+            Premium Sales Marketing
           </p>
           <h2 className="text-4xl">{site.companyName}</h2>
           <p className="max-w-2xl text-sm leading-8 text-white/70">
-            분양 현장 정보, 입지 강점, 프리미엄 포인트, 상담 연결까지 한눈에 확인할 수 있는
-            신뢰 중심 홈페이지입니다.
+            분양중 현장 정보, 입지 강점, 분양조건, 상담 연결까지 한 번에 확인할 수 있는
+            상담 전환 중심 홈페이지입니다.
           </p>
           <div className="grid gap-2 text-sm text-white/75">
             <p>대표번호 {site.companyPhone}</p>
+            <p>상담 가능 시간 09:00 - 20:00</p>
             <p>이메일 {site.companyEmail}</p>
             <p>주소 {site.companyAddress}</p>
           </div>
@@ -58,7 +59,7 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="page-shell flex flex-col gap-2 py-5 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
           <p>{site.companyName}. All rights reserved.</p>
-          <p>프리미엄 분양 현장을 신뢰감 있게 소개하는 대표 홈페이지</p>
+          <p>분양 현장 상담과 방문예약을 빠르게 연결하는 대표 홈페이지</p>
         </div>
       </div>
     </footer>

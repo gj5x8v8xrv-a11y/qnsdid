@@ -9,7 +9,11 @@ import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { getServerSupabaseClient } from "@/lib/supabase/server";
 import { removeProjectAsset, uploadProjectAsset } from "@/lib/storage";
 import type { InquiryStatus, ProjectStatus } from "@/lib/types";
-import { isSupabaseConfigured, isSupabasePublicConfigured } from "@/lib/utils";
+import {
+  getSupabaseAdminSetupMessage,
+  isSupabaseConfigured,
+  isSupabasePublicConfigured
+} from "@/lib/utils";
 
 function buildRedirectUrl(
   path: string,
@@ -30,6 +34,10 @@ function buildRedirectUrl(
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message;
   return "요청을 처리하는 중 오류가 발생했습니다.";
+}
+
+function getAdminSetupError(defaultMessage: string) {
+  return getSupabaseAdminSetupMessage() || defaultMessage;
 }
 
 function getTextField(formData: FormData, key: string, label: string) {
@@ -214,7 +222,7 @@ export async function createProjectAction(formData: FormData) {
   if (!isSupabaseConfigured()) {
     redirect(
       buildRedirectUrl("/admin/projects/new", {
-        error: "Supabase 설정 후 현장을 저장할 수 있습니다."
+        error: getAdminSetupError("Supabase 설정 후 현장을 저장할 수 있습니다.")
       })
     );
   }
@@ -282,7 +290,7 @@ export async function updateProjectAction(formData: FormData) {
       buildRedirectUrl(
         projectId ? `/admin/projects/${projectId}/edit` : "/admin",
         {
-          error: "Supabase 설정 후 현장을 수정할 수 있습니다."
+          error: getAdminSetupError("Supabase 설정 후 현장을 수정할 수 있습니다.")
         }
       )
     );
@@ -357,7 +365,7 @@ export async function deleteProjectAction(formData: FormData) {
   if (!isSupabaseConfigured()) {
     redirect(
       buildRedirectUrl("/admin", {
-        error: "Supabase 설정 후 현장을 삭제할 수 있습니다."
+        error: getAdminSetupError("Supabase 설정 후 현장을 삭제할 수 있습니다.")
       })
     );
   }
@@ -423,7 +431,7 @@ export async function updateProjectStatusAction(formData: FormData) {
   if (!isSupabaseConfigured()) {
     redirect(
       buildRedirectUrl("/admin", {
-        error: "Supabase 설정 후 상태를 변경할 수 있습니다."
+        error: getAdminSetupError("Supabase 설정 후 상태를 변경할 수 있습니다.")
       })
     );
   }
@@ -475,7 +483,7 @@ export async function deleteProjectImageAction(formData: FormData) {
       buildRedirectUrl(
         projectId ? `/admin/projects/${projectId}/edit` : "/admin",
         {
-          error: "Supabase 설정 후 이미지를 삭제할 수 있습니다."
+          error: getAdminSetupError("Supabase 설정 후 이미지를 삭제할 수 있습니다.")
         }
       )
     );

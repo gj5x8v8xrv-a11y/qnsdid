@@ -44,6 +44,12 @@ export function formatPhoneHref(phone: string) {
   return `tel:${phone.replace(/[^+\d]/g, "")}`;
 }
 
+export function getKstDateKey(date = new Date()) {
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Asia/Seoul"
+  }).format(date);
+}
+
 export function absoluteUrl(path: string) {
   const { siteUrl } = getSiteConfig();
   return new URL(path, siteUrl).toString();
@@ -65,12 +71,36 @@ export function isSupabasePublicConfigured() {
   );
 }
 
+export function looksLikeSupabaseSecretKey(value?: string | null) {
+  return Boolean(value && value.startsWith("sb_secret_"));
+}
+
 export function isSupabaseAdminConfigured() {
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY &&
-      process.env.SUPABASE_SECRET_KEY
+      looksLikeSupabaseSecretKey(process.env.SUPABASE_SECRET_KEY)
   );
+}
+
+export function getSupabaseAdminSetupMessage() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return "NEXT_PUBLIC_SUPABASE_URL 값을 먼저 연결해주세요.";
+  }
+
+  if (!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+    return "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY 값을 먼저 연결해주세요.";
+  }
+
+  if (!process.env.SUPABASE_SECRET_KEY) {
+    return "SUPABASE_SECRET_KEY 값이 없어 관리자 저장과 이미지 업로드가 비활성화되어 있습니다.";
+  }
+
+  if (!looksLikeSupabaseSecretKey(process.env.SUPABASE_SECRET_KEY)) {
+    return "SUPABASE_SECRET_KEY 값이 올바르지 않습니다. Supabase Settings > API Keys의 Secret key 전체를 Vercel Environment Variables의 Value 칸에 넣고 다시 배포해주세요.";
+  }
+
+  return null;
 }
 
 export function toPositiveInteger(value: FormDataEntryValue | null) {

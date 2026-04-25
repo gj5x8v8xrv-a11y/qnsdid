@@ -60,20 +60,21 @@ export default async function ProjectDetailPage({
             </a>
           </>
         }
-        description={project.premiumSummary}
+        description={`${project.premiumSummary} 관심 현장으로 검토 중이라면 분양조건, 방문 가능 일정, 입지 설명까지 바로 상담으로 연결해드립니다.`}
         eyebrow={`${formatStatusLabel(project.status)} / ${project.location}`}
         stats={[
           { label: "세대수", value: project.householdCount },
           { label: "평형", value: project.unitPlan },
           { label: "입주예정", value: project.expectedMoveIn }
         ]}
-        title={project.name}
+        title={`${project.name} 현장 상담과 방문 안내`}
         visual={
           <div className="grid gap-4">
             {[
               `위치: ${project.location}`,
               `분양조건: ${project.salesConditions}`,
-              `상담전화: ${project.contactPhone}`
+              `상담전화: ${project.contactPhone}`,
+              project.reservationUrl ? "방문예약 링크 연결 가능" : "상담신청 후 방문예약 안내 가능"
             ].map((item) => (
               <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75" key={item}>
                 {item}
@@ -91,7 +92,7 @@ export default async function ProjectDetailPage({
         <div className="space-y-6">
           <div className="surface-panel p-6 sm:p-8">
             <div className="flex items-center justify-between gap-4">
-              <h2 className="text-3xl">현장 개요</h2>
+              <h2 className="text-3xl">현장 핵심 정보</h2>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold">
                 {formatStatusLabel(project.status)}
               </span>
@@ -114,12 +115,41 @@ export default async function ProjectDetailPage({
           </div>
 
           <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">프리미엄 포인트</h2>
+            <h2 className="text-3xl">핵심 장점과 프리미엄 포인트</h2>
             <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
               <p className="text-base leading-8 text-foreground">{project.premiumSummary}</p>
             </div>
             <div className="mt-6 rounded-[1.5rem] bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-foreground">분양조건</p>
+              <p className="mt-3 text-sm leading-8 text-muted">{project.salesConditions}</p>
+            </div>
+            <div className="mt-6 rounded-[1.5rem] bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-foreground">입지 설명</p>
               <p className="text-sm leading-8 text-muted">{project.locationDescription}</p>
+            </div>
+          </div>
+
+          <div className="surface-dark overflow-hidden bg-hero-navy p-6 sm:p-8">
+            <p className="text-xs uppercase tracking-[0.32em] text-white/50">Next Step</p>
+            <h2 className="mt-4 text-3xl text-white">현장 확인 후에는 바로 상담으로 연결해보세요</h2>
+            <p className="mt-4 text-sm leading-8 text-white/70">
+              고객이 가장 많이 묻는 내용은 분양조건, 방문 가능 일정, 실제 분위기입니다. 궁금한 점을 바로 남기면 빠르게 안내해드립니다.
+            </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              <a className="button-accent" href={formatPhoneHref(project.contactPhone)}>
+                전화문의
+              </a>
+              <Link className="button-primary" href={`/contact?project=${project.slug}`}>
+                상담신청
+              </Link>
+              <a
+                className="button-secondary !border-white/10 !bg-white !text-deep"
+                href={project.reservationUrl || `/contact?project=${project.slug}`}
+                rel="noreferrer"
+                target={project.reservationUrl ? "_blank" : undefined}
+              >
+                방문예약
+              </a>
             </div>
           </div>
         </div>
@@ -129,7 +159,7 @@ export default async function ProjectDetailPage({
             <p className="text-xs uppercase tracking-[0.32em] text-muted">Quick Contact</p>
             <h2 className="mt-3 text-3xl">상담 연결</h2>
             <p className="mt-3 text-sm leading-8 text-muted">
-              방문자가 고민 없이 바로 행동할 수 있도록 CTA를 우선 배치했습니다.
+              고민이 길어질수록 이탈 가능성이 커집니다. 궁금한 내용을 바로 남기면 분양조건과 방문 흐름까지 빠르게 정리해드립니다.
             </p>
 
             <div className="mt-6 grid gap-3">

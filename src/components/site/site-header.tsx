@@ -15,9 +15,9 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur-xl">
       <div className="border-b border-black/5 bg-deep text-white">
         <div className="page-shell flex min-h-[44px] items-center justify-between gap-4 text-xs tracking-[0.02em] text-white/70">
-          <p className="truncate">분양 현장의 신뢰를 설계하는 분양대행 대표 홈페이지</p>
+          <p className="truncate">분양중 현장 안내, 조건 상담, 방문예약까지 빠르게 연결하는 대표 홈페이지</p>
           <a className="hidden font-semibold text-white sm:block" href={phoneHref}>
-            대표번호 {site.companyPhone}
+            대표번호 {site.companyPhone} · 상담 09:00 - 20:00
           </a>
         </div>
       </div>
@@ -29,7 +29,7 @@ export function SiteHeader() {
           </div>
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.34em] text-muted">
-              Bunyang Marketing
+              Consultation First
             </p>
             <p className="text-xl font-extrabold tracking-[-0.03em]">{site.companyName}</p>
           </div>

@@ -13,11 +13,11 @@ export function SiteStickyCta() {
       <div className="fixed bottom-4 right-4 z-50 hidden w-[320px] lg:block">
         <div className="surface-dark overflow-hidden rounded-[1.75rem] bg-hero-navy p-5">
           <p className="text-xs uppercase tracking-[0.34em] text-white/50">Quick Contact</p>
-          <h2 className="mt-3 text-2xl leading-tight">상담 전환을 놓치지 않도록 바로 연결하세요</h2>
+          <h2 className="mt-3 text-2xl leading-tight">지금 바로 상담을 시작하면 조건 안내가 빨라집니다</h2>
           <p className="mt-3 text-sm leading-7 text-white/70">
             대표번호 {site.companyPhone}
             <br />
-            문의를 남기면 빠르게 현장 상담을 도와드립니다.
+            문의를 남기면 현장 상담과 방문 흐름을 빠르게 도와드립니다.
           </p>
           <div className="mt-5 grid gap-3">
             <a className="button-accent w-full" href={phoneHref}>

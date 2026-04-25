@@ -39,6 +39,10 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
         </dl>
 
+        <div className="rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
+          {project.salesConditions}
+        </div>
+
         <div className="flex gap-3">
           <a className="button-secondary flex-1" href={`tel:${project.contactPhone.replace(/[^+\d]/g, "")}`}>
             전화문의
