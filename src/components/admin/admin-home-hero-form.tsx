@@ -35,7 +35,7 @@ export function AdminHomeHeroForm({
                 className="field-shell"
                 defaultValue={initialValues.eyebrow}
                 name="eyebrow"
-                placeholder="Premium Sales Marketing"
+                placeholder="PREMIUM PROPERTY CURATION"
                 required
               />
             </label>

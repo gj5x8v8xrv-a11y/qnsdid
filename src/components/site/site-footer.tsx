@@ -11,7 +11,7 @@ export function SiteFooter() {
       <div className="page-shell grid gap-10 py-14 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div className="space-y-5">
           <p className="text-[11px] uppercase tracking-[0.34em] text-white/50">
-            Premium Sales Marketing
+            PREMIUM PROPERTY CURATION
           </p>
           <h2 className="text-4xl">{site.companyName}</h2>
           <p className="max-w-2xl text-sm leading-8 text-white/70">

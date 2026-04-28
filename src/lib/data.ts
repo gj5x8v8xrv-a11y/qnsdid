@@ -1,6 +1,9 @@
 import "server-only";
 
-import { DEFAULT_HOME_HERO_CONTENT } from "@/lib/constants";
+import {
+  DEFAULT_HOME_HERO_CONTENT,
+  LEGACY_HOME_HERO_CONTENT
+} from "@/lib/constants";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { mockInquiries, mockProjects } from "@/lib/mock-data";
 import type {
@@ -138,7 +141,22 @@ function logDataReadWarning(scope: string, error: unknown) {
   console.error(`[data:${scope}] ${message}`);
 }
 
+function isLegacyHomeHeroContent(value?: Partial<HomeHeroContent> | null) {
+  if (!value) return false;
+
+  return (
+    value.eyebrow === LEGACY_HOME_HERO_CONTENT.eyebrow &&
+    value.title === LEGACY_HOME_HERO_CONTENT.title &&
+    value.description === LEGACY_HOME_HERO_CONTENT.description &&
+    value.featuredLabel === LEGACY_HOME_HERO_CONTENT.featuredLabel
+  );
+}
+
 function mergeHomeHeroContent(value?: Partial<HomeHeroContent> | null): HomeHeroContent {
+  if (isLegacyHomeHeroContent(value)) {
+    return DEFAULT_HOME_HERO_CONTENT;
+  }
+
   return {
     ...DEFAULT_HOME_HERO_CONTENT,
     ...(value || {})
