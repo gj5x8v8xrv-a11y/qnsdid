@@ -166,6 +166,9 @@ export function AdminProjectForm({
                 type="file"
               />
             </label>
+            <p className="text-sm leading-7 text-muted">
+              JPG, PNG, WEBP 권장. 한 장당 8MB 이하 이미지를 사용하면 업로드 오류를 줄일 수 있습니다.
+            </p>
             {project?.coverImageUrl ? (
               <div className="overflow-hidden rounded-[1.5rem] bg-white shadow-soft">
                 <img
@@ -193,7 +196,7 @@ export function AdminProjectForm({
               />
             </label>
             <p className="text-sm leading-7 text-muted">
-              여러 이미지를 한 번에 선택하면 상세 슬라이드에 순서대로 추가됩니다.
+              여러 이미지를 한 번에 선택하면 상세 슬라이드에 순서대로 추가됩니다. JPG, PNG, WEBP 기준 한 장당 8MB 이하를 권장합니다.
             </p>
           </div>
         </section>

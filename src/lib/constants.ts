@@ -1,4 +1,4 @@
-import type { ProjectStatus } from "@/lib/types";
+import type { HomeHeroContent, ProjectStatus } from "@/lib/types";
 
 export const PROJECT_STATUS_OPTIONS: Array<{
   label: string;
@@ -9,6 +9,14 @@ export const PROJECT_STATUS_OPTIONS: Array<{
 ];
 
 export const DEFAULT_STORAGE_BUCKET = "project-media";
+
+export const DEFAULT_HOME_HERO_CONTENT: HomeHeroContent = {
+  eyebrow: "Premium Sales Marketing",
+  title: "지금 바로 확인할 분양 현장과 조건 상담을 빠르게 연결해드립니다",
+  description:
+    "처음 방문한 고객이 분양중 현장, 핵심 장점, 상담 번호를 한 번에 보고 바로 전화나 방문예약으로 이어질 수 있도록 구성했습니다.",
+  featuredLabel: "오늘 추천 현장"
+};
 
 export const SITE_NAV_ITEMS = [
   { href: "/", label: "홈" },

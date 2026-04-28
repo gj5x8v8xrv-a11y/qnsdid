@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const adminNavItems = [
   { href: "/admin", label: "대시보드" },
   { href: "/admin/projects/new", label: "현장 등록" },
+  { href: "/admin/site", label: "메인 문구 설정" },
   { href: "/admin/inquiries", label: "문의 목록" }
 ];
 

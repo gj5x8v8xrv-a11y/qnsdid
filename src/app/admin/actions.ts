@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { getProjectById } from "@/lib/data";
+import { DEFAULT_HOME_HERO_CONTENT } from "@/lib/constants";
 import { isAllowedAdmin, requireAdminUser } from "@/lib/auth";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { getServerSupabaseClient } from "@/lib/supabase/server";
@@ -97,6 +98,12 @@ function getOptionalFiles(formData: FormData, key: string) {
   return formData
     .getAll(key)
     .filter((value): value is File => value instanceof File && value.size > 0);
+}
+
+function getOptionalBoundedTextField(formData: FormData, key: string, maxLength: number) {
+  const value = getOptionalTextField(formData, key);
+  if (!value) return null;
+  return value.slice(0, maxLength);
 }
 
 function getProjectPayload(formData: FormData) {
@@ -610,6 +617,69 @@ export async function submitInquiryAction(formData: FormData) {
     });
   } catch (error) {
     destination = buildRedirectUrl("/contact", {
+      error: getErrorMessage(error)
+    });
+  }
+
+  redirect(destination);
+}
+
+export async function updateHomeHeroContentAction(formData: FormData) {
+  if (!isSupabaseConfigured()) {
+    redirect(
+      buildRedirectUrl("/admin/site", {
+        error: getAdminSetupError("Supabase 설정 후 메인 문구를 저장할 수 있습니다.")
+      })
+    );
+  }
+
+  await requireAdminUser();
+
+  let destination = "/admin/site";
+
+  try {
+    const eyebrow =
+      getOptionalBoundedTextField(formData, "eyebrow", 60) ||
+      DEFAULT_HOME_HERO_CONTENT.eyebrow;
+    const title =
+      getOptionalBoundedTextField(formData, "title", 140) ||
+      DEFAULT_HOME_HERO_CONTENT.title;
+    const description =
+      getOptionalBoundedTextField(formData, "description", 240) ||
+      DEFAULT_HOME_HERO_CONTENT.description;
+    const featuredLabel =
+      getOptionalBoundedTextField(formData, "featuredLabel", 40) ||
+      DEFAULT_HOME_HERO_CONTENT.featuredLabel;
+
+    const supabase = getAdminSupabaseClient();
+    const { error } = await supabase.from("site_settings").upsert(
+      {
+        key: "home_hero",
+        value: {
+          eyebrow,
+          title,
+          description,
+          featuredLabel
+        }
+      },
+      { onConflict: "key" }
+    );
+
+    if (error) {
+      throw new Error(
+        error.message.includes("site_settings")
+          ? "site_settings 테이블이 없어 저장할 수 없습니다. Supabase SQL Editor에서 최신 schema.sql을 다시 실행해주세요."
+          : error.message
+      );
+    }
+
+    revalidatePath("/");
+    revalidatePath("/admin/site");
+    destination = buildRedirectUrl("/admin/site", {
+      message: "메인 문구가 저장되었습니다."
+    });
+  } catch (error) {
+    destination = buildRedirectUrl("/admin/site", {
       error: getErrorMessage(error)
     });
   }

@@ -4,15 +4,16 @@ import { PageHero } from "@/components/site/page-hero";
 import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ProjectVisual } from "@/components/ui/project-visual";
-import { getProjects } from "@/lib/data";
+import { getHomeHeroContent, getProjects } from "@/lib/data";
 import { getSiteConfig } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [activeProjects, completedProjects] = await Promise.all([
+  const [activeProjects, completedProjects, homeHero] = await Promise.all([
     getProjects("active"),
-    getProjects("completed")
+    getProjects("completed"),
+    getHomeHeroContent()
   ]);
   const site = getSiteConfig();
   const featuredProject = activeProjects[0];
@@ -33,14 +34,14 @@ export default async function HomePage() {
             </Link>
           </>
         }
-        description="처음 방문한 고객이 분양중 현장, 핵심 장점, 상담 번호를 한 번에 보고 바로 전화나 방문예약으로 이어질 수 있도록 구성했습니다."
-        eyebrow="Premium Sales Marketing"
+        description={homeHero.description}
+        eyebrow={homeHero.eyebrow}
         stats={[
           { label: "분양중 현장", value: `${activeProjects.length}곳` },
           { label: "분양완료 실적", value: `${completedProjects.length}곳` },
           { label: "상담 가능", value: "09:00 - 20:00" }
         ]}
-        title="지금 바로 확인할 분양 현장과 조건 상담을 빠르게 연결해드립니다"
+        title={homeHero.title}
         visual={
           featuredProject ? (
             <div className="space-y-4">
@@ -50,7 +51,7 @@ export default async function HomePage() {
                 title={featuredProject.name}
               />
               <div className="rounded-[1.5rem] bg-white/10 px-5 py-5 text-white">
-                <p className="text-xs uppercase tracking-[0.32em] text-white/50">오늘 추천 현장</p>
+                <p className="text-xs uppercase tracking-[0.32em] text-white/50">{homeHero.featuredLabel}</p>
                 <h2 className="mt-3 text-3xl">{featuredProject.name}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/75">{featuredProject.location}</p>
                 <p className="mt-3 text-sm leading-7 text-white/75">{featuredProject.premiumSummary}</p>
@@ -60,7 +61,7 @@ export default async function HomePage() {
         }
       />
 
-      <section className="page-shell grid gap-5 pb-10 md:grid-cols-4">
+      <section className="page-shell grid gap-5 pb-10 md:grid-cols-2 xl:grid-cols-4">
         {[
           { label: "대표번호", value: site.companyPhone, description: "바로 전화 연결 가능" },
           { label: "현장 안내", value: "분양중 우선 안내", description: "조건 상담과 방문 동선 연결" },

@@ -16,7 +16,7 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="space-y-5 px-6 pb-6 pt-6">
         <div className="space-y-3">
           <p className="text-sm font-medium text-muted">{project.location}</p>
-          <h3 className="text-[1.9rem] leading-[1.15]">{project.name}</h3>
+          <h3 className="text-[1.65rem] leading-[1.2] sm:text-[1.8rem]">{project.name}</h3>
           <p className="text-sm leading-7 text-muted">{project.premiumSummary}</p>
         </div>
 

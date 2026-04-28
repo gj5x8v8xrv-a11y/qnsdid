@@ -56,6 +56,13 @@ export type SiteConfig = {
   siteUrl: string;
 };
 
+export type HomeHeroContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  featuredLabel: string;
+};
+
 export type AdminProjectFormState = {
   ok: boolean;
   message: string;

@@ -1,8 +1,16 @@
 import "server-only";
 
+import { DEFAULT_HOME_HERO_CONTENT } from "@/lib/constants";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { mockInquiries, mockProjects } from "@/lib/mock-data";
-import type { Inquiry, Project, ProjectImage, ProjectStatus, ProjectWithImages } from "@/lib/types";
+import type {
+  HomeHeroContent,
+  Inquiry,
+  Project,
+  ProjectImage,
+  ProjectStatus,
+  ProjectWithImages
+} from "@/lib/types";
 import { isSupabaseConfigured } from "@/lib/utils";
 
 type ProjectRow = {
@@ -50,6 +58,11 @@ type InquiryRow = {
     | Array<{
         name: string;
       }>;
+};
+
+type SiteSettingRow = {
+  key: string;
+  value: HomeHeroContent | null;
 };
 
 function mapProject(row: ProjectRow): Project {
@@ -123,6 +136,13 @@ function getFallbackInquiries(limit?: number) {
 function logDataReadWarning(scope: string, error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
   console.error(`[data:${scope}] ${message}`);
+}
+
+function mergeHomeHeroContent(value?: Partial<HomeHeroContent> | null): HomeHeroContent {
+  return {
+    ...DEFAULT_HOME_HERO_CONTENT,
+    ...(value || {})
+  };
 }
 
 export async function getProjects(status?: ProjectStatus) {
@@ -255,5 +275,29 @@ export async function getInquiries(limit?: number) {
   } catch (error) {
     logDataReadWarning("inquiries", error);
     return getFallbackInquiries(limit);
+  }
+}
+
+export async function getHomeHeroContent() {
+  if (!isSupabaseConfigured()) {
+    return DEFAULT_HOME_HERO_CONTENT;
+  }
+
+  try {
+    const supabase = getAdminSupabaseClient();
+    const { data, error } = await supabase
+      .from("site_settings")
+      .select("key, value")
+      .eq("key", "home_hero")
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return mergeHomeHeroContent((data as SiteSettingRow | null)?.value);
+  } catch (error) {
+    logDataReadWarning("homeHero", error);
+    return DEFAULT_HOME_HERO_CONTENT;
   }
 }

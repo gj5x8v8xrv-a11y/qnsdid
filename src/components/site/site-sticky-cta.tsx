@@ -10,16 +10,16 @@ export function SiteStickyCta() {
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 z-50 hidden w-[320px] lg:block">
-        <div className="surface-dark overflow-hidden rounded-[1.75rem] bg-hero-navy p-5">
+      <div className="fixed bottom-4 right-4 z-50 hidden w-[280px] xl:block">
+        <div className="surface-dark overflow-hidden rounded-[1.5rem] bg-hero-navy p-4">
           <p className="text-xs uppercase tracking-[0.34em] text-white/50">Quick Contact</p>
-          <h2 className="mt-3 text-2xl leading-tight">지금 바로 상담을 시작하면 조건 안내가 빨라집니다</h2>
-          <p className="mt-3 text-sm leading-7 text-white/70">
+          <h2 className="mt-3 text-xl leading-tight">상담을 바로 시작하면 안내가 빨라집니다</h2>
+          <p className="mt-3 text-sm leading-6 text-white/70">
             대표번호 {site.companyPhone}
             <br />
             문의를 남기면 현장 상담과 방문 흐름을 빠르게 도와드립니다.
           </p>
-          <div className="mt-5 grid gap-3">
+          <div className="mt-4 grid gap-2.5">
             <a className="button-accent w-full" href={phoneHref}>
               전화문의
             </a>

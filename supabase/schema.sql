@@ -46,6 +46,13 @@ create table if not exists public.daily_visitors (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.site_settings (
+  key text primary key,
+  value jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create index if not exists projects_status_idx on public.projects(status);
 create index if not exists project_images_project_id_idx on public.project_images(project_id);
 create index if not exists inquiries_project_id_idx on public.inquiries(project_id);
@@ -73,11 +80,30 @@ before update on public.daily_visitors
 for each row
 execute function public.set_updated_at();
 
+drop trigger if exists set_site_settings_updated_at on public.site_settings;
+create trigger set_site_settings_updated_at
+before update on public.site_settings
+for each row
+execute function public.set_updated_at();
+
 alter table public.projects enable row level security;
 alter table public.project_images enable row level security;
 alter table public.inquiries enable row level security;
 alter table public.daily_visitors enable row level security;
+alter table public.site_settings enable row level security;
 
 insert into storage.buckets (id, name, public)
 values ('project-media', 'project-media', true)
 on conflict (id) do update set public = excluded.public;
+
+insert into public.site_settings (key, value)
+values (
+  'home_hero',
+  jsonb_build_object(
+    'eyebrow', 'Premium Sales Marketing',
+    'title', '지금 바로 확인할 분양 현장과 조건 상담을 빠르게 연결해드립니다',
+    'description', '처음 방문한 고객이 분양중 현장, 핵심 장점, 상담 번호를 한 번에 보고 바로 전화나 방문예약으로 이어질 수 있도록 구성했습니다.',
+    'featuredLabel', '오늘 추천 현장'
+  )
+)
+on conflict (key) do nothing;
