@@ -21,7 +21,7 @@ export function PageHero({
   return (
     <section className="page-shell section-space">
       <div className="surface-dark overflow-hidden bg-hero-navy px-5 py-8 sm:px-8 sm:py-12 lg:px-10 lg:py-14 xl:px-12">
-        <div className="grid gap-8 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
+        <div className={`grid gap-8 ${visual ? "xl:grid-cols-[1.15fr_0.85fr] xl:items-end" : ""}`}>
           <div className="min-w-0 max-w-4xl">
             <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70">
               {eyebrow}
@@ -52,26 +52,13 @@ export function PageHero({
             ) : null}
           </div>
 
-          <div className="min-w-0">
-            <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 sm:p-4 backdrop-blur">
-              {visual || (
-                <div className="rounded-[1.6rem] border border-white/10 bg-white/10 p-6">
-                  <p className="text-xs uppercase tracking-[0.34em] text-white/50">Consulting Focus</p>
-                  <div className="mt-6 grid gap-4">
-                    {[
-                      "신뢰도 있는 회사 소개",
-                      "현장별 핵심 정보 정리",
-                      "전화문의와 방문예약 중심 CTA"
-                    ].map((item) => (
-                      <div className="rounded-[1.35rem] bg-white/10 px-4 py-4 text-sm leading-7 text-white/75" key={item}>
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+          {visual ? (
+            <div className="min-w-0">
+              <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 sm:p-4 backdrop-blur">
+                {visual}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </section>

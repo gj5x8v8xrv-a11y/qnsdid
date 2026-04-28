@@ -67,15 +67,6 @@ export default async function ContactPage({
             </div>
           </div>
 
-          <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">응대 기준</h2>
-            <div className="mt-5 space-y-3 text-sm leading-8 text-muted">
-              <p>관심 현장과 문의 내용을 함께 남겨주시면 상담 흐름이 훨씬 빨라집니다.</p>
-              <p>방문예약이 필요한 경우 별도 안내 또는 네이버 예약 링크로 연결해드립니다.</p>
-              <p>남겨주신 연락처로 분양조건, 일정, 현장 분위기까지 순차적으로 안내드립니다.</p>
-            </div>
-          </div>
-
           <div className="space-y-3">
             <FlashBanner message={message} tone="success" />
             <FlashBanner message={error} tone="error" />
