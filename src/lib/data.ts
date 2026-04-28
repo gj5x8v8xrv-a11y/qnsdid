@@ -102,86 +102,122 @@ function mapInquiry(row: InquiryRow): Inquiry {
   };
 }
 
+function getFallbackProjects(status?: ProjectStatus) {
+  return mockProjects
+    .filter((project) => (status ? project.status === status : true))
+    .map(({ gallery, ...project }) => project);
+}
+
+function getFallbackProjectBySlug(slug: string) {
+  return mockProjects.find((project) => project.slug === slug) || null;
+}
+
+function getFallbackProjectById(projectId: string) {
+  return mockProjects.find((project) => project.id === projectId) || null;
+}
+
+function getFallbackInquiries(limit?: number) {
+  return typeof limit === "number" ? mockInquiries.slice(0, limit) : mockInquiries;
+}
+
+function logDataReadWarning(scope: string, error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`[data:${scope}] ${message}`);
+}
+
 export async function getProjects(status?: ProjectStatus) {
   if (!isSupabaseConfigured()) {
-    return mockProjects
-      .filter((project) => (status ? project.status === status : true))
-      .map(({ gallery, ...project }) => project);
+    return getFallbackProjects(status);
   }
 
-  const supabase = getAdminSupabaseClient();
-  let query = supabase.from("projects").select("*").order("created_at", {
-    ascending: false
-  });
+  try {
+    const supabase = getAdminSupabaseClient();
+    let query = supabase.from("projects").select("*").order("created_at", {
+      ascending: false
+    });
 
-  if (status) {
-    query = query.eq("status", status);
+    if (status) {
+      query = query.eq("status", status);
+    }
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+
+    return (data as ProjectRow[]).map(mapProject);
+  } catch (error) {
+    logDataReadWarning("projects", error);
+    return getFallbackProjects(status);
   }
-
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-
-  return (data as ProjectRow[]).map(mapProject);
 }
 
 export async function getProjectBySlug(slug: string) {
   if (!isSupabaseConfigured()) {
-    return mockProjects.find((project) => project.slug === slug) || null;
+    return getFallbackProjectBySlug(slug);
   }
 
-  const supabase = getAdminSupabaseClient();
-  const { data: projectRow, error: projectError } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
+  try {
+    const supabase = getAdminSupabaseClient();
+    const { data: projectRow, error: projectError } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
 
-  if (projectError) throw new Error(projectError.message);
-  if (!projectRow) return null;
+    if (projectError) throw new Error(projectError.message);
+    if (!projectRow) return null;
 
-  const { data: imageRows, error: imageError } = await supabase
-    .from("project_images")
-    .select("*")
-    .eq("project_id", projectRow.id)
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
+    const { data: imageRows, error: imageError } = await supabase
+      .from("project_images")
+      .select("*")
+      .eq("project_id", projectRow.id)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
 
-  if (imageError) throw new Error(imageError.message);
+    if (imageError) throw new Error(imageError.message);
 
-  return {
-    ...mapProject(projectRow as ProjectRow),
-    gallery: (imageRows as ProjectImageRow[]).map(mapImage)
-  } satisfies ProjectWithImages;
+    return {
+      ...mapProject(projectRow as ProjectRow),
+      gallery: (imageRows as ProjectImageRow[]).map(mapImage)
+    } satisfies ProjectWithImages;
+  } catch (error) {
+    logDataReadWarning("projectBySlug", error);
+    return getFallbackProjectBySlug(slug);
+  }
 }
 
 export async function getProjectById(projectId: string) {
   if (!isSupabaseConfigured()) {
-    return mockProjects.find((project) => project.id === projectId) || null;
+    return getFallbackProjectById(projectId);
   }
 
-  const supabase = getAdminSupabaseClient();
-  const { data: projectRow, error: projectError } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("id", projectId)
-    .maybeSingle();
+  try {
+    const supabase = getAdminSupabaseClient();
+    const { data: projectRow, error: projectError } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("id", projectId)
+      .maybeSingle();
 
-  if (projectError) throw new Error(projectError.message);
-  if (!projectRow) return null;
+    if (projectError) throw new Error(projectError.message);
+    if (!projectRow) return null;
 
-  const { data: imageRows, error: imageError } = await supabase
-    .from("project_images")
-    .select("*")
-    .eq("project_id", projectId)
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
+    const { data: imageRows, error: imageError } = await supabase
+      .from("project_images")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
 
-  if (imageError) throw new Error(imageError.message);
+    if (imageError) throw new Error(imageError.message);
 
-  return {
-    ...mapProject(projectRow as ProjectRow),
-    gallery: (imageRows as ProjectImageRow[]).map(mapImage)
-  } satisfies ProjectWithImages;
+    return {
+      ...mapProject(projectRow as ProjectRow),
+      gallery: (imageRows as ProjectImageRow[]).map(mapImage)
+    } satisfies ProjectWithImages;
+  } catch (error) {
+    logDataReadWarning("projectById", error);
+    return getFallbackProjectById(projectId);
+  }
 }
 
 export async function getAdminDashboardData() {
@@ -198,21 +234,26 @@ export async function getAdminDashboardData() {
 
 export async function getInquiries(limit?: number) {
   if (!isSupabaseConfigured()) {
-    return typeof limit === "number" ? mockInquiries.slice(0, limit) : mockInquiries;
+    return getFallbackInquiries(limit);
   }
 
-  const supabase = getAdminSupabaseClient();
-  let query = supabase
-    .from("inquiries")
-    .select("id, name, phone, message, project_id, status, created_at, projects(name)")
-    .order("created_at", { ascending: false });
+  try {
+    const supabase = getAdminSupabaseClient();
+    let query = supabase
+      .from("inquiries")
+      .select("id, name, phone, message, project_id, status, created_at, projects(name)")
+      .order("created_at", { ascending: false });
 
-  if (typeof limit === "number") {
-    query = query.limit(limit);
+    if (typeof limit === "number") {
+      query = query.limit(limit);
+    }
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+
+    return (data as InquiryRow[]).map(mapInquiry);
+  } catch (error) {
+    logDataReadWarning("inquiries", error);
+    return getFallbackInquiries(limit);
   }
-
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-
-  return (data as InquiryRow[]).map(mapInquiry);
 }
