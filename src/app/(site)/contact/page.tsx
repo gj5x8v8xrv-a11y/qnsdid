@@ -63,7 +63,6 @@ export default async function ContactPage({
             <div className="mt-5 space-y-3 text-sm leading-8 text-muted">
               <p>대표번호 {site.companyPhone}</p>
               <p>이메일 {site.companyEmail}</p>
-              <p>주소 {site.companyAddress}</p>
               <p>평일과 주말 모두 확인 후 순차적으로 안내해드립니다.</p>
             </div>
           </div>

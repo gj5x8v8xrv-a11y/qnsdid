@@ -11,9 +11,8 @@ export function getSiteConfig(): SiteConfig {
       "분양중인 현장과 소개가 완료된 현장을 함께 살펴보고, 관심 있는 현장은 편하게 문의하실 수 있습니다.",
     companyPhone: process.env.NEXT_PUBLIC_COMPANY_PHONE || "1533-8170",
     companyEmail:
-      process.env.NEXT_PUBLIC_COMPANY_EMAIL || "hello@bunyangmap.co.kr",
-    companyAddress:
-      process.env.NEXT_PUBLIC_COMPANY_ADDRESS || "서울시 강남구 테헤란로 100",
+      process.env.NEXT_PUBLIC_COMPANY_EMAIL || "hgw3342@naver.com",
+    companyAddress: process.env.NEXT_PUBLIC_COMPANY_ADDRESS || "",
     siteUrl:
       process.env.NEXT_PUBLIC_SITE_URL || "https://www.example-estate.co.kr"
   };

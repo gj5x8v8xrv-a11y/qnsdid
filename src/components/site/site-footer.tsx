@@ -21,7 +21,6 @@ export function SiteFooter() {
             <p>대표번호 {site.companyPhone}</p>
             <p>상담 가능 시간 09:00 - 20:00</p>
             <p>이메일 {site.companyEmail}</p>
-            <p>주소 {site.companyAddress}</p>
           </div>
         </div>
 
