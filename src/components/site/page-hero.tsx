@@ -26,10 +26,10 @@ export function PageHero({
             <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70">
               {eyebrow}
             </span>
-            <h1 className="mt-5 max-w-4xl break-keep text-[2.05rem] leading-[1.1] text-white sm:text-[2.9rem] lg:text-[3.65rem] xl:text-[4.2rem]">
+            <h1 className="mt-5 max-w-4xl break-keep text-[1.82rem] leading-[1.12] text-white sm:text-[2.55rem] lg:text-[3.65rem] xl:text-[4.2rem]">
               {title}
             </h1>
-            <p className="mt-5 max-w-2xl text-[15px] leading-7 text-white/72 sm:text-base sm:leading-8 lg:text-lg">
+            <p className="mt-4 max-w-2xl text-[14px] leading-7 text-white/72 sm:text-base sm:leading-8 lg:text-lg">
               {description}
             </p>
             {actions ? (
@@ -45,7 +45,7 @@ export function PageHero({
                     key={`${stat.label}-${stat.value}`}
                   >
                     <p className="text-xs uppercase tracking-[0.3em] text-white/50">{stat.label}</p>
-                    <p className="mt-3 text-[1.85rem] leading-tight text-white sm:text-3xl">{stat.value}</p>
+                    <p className="mt-3 text-[1.55rem] leading-tight text-white sm:text-3xl">{stat.value}</p>
                   </div>
                 ))}
               </div>

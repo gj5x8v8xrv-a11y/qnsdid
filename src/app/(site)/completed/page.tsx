@@ -26,21 +26,21 @@ export default async function CompletedProjectsPage() {
             </Link>
           </>
         }
-        description="완료된 현장을 실적처럼 정리해두면 일반 고객도 운영 경험과 신뢰도를 한 번에 이해할 수 있습니다. 회사 소개보다 실적이 더 강한 설득이 되는 경우가 많습니다."
-        eyebrow="Completed Projects"
+        description="소개가 완료된 현장도 함께 정리해두었습니다. 어떤 현장을 소개해왔는지 편하게 확인해보세요."
+        eyebrow="분양완료 현장"
         stats={[
-          { label: "완료 현장", value: `${projects.length}곳` },
-          { label: "신뢰 자산", value: "실적 아카이브" },
-          { label: "브랜드 효과", value: "신뢰 강화" }
+          { label: "소개 완료 현장", value: `${projects.length}곳` },
+          { label: "확인 내용", value: "위치와 현장 정보" },
+          { label: "함께 보기", value: "분양중 현장" }
         ]}
-        title="분양완료 실적 아카이브"
+        title="지금까지 소개해온 현장"
       />
 
       <section className="page-shell pb-24">
         <SectionHeading
-          description="완료 현장은 삭제하지 말고 실적처럼 남겨두는 편이 훨씬 유리합니다. 고객은 실제 운영 경험과 결과를 보고 더 쉽게 문의를 결정합니다."
-          eyebrow="Archive"
-          title="브랜드 신뢰를 높여주는 분양완료 실적"
+          description="소개가 완료된 현장도 함께 정리해두었습니다. 지금까지 어떤 현장을 소개해왔는지 편하게 살펴보세요."
+          eyebrow="완료 현장"
+          title="소개가 완료된 현장"
         />
 
         {projects.length > 0 ? (
@@ -51,7 +51,7 @@ export default async function CompletedProjectsPage() {
           </div>
         ) : (
           <div className="surface-panel mt-10 p-8 text-center text-sm leading-8 text-muted">
-            현재 공개된 분양완료 실적이 없습니다. 완료된 현장은 삭제하지 말고 분양완료로 전환해 신뢰 자산으로 활용해보세요.
+            현재 공개된 분양완료 현장이 없습니다. 준비되는 대로 안내해드리겠습니다.
           </div>
         )}
       </section>

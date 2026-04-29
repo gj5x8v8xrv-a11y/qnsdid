@@ -38,7 +38,7 @@ export default async function HomePage() {
         eyebrow={homeHero.eyebrow}
         stats={[
           { label: "분양중 현장", value: `${activeProjects.length}곳` },
-          { label: "분양완료 실적", value: `${completedProjects.length}곳` },
+          { label: "소개 완료 현장", value: `${completedProjects.length}곳` },
           { label: "상담 가능", value: "09:00 - 20:00" }
         ]}
         title={homeHero.title}
@@ -68,9 +68,9 @@ export default async function HomePage() {
               분양중 현장 전체 보기
             </Link>
           }
-          description="고객은 회사 설명보다 지금 바로 볼 수 있는 분양중 현장에 먼저 반응합니다. 메인에서도 현장을 바로 보여주고, 상세페이지로 자연스럽게 연결합니다."
-          eyebrow="Active Projects"
-          title="지금 바로 상담할 수 있는 분양중 현장"
+          description="현재 살펴보실 수 있는 현장을 먼저 확인하고, 자세한 내용은 각 현장 페이지에서 편하게 보실 수 있습니다."
+          eyebrow="분양중 현장"
+          title="현재 상담 가능한 분양 현장"
         />
 
         {activeProjects.length > 0 ? (
@@ -81,7 +81,7 @@ export default async function HomePage() {
           </div>
         ) : (
           <div className="surface-panel mt-10 p-8 text-center text-sm leading-8 text-muted">
-            현재 안내 중인 분양중 현장이 없습니다. 상담문의로 남겨주시면 맞춤 현장과 조건을 빠르게 안내해드립니다.
+            현재 안내 중인 현장이 없습니다. 문의를 남겨주시면 확인 후 안내해드리겠습니다.
           </div>
         )}
       </section>
@@ -90,10 +90,10 @@ export default async function HomePage() {
         <div className="surface-dark overflow-hidden bg-hero-navy p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.34em] text-white/50">Completed Portfolio</p>
-              <h2 className="mt-4 text-4xl text-white">분양완료 실적도 신뢰를 만드는 중요한 자산입니다</h2>
+              <p className="text-xs uppercase tracking-[0.34em] text-white/50">분양완료 현장</p>
+              <h2 className="mt-4 text-4xl text-white">소개가 완료된 현장도 함께 확인해보세요</h2>
               <p className="mt-5 max-w-2xl text-sm leading-8 text-white/70">
-                완료된 현장을 지우지 않고 실적처럼 정리해두면, 처음 들어온 고객도 운영 경험과 브랜드 신뢰를 한눈에 이해할 수 있습니다.
+                소개가 완료된 현장도 함께 정리해두었습니다. 지금까지 어떤 현장을 소개해왔는지 편하게 살펴보세요.
               </p>
             </div>
             <div className="grid gap-4">
@@ -109,11 +109,11 @@ export default async function HomePage() {
                 ))
               ) : (
                 <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-8 text-white/70">
-                  아직 공개된 완료 실적이 없습니다. 완료 현장은 삭제하지 말고 분양완료로 전환해 신뢰 자산으로 활용하세요.
+                  현재 공개된 분양완료 현장이 없습니다. 준비되는 대로 안내해드리겠습니다.
                 </div>
               )}
               <Link className="button-accent" href="/completed">
-                분양완료 실적 보기
+                분양완료 현장 보기
               </Link>
             </div>
           </div>
@@ -124,10 +124,10 @@ export default async function HomePage() {
         <div className="surface-panel p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.34em] text-muted">Call To Action</p>
-              <h2 className="mt-4 text-4xl">현장 설명을 다 보기 전이라도, 지금 바로 상담을 시작할 수 있습니다</h2>
+              <p className="text-xs uppercase tracking-[0.34em] text-muted">상담 안내</p>
+              <h2 className="mt-4 text-4xl">궁금한 현장은 편하게 문의해보세요</h2>
               <p className="mt-5 max-w-2xl text-sm leading-8 text-muted">
-                관심 현장, 방문 희망일, 분양조건 문의를 남겨주시면 대표번호 또는 상담신청으로 빠르게 연결해드립니다.
+                관심 있는 현장과 궁금한 내용을 남겨주시면 확인 후 순서대로 안내해드립니다.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">

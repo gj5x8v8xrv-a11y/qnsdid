@@ -5,10 +5,10 @@ export function getSiteConfig(): SiteConfig {
     companyName: process.env.NEXT_PUBLIC_COMPANY_NAME || "분양맵",
     companyTagline:
       process.env.NEXT_PUBLIC_COMPANY_TAGLINE ||
-      "프리미엄 분양 현장을 가장 설득력 있게 소개하는 파트너",
+      "좋은 분양 현장을 편하게 살펴보는 분양 정보 안내",
     companyDescription:
       process.env.NEXT_PUBLIC_COMPANY_DESCRIPTION ||
-      "현장 소개부터 상담 연결까지 신뢰감 있게 운영하는 분양대행 전문 회사",
+      "분양중인 현장과 소개가 완료된 현장을 함께 살펴보고, 관심 있는 현장은 편하게 문의하실 수 있습니다.",
     companyPhone: process.env.NEXT_PUBLIC_COMPANY_PHONE || "1533-8170",
     companyEmail:
       process.env.NEXT_PUBLIC_COMPANY_EMAIL || "hello@bunyangmap.co.kr",

@@ -41,6 +41,27 @@ function getAdminSetupError(defaultMessage: string) {
   return getSupabaseAdminSetupMessage() || defaultMessage;
 }
 
+function normalizeProjectWriteError(message: string) {
+  if (
+    [
+      "business_overview",
+      "transport_info",
+      "living_infra_info",
+      "education_info",
+      "premium_details",
+      "site_plan_info",
+      "floor_plan_info",
+      "community_info",
+      "development_info",
+      "consultation_guide"
+    ].some((column) => message.includes(column))
+  ) {
+    return "Supabase SQL Editor에서 최신 schema.sql을 다시 실행한 뒤 저장해주세요.";
+  }
+
+  return message;
+}
+
 function getTextField(formData: FormData, key: string, label: string) {
   const value = formData.get(key);
   if (typeof value !== "string" || !value.trim()) {
@@ -118,6 +139,16 @@ function getProjectPayload(formData: FormData) {
     sales_conditions: getTextField(formData, "salesConditions", "분양조건"),
     premium_summary: getTextField(formData, "premiumSummary", "프리미엄 요약"),
     location_description: getTextField(formData, "locationDescription", "입지 설명"),
+    business_overview: getOptionalTextField(formData, "businessOverview"),
+    transport_info: getOptionalTextField(formData, "transportInfo"),
+    living_infra_info: getOptionalTextField(formData, "livingInfraInfo"),
+    education_info: getOptionalTextField(formData, "educationInfo"),
+    premium_details: getOptionalTextField(formData, "premiumDetails"),
+    site_plan_info: getOptionalTextField(formData, "sitePlanInfo"),
+    floor_plan_info: getOptionalTextField(formData, "floorPlanInfo"),
+    community_info: getOptionalTextField(formData, "communityInfo"),
+    development_info: getOptionalTextField(formData, "developmentInfo"),
+    consultation_guide: getOptionalTextField(formData, "consultationGuide"),
     contact_phone: getTextField(formData, "contactPhone", "전화문의 번호"),
     reservation_url: getOptionalTextField(formData, "reservationUrl")
   };
@@ -251,7 +282,9 @@ export async function createProjectAction(formData: FormData) {
       .single();
 
     if (createError || !createdProject) {
-      throw new Error(createError?.message || "현장을 저장하지 못했습니다.");
+      throw new Error(
+        normalizeProjectWriteError(createError?.message || "현장을 저장하지 못했습니다.")
+      );
     }
 
     if (coverImage) {
@@ -343,7 +376,7 @@ export async function updateProjectAction(formData: FormData) {
       .eq("id", projectId);
 
     if (updateError) {
-      throw new Error(updateError.message);
+      throw new Error(normalizeProjectWriteError(updateError.message));
     }
 
     if (coverImage && currentProject.coverImagePath) {
@@ -592,6 +625,11 @@ export async function submitInquiryAction(formData: FormData) {
     const phone = getTextField(formData, "phone", "연락처");
     const message = getTextField(formData, "message", "문의 내용");
     const projectId = getOptionalTextField(formData, "projectId");
+    const privacyConsent = formData.get("privacyConsent");
+
+    if (privacyConsent !== "agreed") {
+      throw new Error("개인정보 수집 및 이용에 동의해주세요.");
+    }
 
     if (!isSupabaseConfigured()) {
       throw new Error("Supabase 설정 후 문의 저장이 가능합니다.");

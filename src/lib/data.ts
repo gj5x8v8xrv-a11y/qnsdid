@@ -28,6 +28,16 @@ type ProjectRow = {
   sales_conditions: string;
   premium_summary: string;
   location_description: string;
+  business_overview: string | null;
+  transport_info: string | null;
+  living_infra_info: string | null;
+  education_info: string | null;
+  premium_details: string | null;
+  site_plan_info: string | null;
+  floor_plan_info: string | null;
+  community_info: string | null;
+  development_info: string | null;
+  consultation_guide: string | null;
   cover_image_url: string | null;
   cover_image_path: string | null;
   contact_phone: string;
@@ -81,6 +91,16 @@ function mapProject(row: ProjectRow): Project {
     salesConditions: row.sales_conditions,
     premiumSummary: row.premium_summary,
     locationDescription: row.location_description,
+    businessOverview: row.business_overview,
+    transportInfo: row.transport_info,
+    livingInfraInfo: row.living_infra_info,
+    educationInfo: row.education_info,
+    premiumDetails: row.premium_details,
+    sitePlanInfo: row.site_plan_info,
+    floorPlanInfo: row.floor_plan_info,
+    communityInfo: row.community_info,
+    developmentInfo: row.development_info,
+    consultationGuide: row.consultation_guide,
     coverImageUrl: row.cover_image_url,
     coverImagePath: row.cover_image_path,
     contactPhone: row.contact_phone,

@@ -12,6 +12,16 @@ create table if not exists public.projects (
   sales_conditions text not null,
   premium_summary text not null,
   location_description text not null,
+  business_overview text,
+  transport_info text,
+  living_infra_info text,
+  education_info text,
+  premium_details text,
+  site_plan_info text,
+  floor_plan_info text,
+  community_info text,
+  development_info text,
+  consultation_guide text,
   cover_image_url text,
   cover_image_path text,
   contact_phone text not null,
@@ -19,6 +29,17 @@ create table if not exists public.projects (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.projects add column if not exists business_overview text;
+alter table public.projects add column if not exists transport_info text;
+alter table public.projects add column if not exists living_infra_info text;
+alter table public.projects add column if not exists education_info text;
+alter table public.projects add column if not exists premium_details text;
+alter table public.projects add column if not exists site_plan_info text;
+alter table public.projects add column if not exists floor_plan_info text;
+alter table public.projects add column if not exists community_info text;
+alter table public.projects add column if not exists development_info text;
+alter table public.projects add column if not exists consultation_guide text;
 
 create table if not exists public.project_images (
   id uuid primary key default gen_random_uuid(),

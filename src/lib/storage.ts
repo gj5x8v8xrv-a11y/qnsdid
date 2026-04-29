@@ -4,6 +4,8 @@ import { DEFAULT_STORAGE_BUCKET } from "@/lib/constants";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { looksLikeSupabaseSecretKey } from "@/lib/utils";
 
+const MAX_ASSET_SIZE_BYTES = 10 * 1024 * 1024;
+
 function sanitizeFileName(fileName: string) {
   return fileName
     .trim()
@@ -17,6 +19,10 @@ function resolveBucket() {
 }
 
 function normalizeStorageError(message: string) {
+  if (message.toLowerCase().includes("payload too large")) {
+    return "업로드 용량이 너무 큽니다. 이미지를 줄이거나 여러 장은 나눠서 업로드해주세요.";
+  }
+
   if (
     message.includes("Bucket not found") ||
     message.includes("not found") ||
@@ -37,6 +43,16 @@ function normalizeStorageError(message: string) {
   return message;
 }
 
+function validateAssetFile(file: File) {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("이미지 파일만 업로드할 수 있습니다.");
+  }
+
+  if (file.size > MAX_ASSET_SIZE_BYTES) {
+    throw new Error("한 장당 10MB 이하 이미지만 업로드할 수 있습니다.");
+  }
+}
+
 export async function uploadProjectAsset({
   file,
   folder
@@ -49,6 +65,8 @@ export async function uploadProjectAsset({
       "SUPABASE_SECRET_KEY 값이 올바르지 않아 이미지를 저장할 수 없습니다. Vercel Environment Variables의 Value 칸을 다시 확인해주세요."
     );
   }
+
+  validateAssetFile(file);
 
   const supabase = getAdminSupabaseClient();
   const bucket = resolveBucket();

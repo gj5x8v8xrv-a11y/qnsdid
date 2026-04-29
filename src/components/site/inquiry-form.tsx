@@ -56,6 +56,22 @@ export function InquiryForm({
         남겨주신 문의는 확인 후 순차적으로 연락드리며, 방문 일정과 상담 내용을 함께 안내해드립니다.
       </div>
 
+      <label className="flex items-start gap-3 rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4 text-sm leading-7 text-foreground">
+        <input
+          className="mt-1 h-4 w-4 rounded border-slate-300 text-deep focus:ring-deep"
+          name="privacyConsent"
+          required
+          type="checkbox"
+          value="agreed"
+        />
+        <span>
+          개인정보 수집 및 이용에 동의합니다.{" "}
+          <a className="font-semibold text-deep underline underline-offset-2" href="/privacy">
+            개인정보처리방침 보기
+          </a>
+        </span>
+      </label>
+
       <SubmitButton className="button-primary w-full">상담 문의 접수</SubmitButton>
     </form>
   );

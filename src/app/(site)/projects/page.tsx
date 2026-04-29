@@ -22,22 +22,22 @@ export default async function ProjectsPage() {
             <Link className="button-secondary" href="/completed">분양완료 보기</Link>
           </>
         }
-        description="분양중 현장의 핵심 정보와 상담 동선을 보기 쉽게 정리한 현장 목록입니다."
-        eyebrow="Active Projects"
+        description="현재 살펴보실 수 있는 현장을 먼저 확인하고, 자세한 내용은 상세 페이지에서 편하게 보실 수 있습니다."
+        eyebrow="분양중 현장"
         stats={[
-          { label: "운영 현장", value: `${projects.length}곳` },
-          { label: "상담 안내", value: "전화문의 연결" },
-          { label: "방문 예약", value: "상세페이지 안내" }
+          { label: "안내 현장", value: `${projects.length}곳` },
+          { label: "문의 방법", value: "전화 또는 상담신청" },
+          { label: "방문 안내", value: "현장별 문의 가능" }
         ]}
-        title="현재 분양중인 현장"
+        title="현재 살펴보실 수 있는 분양 현장"
       />
 
       <section className="page-shell pb-24">
         <SectionHeading
           action={<Link className="button-secondary" href="/company">회사소개 보기</Link>}
-          description="카드 디자인, 이미지 비율, 텍스트 간격을 정리해 현장 리스트가 저렴해 보이지 않도록 재구성했습니다."
-          eyebrow="Directory"
-          title="상담 연결에 적합한 분양 현장 목록"
+          description="위치, 세대수, 입주예정일 등 먼저 보고 싶은 내용을 편하게 확인해보세요."
+          eyebrow="현장 목록"
+          title="관심 있는 현장을 편하게 살펴보세요"
         />
 
         {projects.length > 0 ? (
@@ -48,7 +48,7 @@ export default async function ProjectsPage() {
           </div>
         ) : (
           <div className="surface-panel mt-10 p-8 text-center text-sm text-muted">
-            현재 안내 중인 분양중 현장이 없습니다. 상담문의를 남겨주시면 순차적으로 안내해드립니다.
+            현재 안내 중인 분양중 현장이 없습니다. 문의를 남겨주시면 확인 후 안내해드리겠습니다.
           </div>
         )}
       </section>

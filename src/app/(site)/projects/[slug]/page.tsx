@@ -39,6 +39,57 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
+  const detailSections = [
+    {
+      title: "사업개요",
+      body: project.businessOverview || `${project.name}의 공급 규모와 주요 내용을 먼저 확인해보세요.`,
+      full: true
+    },
+    {
+      title: "입지",
+      body: project.locationDescription
+    },
+    {
+      title: "교통",
+      body: project.transportInfo
+    },
+    {
+      title: "생활인프라",
+      body: project.livingInfraInfo
+    },
+    {
+      title: "교육환경",
+      body: project.educationInfo
+    },
+    {
+      title: "프리미엄",
+      body: project.premiumDetails || project.premiumSummary
+    },
+    {
+      title: "단지배치도",
+      body: project.sitePlanInfo
+    },
+    {
+      title: "평면도",
+      body: project.floorPlanInfo
+    },
+    {
+      title: "커뮤니티",
+      body: project.communityInfo
+    },
+    {
+      title: "개발호재",
+      body: project.developmentInfo
+    },
+    {
+      title: "상담문의",
+      body:
+        project.consultationGuide ||
+        "관심 있는 타입과 방문 희망 일정을 남겨주시면 확인 후 빠르게 안내해드립니다.",
+      full: true
+    }
+  ].filter((section) => Boolean(section.body?.trim()));
+
   return (
     <>
       <PageHero
@@ -60,21 +111,21 @@ export default async function ProjectDetailPage({
             </a>
           </>
         }
-        description={`${project.premiumSummary} 관심 현장으로 검토 중이라면 분양조건, 방문 가능 일정, 입지 설명까지 바로 상담으로 연결해드립니다.`}
-        eyebrow={`${formatStatusLabel(project.status)} / ${project.location}`}
+        description={`${project.premiumSummary} 분양조건이나 방문 일정이 궁금하시면 편하게 문의해보세요.`}
+        eyebrow={`${formatStatusLabel(project.status)} · ${project.location}`}
         stats={[
           { label: "세대수", value: project.householdCount },
           { label: "평형", value: project.unitPlan },
           { label: "입주예정", value: project.expectedMoveIn }
         ]}
-        title={`${project.name} 현장 상담과 방문 안내`}
+        title={project.name}
         visual={
           <div className="grid gap-4">
             {[
               `위치: ${project.location}`,
-              `분양조건: ${project.salesConditions}`,
-              `상담전화: ${project.contactPhone}`,
-              project.reservationUrl ? "방문예약 링크 연결 가능" : "상담신청 후 방문예약 안내 가능"
+              `세대수: ${project.householdCount}`,
+              `평형: ${project.unitPlan}`,
+              `상담전화: ${project.contactPhone}`
             ].map((item) => (
               <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75" key={item}>
                 {item}
@@ -92,7 +143,7 @@ export default async function ProjectDetailPage({
         <div className="space-y-6">
           <div className="surface-panel p-6 sm:p-8">
             <div className="flex items-center justify-between gap-4">
-              <h2 className="text-3xl">현장 핵심 정보</h2>
+              <h2 className="text-3xl">현장 정보</h2>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold">
                 {formatStatusLabel(project.status)}
               </span>
@@ -115,25 +166,30 @@ export default async function ProjectDetailPage({
           </div>
 
           <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">핵심 장점과 프리미엄 포인트</h2>
-            <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-              <p className="text-base leading-8 text-foreground">{project.premiumSummary}</p>
-            </div>
-            <div className="mt-6 rounded-[1.5rem] bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-foreground">분양조건</p>
-              <p className="mt-3 text-sm leading-8 text-muted">{project.salesConditions}</p>
-            </div>
-            <div className="mt-6 rounded-[1.5rem] bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-foreground">입지 설명</p>
-              <p className="text-sm leading-8 text-muted">{project.locationDescription}</p>
+            <p className="text-xs uppercase tracking-[0.34em] text-muted">현장 상세 안내</p>
+            <h2 className="mt-4 text-3xl">현장 안내</h2>
+            <p className="mt-4 text-sm leading-8 text-muted">
+              사업개요부터 입지, 생활 환경, 평면 안내까지 필요한 내용을 순서대로 살펴보실 수 있습니다.
+            </p>
+
+            <div className="mt-8 grid gap-5 xl:grid-cols-2">
+              {detailSections.map((section) => (
+                <article
+                  className={`rounded-[1.75rem] bg-slate-50 p-5 sm:p-6 ${section.full ? "xl:col-span-2" : ""}`}
+                  key={section.title}
+                >
+                  <h3 className="text-2xl">{section.title}</h3>
+                  <p className="mt-3 text-sm leading-8 text-muted">{section.body}</p>
+                </article>
+              ))}
             </div>
           </div>
 
           <div className="surface-dark overflow-hidden bg-hero-navy p-6 sm:p-8">
-            <p className="text-xs uppercase tracking-[0.32em] text-white/50">Next Step</p>
-            <h2 className="mt-4 text-3xl text-white">현장 확인 후에는 바로 상담으로 연결해보세요</h2>
+            <p className="text-xs uppercase tracking-[0.32em] text-white/50">상담 안내</p>
+            <h2 className="mt-4 text-3xl text-white">궁금한 내용은 바로 문의해보세요</h2>
             <p className="mt-4 text-sm leading-8 text-white/70">
-              고객이 가장 많이 묻는 내용은 분양조건, 방문 가능 일정, 실제 분위기입니다. 궁금한 점을 바로 남기면 빠르게 안내해드립니다.
+              분양조건, 방문 일정, 현장 위치처럼 궁금한 내용을 남겨주시면 확인 후 안내해드립니다.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <a className="button-accent" href={formatPhoneHref(project.contactPhone)}>
@@ -156,10 +212,10 @@ export default async function ProjectDetailPage({
 
         <aside className="space-y-6 lg:sticky lg:top-28 lg:h-fit">
           <div className="surface-panel p-6">
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Quick Contact</p>
-            <h2 className="mt-3 text-3xl">상담 연결</h2>
+            <p className="text-xs uppercase tracking-[0.32em] text-muted">문의 안내</p>
+            <h2 className="mt-3 text-3xl">전화 또는 상담신청</h2>
             <p className="mt-3 text-sm leading-8 text-muted">
-              고민이 길어질수록 이탈 가능성이 커집니다. 궁금한 내용을 바로 남기면 분양조건과 방문 흐름까지 빠르게 정리해드립니다.
+              대표번호로 바로 연락하시거나 상담신청을 남겨주시면 확인 후 안내해드립니다.
             </p>
 
             <div className="mt-6 grid gap-3">
@@ -182,11 +238,30 @@ export default async function ProjectDetailPage({
             <div className="mt-6 rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-8 text-muted">
               대표번호 {project.contactPhone}
               <br />
-              관심 타입, 방문 희망일, 상담 내용을 남기면 빠르게 안내해드립니다.
+              관심 있는 내용과 방문 희망일을 남겨주시면 확인 후 안내해드립니다.
             </div>
           </div>
         </aside>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/5 bg-white/95 p-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
+        <div className="page-shell grid grid-cols-3 gap-2 px-0">
+          <a className="button-primary text-center text-xs" href={formatPhoneHref(project.contactPhone)}>
+            전화문의
+          </a>
+          <Link className="button-secondary text-center text-xs" href={`/contact?project=${project.slug}`}>
+            상담신청
+          </Link>
+          <a
+            className="button-accent text-center text-xs"
+            href={project.reservationUrl || `/contact?project=${project.slug}`}
+            rel="noreferrer"
+            target={project.reservationUrl ? "_blank" : undefined}
+          >
+            방문예약
+          </a>
+        </div>
+      </div>
     </>
   );
 }

@@ -22,7 +22,7 @@ export const DEFAULT_HOME_HERO_CONTENT: HomeHeroContent = {
   eyebrow: "PREMIUM PROPERTY CURATION",
   title: "좋은 분양 현장을 선별해 소개드립니다",
   description:
-    "청주, 대전, 천안, 세종 중부권 지역의 모든 분양을 전문적으로 담당합니다.",
+    "청주, 대전, 천안, 세종 중부권 지역의 분양 현장을 보기 쉽게 정리해 안내합니다.",
   featuredLabel: "오늘 추천 현장"
 };
 

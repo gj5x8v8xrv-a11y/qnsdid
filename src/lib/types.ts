@@ -12,6 +12,16 @@ export type Project = {
   salesConditions: string;
   premiumSummary: string;
   locationDescription: string;
+  businessOverview: string | null;
+  transportInfo: string | null;
+  livingInfraInfo: string | null;
+  educationInfo: string | null;
+  premiumDetails: string | null;
+  sitePlanInfo: string | null;
+  floorPlanInfo: string | null;
+  communityInfo: string | null;
+  developmentInfo: string | null;
+  consultationGuide: string | null;
   coverImageUrl: string | null;
   coverImagePath: string | null;
   contactPhone: string;

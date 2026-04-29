@@ -108,8 +108,8 @@ export function AdminProjectForm({
 
         <section className="grid gap-4 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Marketing Copy</p>
-            <h3 className="mt-2 text-2xl">현장 소개 문구</h3>
+            <p className="text-xs uppercase tracking-[0.32em] text-muted">Core Copy</p>
+            <h3 className="mt-2 text-2xl">기본 안내 문구</h3>
           </div>
           <div className="grid gap-5">
             <label className="grid gap-2 text-sm font-semibold">
@@ -151,6 +151,98 @@ export function AdminProjectForm({
           </div>
         </section>
 
+        <section className="grid gap-4 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
+          <div>
+            <p className="text-xs uppercase tracking-[0.32em] text-muted">Detail Sections</p>
+            <h3 className="mt-2 text-2xl">상세 페이지 안내 내용</h3>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              사업개요부터 교통, 생활 인프라, 평면 안내까지 상세 페이지에 노출할 내용을 직접 입력하실 수 있습니다.
+            </p>
+          </div>
+          <div className="grid gap-5 xl:grid-cols-2">
+            <label className="grid gap-2 text-sm font-semibold">
+              사업개요
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.businessOverview || ""}
+                name="businessOverview"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              교통 환경
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.transportInfo || ""}
+                name="transportInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              생활 인프라
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.livingInfraInfo || ""}
+                name="livingInfraInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              교육 환경
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.educationInfo || ""}
+                name="educationInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              프리미엄 상세
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.premiumDetails || ""}
+                name="premiumDetails"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              단지배치도 안내
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.sitePlanInfo || ""}
+                name="sitePlanInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              평면도 안내
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.floorPlanInfo || ""}
+                name="floorPlanInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              커뮤니티 안내
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.communityInfo || ""}
+                name="communityInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              개발호재
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.developmentInfo || ""}
+                name="developmentInfo"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold xl:col-span-2">
+              상담문의 안내
+              <textarea
+                className="field-shell min-h-[150px] resize-y"
+                defaultValue={project?.consultationGuide || ""}
+                name="consultationGuide"
+              />
+            </label>
+          </div>
+        </section>
+
         <section className="grid gap-6 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6 lg:grid-cols-2">
           <div className="grid gap-3">
             <div>
@@ -167,7 +259,7 @@ export function AdminProjectForm({
               />
             </label>
             <p className="text-sm leading-7 text-muted">
-              JPG, PNG, WEBP 권장. 한 장당 8MB 이하 이미지를 사용하면 업로드 오류를 줄일 수 있습니다.
+              JPG, PNG, WEBP 권장. 한 장당 10MB 이하 이미지를 사용하고, 큰 이미지는 먼저 줄여서 올리면 오류를 줄일 수 있습니다.
             </p>
             {project?.coverImageUrl ? (
               <div className="overflow-hidden rounded-[1.5rem] bg-white shadow-soft">
@@ -196,7 +288,7 @@ export function AdminProjectForm({
               />
             </label>
             <p className="text-sm leading-7 text-muted">
-              여러 이미지를 한 번에 선택하면 상세 슬라이드에 순서대로 추가됩니다. JPG, PNG, WEBP 기준 한 장당 8MB 이하를 권장합니다.
+              여러 이미지는 한 번에 2~3장씩 선택하면 더 안정적으로 업로드됩니다. JPG, PNG, WEBP 기준 한 장당 10MB 이하를 권장합니다.
             </p>
           </div>
         </section>
