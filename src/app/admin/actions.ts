@@ -138,8 +138,7 @@ function getUploadedProjectAssets(formData: FormData) {
       !item ||
       typeof item.imageUrl !== "string" ||
       typeof item.imagePath !== "string" ||
-      !isSupportedProjectImageType(item.imageType) ||
-      item.imageType === "main"
+      !isSupportedProjectImageType(item.imageType)
     ) {
       throw new Error("상세 이미지 정보가 올바르지 않습니다.");
     }
