@@ -1,95 +1,127 @@
 import "server-only";
 
-import { DEFAULT_STORAGE_BUCKET } from "@/lib/constants";
+import {
+  DEFAULT_STORAGE_BUCKET,
+  PROJECT_IMAGE_ACCEPTED_TYPES,
+  PROJECT_IMAGE_MAX_FILE_SIZE_BYTES
+} from "@/lib/constants";
+import type { ProjectImageType } from "@/lib/types";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
-import { looksLikeSupabaseSecretKey } from "@/lib/utils";
 
-const MAX_ASSET_SIZE_BYTES = 10 * 1024 * 1024;
-
-function sanitizeFileName(fileName: string) {
-  return fileName
+function sanitizePathSegment(value: string) {
+  return value
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9.\-_]+/g, "-")
-    .replace(/-+/g, "-");
+    .replace(/[^a-z0-9._-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
-function resolveBucket() {
+export function resolveStorageBucket() {
   return process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || DEFAULT_STORAGE_BUCKET;
 }
 
-function normalizeStorageError(message: string) {
-  if (message.toLowerCase().includes("payload too large")) {
-    return "업로드 용량이 너무 큽니다. 이미지를 줄이거나 여러 장은 나눠서 업로드해주세요.";
-  }
-
-  if (
-    message.includes("Bucket not found") ||
-    message.includes("not found") ||
-    message.includes("does not exist")
-  ) {
-    return "Supabase Storage에 `project-media` 버킷이 없거나 접근할 수 없습니다. 버킷을 Public으로 만들어주세요.";
-  }
-
-  if (
-    message.includes("Invalid JWT") ||
-    message.includes("JWT") ||
-    message.includes("Unauthorized") ||
-    message.includes("permission denied")
-  ) {
-    return "SUPABASE_SECRET_KEY 값이 올바르지 않아 이미지 업로드 권한이 없습니다. Supabase Secret key를 다시 확인해주세요.";
-  }
-
-  return message;
+export function isSupportedProjectImageType(value: string): value is ProjectImageType {
+  return [
+    "main",
+    "gallery",
+    "site_plan",
+    "floor_plan",
+    "community",
+    "location",
+    "premium"
+  ].includes(value);
 }
 
-function validateAssetFile(file: File) {
-  if (!file.type.startsWith("image/")) {
-    throw new Error("이미지 파일만 업로드할 수 있습니다.");
-  }
-
-  if (file.size > MAX_ASSET_SIZE_BYTES) {
-    throw new Error("한 장당 10MB 이하 이미지만 업로드할 수 있습니다.");
-  }
-}
-
-export async function uploadProjectAsset({
-  file,
-  folder
+export function validateProjectImageCandidate({
+  fileName,
+  contentType,
+  fileSize
 }: {
-  file: File;
-  folder: string;
+  fileName: string;
+  contentType: string;
+  fileSize?: number;
 }) {
-  if (!looksLikeSupabaseSecretKey(process.env.SUPABASE_SECRET_KEY)) {
-    throw new Error(
-      "SUPABASE_SECRET_KEY 값이 올바르지 않아 이미지를 저장할 수 없습니다. Vercel Environment Variables의 Value 칸을 다시 확인해주세요."
-    );
+  const normalizedType = contentType.trim().toLowerCase();
+  const extension = fileName.split(".").pop()?.toLowerCase();
+
+  if (!PROJECT_IMAGE_ACCEPTED_TYPES.includes(normalizedType)) {
+    throw new Error("jpg, jpeg, png, webp 형식의 이미지만 업로드할 수 있습니다.");
   }
 
-  validateAssetFile(file);
+  if (!extension || !["jpg", "jpeg", "png", "webp"].includes(extension)) {
+    throw new Error("jpg, jpeg, png, webp 형식의 이미지만 업로드할 수 있습니다.");
+  }
 
+  if (typeof fileSize === "number" && fileSize > PROJECT_IMAGE_MAX_FILE_SIZE_BYTES) {
+    throw new Error("이미지 한 장당 최대 20MB까지 업로드할 수 있습니다.");
+  }
+}
+
+export function buildProjectAssetPath({
+  fileName,
+  imageType,
+  projectId,
+  uploadSessionId
+}: {
+  fileName: string;
+  imageType: ProjectImageType;
+  projectId?: string | null;
+  uploadSessionId?: string | null;
+}) {
+  const extension = sanitizePathSegment(fileName.split(".").pop() || "jpg") || "jpg";
+  const baseId =
+    sanitizePathSegment(projectId || "") ||
+    (uploadSessionId ? `draft-${sanitizePathSegment(uploadSessionId)}` : `draft-${crypto.randomUUID()}`);
+  const folder = imageType === "main" ? "main" : imageType;
+
+  return `projects/${baseId}/${folder}/${Date.now()}-${crypto.randomUUID()}.${extension}`;
+}
+
+export function getProjectAssetPublicUrl(filePath: string) {
   const supabase = getAdminSupabaseClient();
-  const bucket = resolveBucket();
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const filePath = `${folder}/${crypto.randomUUID()}.${sanitizeFileName(ext)}`;
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  const { error } = await supabase.storage.from(bucket).upload(filePath, buffer, {
-    contentType: file.type || "image/jpeg",
-    upsert: true
-  });
-
-  if (error) {
-    throw new Error(normalizeStorageError(error.message));
-  }
-
   const {
     data: { publicUrl }
-  } = supabase.storage.from(bucket).getPublicUrl(filePath);
+  } = supabase.storage.from(resolveStorageBucket()).getPublicUrl(filePath);
+
+  return publicUrl;
+}
+
+export async function createProjectSignedUpload({
+  fileName,
+  contentType,
+  imageType,
+  projectId,
+  uploadSessionId
+}: {
+  fileName: string;
+  contentType: string;
+  imageType: ProjectImageType;
+  projectId?: string | null;
+  uploadSessionId?: string | null;
+}) {
+  validateProjectImageCandidate({ fileName, contentType });
+
+  const supabase = getAdminSupabaseClient();
+  const bucket = resolveStorageBucket();
+  const path = buildProjectAssetPath({
+    fileName,
+    imageType,
+    projectId,
+    uploadSessionId
+  });
+
+  const { data, error } = await supabase.storage.from(bucket).createSignedUploadUrl(path);
+
+  if (error || !data) {
+    throw new Error(error?.message || "이미지 업로드 주소를 준비하지 못했습니다.");
+  }
 
   return {
-    filePath,
-    publicUrl
+    bucket,
+    path,
+    token: data.token,
+    publicUrl: getProjectAssetPublicUrl(path)
   };
 }
 
@@ -97,6 +129,5 @@ export async function removeProjectAsset(filePath?: string | null) {
   if (!filePath) return;
 
   const supabase = getAdminSupabaseClient();
-  const bucket = resolveBucket();
-  await supabase.storage.from(bucket).remove([filePath]);
+  await supabase.storage.from(resolveStorageBucket()).remove([filePath]);
 }

@@ -1,4 +1,4 @@
-import type { HomeHeroContent, ProjectStatus } from "@/lib/types";
+import type { ProjectImageType, ProjectStatus } from "@/lib/types";
 
 export const PROJECT_STATUS_OPTIONS: Array<{
   label: string;
@@ -10,21 +10,48 @@ export const PROJECT_STATUS_OPTIONS: Array<{
 
 export const DEFAULT_STORAGE_BUCKET = "project-media";
 
-export const LEGACY_HOME_HERO_CONTENT: HomeHeroContent = {
-  eyebrow: "Premium Sales Marketing",
-  title: "지금 바로 확인할 분양 현장과 조건 상담을 빠르게 연결해드립니다",
-  description:
-    "처음 방문한 고객이 분양중 현장, 핵심 장점, 상담 번호를 한 번에 보고 바로 전화나 방문예약으로 이어질 수 있도록 구성했습니다.",
-  featuredLabel: "오늘 추천 현장"
-};
+export const PROJECT_IMAGE_MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024;
+export const PROJECT_IMAGE_MAX_FILE_SIZE_LABEL = "20MB";
+export const PROJECT_IMAGE_MAX_COUNT = 50;
+export const PROJECT_IMAGE_ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+export const PROJECT_IMAGE_ACCEPTED_EXTENSIONS = ".jpg,.jpeg,.png,.webp";
 
-export const DEFAULT_HOME_HERO_CONTENT: HomeHeroContent = {
-  eyebrow: "PREMIUM PROPERTY CURATION",
-  title: "좋은 분양 현장을 선별해 소개드립니다",
-  description:
-    "청주, 대전, 천안, 세종 중부권 지역의 분양 현장을 보기 쉽게 정리해 안내합니다.",
-  featuredLabel: "오늘 추천 현장"
-};
+export const PROJECT_IMAGE_TYPE_OPTIONS: Array<{
+  label: string;
+  description: string;
+  value: Exclude<ProjectImageType, "main">;
+}> = [
+  {
+    label: "현장 갤러리",
+    description: "현장 전경, 내부, 외부 투시도 등 일반 소개 이미지",
+    value: "gallery"
+  },
+  {
+    label: "단지배치도",
+    description: "단지 전체 배치, 동 배치, 조경 구성 이미지",
+    value: "site_plan"
+  },
+  {
+    label: "평면도",
+    description: "타입별 평면도, 구조도, 세대 구성 이미지",
+    value: "floor_plan"
+  },
+  {
+    label: "입지 이미지",
+    description: "주변 입지, 지도, 생활권, 교통권 설명 이미지",
+    value: "location"
+  },
+  {
+    label: "커뮤니티",
+    description: "커뮤니티 시설, 부대시설, 특화 공간 이미지",
+    value: "community"
+  },
+  {
+    label: "프리미엄",
+    description: "개발호재, 장점 요약, 특장점 소개 이미지",
+    value: "premium"
+  }
+];
 
 export const SITE_NAV_ITEMS = [
   { href: "/", label: "홈" },

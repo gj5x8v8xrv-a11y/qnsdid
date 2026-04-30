@@ -3,6 +3,7 @@ import Link from "next/link";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { ProjectVisual } from "@/components/ui/project-visual";
 import type { Project } from "@/lib/types";
+import { formatPhoneHref, getProjectAddressLine, getProjectCardMeta } from "@/lib/utils";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
@@ -15,8 +16,9 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
       <div className="space-y-5 px-6 pb-6 pt-6">
         <div className="space-y-3">
-          <p className="text-sm font-medium text-muted">{project.location}</p>
-          <h3 className="text-[1.5rem] leading-[1.24] sm:text-[1.8rem]">{project.name}</h3>
+          <p className="text-sm font-medium text-muted">{getProjectCardMeta(project)}</p>
+          <h3 className="text-[1.9rem] leading-[1.15]">{project.name}</h3>
+          <p className="text-sm leading-7 text-slate-700">{getProjectAddressLine(project)}</p>
           <p className="text-sm leading-7 text-muted">{project.premiumSummary}</p>
         </div>
 
@@ -39,16 +41,12 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
         </dl>
 
-        <div className="rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
-          {project.salesConditions}
-        </div>
-
         <div className="flex gap-3">
-          <a className="button-secondary flex-1" href={`tel:${project.contactPhone.replace(/[^+\d]/g, "")}`}>
+          <a className="button-secondary flex-1" href={formatPhoneHref(project.contactPhone)}>
             전화문의
           </a>
           <Link className="button-primary flex-1" href={`/projects/${project.slug}`}>
-            현장 보기
+            상세보기
           </Link>
         </div>
       </div>

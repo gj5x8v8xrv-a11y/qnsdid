@@ -5,6 +5,10 @@ create table if not exists public.projects (
   name text not null,
   slug text not null unique,
   status text not null check (status in ('active', 'completed')),
+  region text not null default '',
+  province text,
+  city text,
+  address text,
   location text not null,
   household_count text not null,
   unit_plan text not null,
@@ -12,16 +16,6 @@ create table if not exists public.projects (
   sales_conditions text not null,
   premium_summary text not null,
   location_description text not null,
-  business_overview text,
-  transport_info text,
-  living_infra_info text,
-  education_info text,
-  premium_details text,
-  site_plan_info text,
-  floor_plan_info text,
-  community_info text,
-  development_info text,
-  consultation_guide text,
   cover_image_url text,
   cover_image_path text,
   contact_phone text not null,
@@ -30,22 +24,12 @@ create table if not exists public.projects (
   updated_at timestamptz not null default now()
 );
 
-alter table public.projects add column if not exists business_overview text;
-alter table public.projects add column if not exists transport_info text;
-alter table public.projects add column if not exists living_infra_info text;
-alter table public.projects add column if not exists education_info text;
-alter table public.projects add column if not exists premium_details text;
-alter table public.projects add column if not exists site_plan_info text;
-alter table public.projects add column if not exists floor_plan_info text;
-alter table public.projects add column if not exists community_info text;
-alter table public.projects add column if not exists development_info text;
-alter table public.projects add column if not exists consultation_guide text;
-
 create table if not exists public.project_images (
   id uuid primary key default gen_random_uuid(),
   project_id uuid not null references public.projects(id) on delete cascade,
   image_url text not null,
   image_path text,
+  image_type text not null default 'gallery',
   sort_order integer not null default 0,
   created_at timestamptz not null default now()
 );
@@ -60,24 +44,22 @@ create table if not exists public.inquiries (
   created_at timestamptz not null default now()
 );
 
-create table if not exists public.daily_visitors (
-  date_key text primary key,
-  visitor_count integer not null default 0,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create table if not exists public.site_settings (
-  key text primary key,
-  value jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
 create index if not exists projects_status_idx on public.projects(status);
 create index if not exists project_images_project_id_idx on public.project_images(project_id);
 create index if not exists inquiries_project_id_idx on public.inquiries(project_id);
 create index if not exists inquiries_created_at_idx on public.inquiries(created_at desc);
+create index if not exists projects_region_idx on public.projects(region);
+create index if not exists project_images_project_type_idx on public.project_images(project_id, image_type);
+
+alter table public.projects add column if not exists region text not null default '';
+alter table public.projects add column if not exists province text;
+alter table public.projects add column if not exists city text;
+alter table public.projects add column if not exists address text;
+alter table public.project_images add column if not exists image_type text not null default 'gallery';
+
+update public.projects
+set region = coalesce(nullif(region, ''), split_part(location, ' ', 1))
+where region = '';
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -95,36 +77,10 @@ before update on public.projects
 for each row
 execute function public.set_updated_at();
 
-drop trigger if exists set_daily_visitors_updated_at on public.daily_visitors;
-create trigger set_daily_visitors_updated_at
-before update on public.daily_visitors
-for each row
-execute function public.set_updated_at();
-
-drop trigger if exists set_site_settings_updated_at on public.site_settings;
-create trigger set_site_settings_updated_at
-before update on public.site_settings
-for each row
-execute function public.set_updated_at();
-
 alter table public.projects enable row level security;
 alter table public.project_images enable row level security;
 alter table public.inquiries enable row level security;
-alter table public.daily_visitors enable row level security;
-alter table public.site_settings enable row level security;
 
 insert into storage.buckets (id, name, public)
 values ('project-media', 'project-media', true)
 on conflict (id) do update set public = excluded.public;
-
-insert into public.site_settings (key, value)
-values (
-  'home_hero',
-  jsonb_build_object(
-    'eyebrow', 'PREMIUM PROPERTY CURATION',
-    'title', '좋은 분양 현장을 선별해 소개드립니다',
-    'description', '청주, 대전, 천안, 세종 중부권 지역의 모든 분양을 전문적으로 담당합니다.',
-    'featuredLabel', '오늘 추천 현장'
-  )
-)
-on conflict (key) do nothing;

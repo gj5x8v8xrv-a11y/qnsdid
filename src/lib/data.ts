@@ -1,19 +1,16 @@
 import "server-only";
 
-import {
-  DEFAULT_HOME_HERO_CONTENT,
-  LEGACY_HOME_HERO_CONTENT
-} from "@/lib/constants";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { mockInquiries, mockProjects } from "@/lib/mock-data";
 import type {
-  HomeHeroContent,
   Inquiry,
   Project,
   ProjectImage,
+  ProjectImageType,
   ProjectStatus,
   ProjectWithImages
 } from "@/lib/types";
+import { buildProjectLocation, inferProjectRegion } from "@/lib/utils";
 import { isSupabaseConfigured } from "@/lib/utils";
 
 type ProjectRow = {
@@ -21,6 +18,10 @@ type ProjectRow = {
   name: string;
   slug: string;
   status: ProjectStatus;
+  region: string | null;
+  province: string | null;
+  city: string | null;
+  address: string | null;
   location: string;
   household_count: string;
   unit_plan: string;
@@ -28,16 +29,6 @@ type ProjectRow = {
   sales_conditions: string;
   premium_summary: string;
   location_description: string;
-  business_overview: string | null;
-  transport_info: string | null;
-  living_infra_info: string | null;
-  education_info: string | null;
-  premium_details: string | null;
-  site_plan_info: string | null;
-  floor_plan_info: string | null;
-  community_info: string | null;
-  development_info: string | null;
-  consultation_guide: string | null;
   cover_image_url: string | null;
   cover_image_path: string | null;
   contact_phone: string;
@@ -51,6 +42,7 @@ type ProjectImageRow = {
   project_id: string;
   image_url: string;
   image_path: string | null;
+  image_type: ProjectImageType | null;
   sort_order: number;
   created_at: string;
 };
@@ -63,19 +55,9 @@ type InquiryRow = {
   project_id: string | null;
   status: Inquiry["status"];
   created_at: string;
-  projects:
-    | null
-    | {
-        name: string;
-      }
-    | Array<{
-        name: string;
-      }>;
-};
-
-type SiteSettingRow = {
-  key: string;
-  value: HomeHeroContent | null;
+  projects: null | {
+    name: string;
+  };
 };
 
 function mapProject(row: ProjectRow): Project {
@@ -84,23 +66,27 @@ function mapProject(row: ProjectRow): Project {
     name: row.name,
     slug: row.slug,
     status: row.status,
-    location: row.location,
+    region: inferProjectRegion({
+      region: row.region,
+      province: row.province,
+      city: row.city,
+      location: row.location
+    }),
+    province: row.province,
+    city: row.city,
+    address: row.address,
+    location: buildProjectLocation({
+      province: row.province,
+      city: row.city,
+      address: row.address,
+      location: row.location
+    }),
     householdCount: row.household_count,
     unitPlan: row.unit_plan,
     expectedMoveIn: row.expected_move_in,
     salesConditions: row.sales_conditions,
     premiumSummary: row.premium_summary,
     locationDescription: row.location_description,
-    businessOverview: row.business_overview,
-    transportInfo: row.transport_info,
-    livingInfraInfo: row.living_infra_info,
-    educationInfo: row.education_info,
-    premiumDetails: row.premium_details,
-    sitePlanInfo: row.site_plan_info,
-    floorPlanInfo: row.floor_plan_info,
-    communityInfo: row.community_info,
-    developmentInfo: row.development_info,
-    consultationGuide: row.consultation_guide,
     coverImageUrl: row.cover_image_url,
     coverImagePath: row.cover_image_path,
     contactPhone: row.contact_phone,
@@ -116,166 +102,105 @@ function mapImage(row: ProjectImageRow): ProjectImage {
     projectId: row.project_id,
     imageUrl: row.image_url,
     imagePath: row.image_path,
+    imageType: row.image_type || "gallery",
     sortOrder: row.sort_order,
     createdAt: row.created_at
   };
 }
 
 function mapInquiry(row: InquiryRow): Inquiry {
-  const projectName = Array.isArray(row.projects)
-    ? row.projects[0]?.name || null
-    : row.projects?.name || null;
-
   return {
     id: row.id,
     name: row.name,
     phone: row.phone,
     message: row.message,
     projectId: row.project_id,
-    projectName,
+    projectName: row.projects?.name || null,
     status: row.status,
     createdAt: row.created_at
   };
 }
 
-function getFallbackProjects(status?: ProjectStatus) {
-  return mockProjects
-    .filter((project) => (status ? project.status === status : true))
-    .map(({ gallery, ...project }) => project);
-}
-
-function getFallbackProjectBySlug(slug: string) {
-  return mockProjects.find((project) => project.slug === slug) || null;
-}
-
-function getFallbackProjectById(projectId: string) {
-  return mockProjects.find((project) => project.id === projectId) || null;
-}
-
-function getFallbackInquiries(limit?: number) {
-  return typeof limit === "number" ? mockInquiries.slice(0, limit) : mockInquiries;
-}
-
-function logDataReadWarning(scope: string, error: unknown) {
-  const message = error instanceof Error ? error.message : String(error);
-  console.error(`[data:${scope}] ${message}`);
-}
-
-function isLegacyHomeHeroContent(value?: Partial<HomeHeroContent> | null) {
-  if (!value) return false;
-
-  return (
-    value.eyebrow === LEGACY_HOME_HERO_CONTENT.eyebrow &&
-    value.title === LEGACY_HOME_HERO_CONTENT.title &&
-    value.description === LEGACY_HOME_HERO_CONTENT.description &&
-    value.featuredLabel === LEGACY_HOME_HERO_CONTENT.featuredLabel
-  );
-}
-
-function mergeHomeHeroContent(value?: Partial<HomeHeroContent> | null): HomeHeroContent {
-  if (isLegacyHomeHeroContent(value)) {
-    return DEFAULT_HOME_HERO_CONTENT;
-  }
-
-  return {
-    ...DEFAULT_HOME_HERO_CONTENT,
-    ...(value || {})
-  };
-}
-
 export async function getProjects(status?: ProjectStatus) {
   if (!isSupabaseConfigured()) {
-    return getFallbackProjects(status);
+    return mockProjects
+      .filter((project) => (status ? project.status === status : true))
+      .map(({ gallery, ...project }) => project);
   }
 
-  try {
-    const supabase = getAdminSupabaseClient();
-    let query = supabase.from("projects").select("*").order("created_at", {
-      ascending: false
-    });
+  const supabase = getAdminSupabaseClient();
+  let query = supabase.from("projects").select("*").order("created_at", {
+    ascending: false
+  });
 
-    if (status) {
-      query = query.eq("status", status);
-    }
-
-    const { data, error } = await query;
-    if (error) throw new Error(error.message);
-
-    return (data as ProjectRow[]).map(mapProject);
-  } catch (error) {
-    logDataReadWarning("projects", error);
-    return getFallbackProjects(status);
+  if (status) {
+    query = query.eq("status", status);
   }
+
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+
+  return (data as ProjectRow[]).map(mapProject);
 }
 
 export async function getProjectBySlug(slug: string) {
   if (!isSupabaseConfigured()) {
-    return getFallbackProjectBySlug(slug);
+    return mockProjects.find((project) => project.slug === slug) || null;
   }
 
-  try {
-    const supabase = getAdminSupabaseClient();
-    const { data: projectRow, error: projectError } = await supabase
-      .from("projects")
-      .select("*")
-      .eq("slug", slug)
-      .maybeSingle();
+  const supabase = getAdminSupabaseClient();
+  const { data: projectRow, error: projectError } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
 
-    if (projectError) throw new Error(projectError.message);
-    if (!projectRow) return null;
+  if (projectError) throw new Error(projectError.message);
+  if (!projectRow) return null;
 
-    const { data: imageRows, error: imageError } = await supabase
-      .from("project_images")
-      .select("*")
-      .eq("project_id", projectRow.id)
-      .order("sort_order", { ascending: true })
-      .order("created_at", { ascending: true });
+  const { data: imageRows, error: imageError } = await supabase
+    .from("project_images")
+    .select("*")
+    .eq("project_id", projectRow.id)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
 
-    if (imageError) throw new Error(imageError.message);
+  if (imageError) throw new Error(imageError.message);
 
-    return {
-      ...mapProject(projectRow as ProjectRow),
-      gallery: (imageRows as ProjectImageRow[]).map(mapImage)
-    } satisfies ProjectWithImages;
-  } catch (error) {
-    logDataReadWarning("projectBySlug", error);
-    return getFallbackProjectBySlug(slug);
-  }
+  return {
+    ...mapProject(projectRow as ProjectRow),
+    gallery: (imageRows as ProjectImageRow[]).map(mapImage)
+  } satisfies ProjectWithImages;
 }
 
 export async function getProjectById(projectId: string) {
   if (!isSupabaseConfigured()) {
-    return getFallbackProjectById(projectId);
+    return mockProjects.find((project) => project.id === projectId) || null;
   }
 
-  try {
-    const supabase = getAdminSupabaseClient();
-    const { data: projectRow, error: projectError } = await supabase
-      .from("projects")
-      .select("*")
-      .eq("id", projectId)
-      .maybeSingle();
+  const supabase = getAdminSupabaseClient();
+  const { data: projectRow, error: projectError } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", projectId)
+    .maybeSingle();
 
-    if (projectError) throw new Error(projectError.message);
-    if (!projectRow) return null;
+  if (projectError) throw new Error(projectError.message);
+  if (!projectRow) return null;
 
-    const { data: imageRows, error: imageError } = await supabase
-      .from("project_images")
-      .select("*")
-      .eq("project_id", projectId)
-      .order("sort_order", { ascending: true })
-      .order("created_at", { ascending: true });
+  const { data: imageRows, error: imageError } = await supabase
+    .from("project_images")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
 
-    if (imageError) throw new Error(imageError.message);
+  if (imageError) throw new Error(imageError.message);
 
-    return {
-      ...mapProject(projectRow as ProjectRow),
-      gallery: (imageRows as ProjectImageRow[]).map(mapImage)
-    } satisfies ProjectWithImages;
-  } catch (error) {
-    logDataReadWarning("projectById", error);
-    return getFallbackProjectById(projectId);
-  }
+  return {
+    ...mapProject(projectRow as ProjectRow),
+    gallery: (imageRows as ProjectImageRow[]).map(mapImage)
+  } satisfies ProjectWithImages;
 }
 
 export async function getAdminDashboardData() {
@@ -292,50 +217,21 @@ export async function getAdminDashboardData() {
 
 export async function getInquiries(limit?: number) {
   if (!isSupabaseConfigured()) {
-    return getFallbackInquiries(limit);
+    return typeof limit === "number" ? mockInquiries.slice(0, limit) : mockInquiries;
   }
 
-  try {
-    const supabase = getAdminSupabaseClient();
-    let query = supabase
-      .from("inquiries")
-      .select("id, name, phone, message, project_id, status, created_at, projects(name)")
-      .order("created_at", { ascending: false });
+  const supabase = getAdminSupabaseClient();
+  let query = supabase
+    .from("inquiries")
+    .select("id, name, phone, message, project_id, status, created_at, projects(name)")
+    .order("created_at", { ascending: false });
 
-    if (typeof limit === "number") {
-      query = query.limit(limit);
-    }
-
-    const { data, error } = await query;
-    if (error) throw new Error(error.message);
-
-    return (data as InquiryRow[]).map(mapInquiry);
-  } catch (error) {
-    logDataReadWarning("inquiries", error);
-    return getFallbackInquiries(limit);
-  }
-}
-
-export async function getHomeHeroContent() {
-  if (!isSupabaseConfigured()) {
-    return DEFAULT_HOME_HERO_CONTENT;
+  if (typeof limit === "number") {
+    query = query.limit(limit);
   }
 
-  try {
-    const supabase = getAdminSupabaseClient();
-    const { data, error } = await supabase
-      .from("site_settings")
-      .select("key, value")
-      .eq("key", "home_hero")
-      .maybeSingle();
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
 
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return mergeHomeHeroContent((data as SiteSettingRow | null)?.value);
-  } catch (error) {
-    logDataReadWarning("homeHero", error);
-    return DEFAULT_HOME_HERO_CONTENT;
-  }
+  return (data as InquiryRow[]).map(mapInquiry);
 }

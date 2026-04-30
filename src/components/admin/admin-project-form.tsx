@@ -1,6 +1,8 @@
 import { deleteProjectImageAction } from "@/app/admin/actions";
+import { AdminProjectImageManager } from "@/components/admin/admin-project-image-manager";
 import { SubmitButton } from "@/components/ui/submit-button";
-import type { ProjectWithImages } from "@/lib/types";
+import { PROJECT_IMAGE_TYPE_OPTIONS } from "@/lib/constants";
+import type { ProjectImage, ProjectWithImages } from "@/lib/types";
 
 type AdminProjectFormProps = {
   action: (formData: FormData) => Promise<void>;
@@ -10,6 +12,16 @@ type AdminProjectFormProps = {
   submitLabel: string;
 };
 
+function groupImagesByType(images: ProjectImage[]) {
+  return images.reduce<Record<string, ProjectImage[]>>((accumulator, image) => {
+    if (!accumulator[image.imageType]) {
+      accumulator[image.imageType] = [];
+    }
+    accumulator[image.imageType].push(image);
+    return accumulator;
+  }, {});
+}
+
 export function AdminProjectForm({
   action,
   project,
@@ -17,6 +29,8 @@ export function AdminProjectForm({
   description,
   submitLabel
 }: AdminProjectFormProps) {
+  const imagesByType = groupImagesByType(project?.gallery || []);
+
   return (
     <div className="admin-panel overflow-hidden">
       <div className="border-b border-black/5 px-6 py-6 sm:px-8">
@@ -24,7 +38,7 @@ export function AdminProjectForm({
         <p className="mt-3 max-w-2xl text-sm leading-8 text-muted">{description}</p>
       </div>
 
-      <form action={action} className="space-y-8 px-6 py-8 sm:px-8" encType="multipart/form-data">
+      <form action={action} className="space-y-8 px-6 py-8 sm:px-8">
         {project ? (
           <>
             <input name="projectId" type="hidden" value={project.id} />
@@ -48,7 +62,7 @@ export function AdminProjectForm({
                 className="field-shell"
                 defaultValue={project?.slug || ""}
                 name="slug"
-                placeholder="haneulchae"
+                placeholder="cheongju-prugio"
                 required
               />
             </label>
@@ -60,8 +74,41 @@ export function AdminProjectForm({
               </select>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
-              위치
-              <input className="field-shell" defaultValue={project?.location || ""} name="location" required />
+              지역
+              <input
+                className="field-shell"
+                defaultValue={project?.region || ""}
+                name="region"
+                placeholder="청주"
+                required
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              시/도
+              <input
+                className="field-shell"
+                defaultValue={project?.province || ""}
+                name="province"
+                placeholder="충청북도"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold">
+              시/군/구
+              <input
+                className="field-shell"
+                defaultValue={project?.city || ""}
+                name="city"
+                placeholder="청주시 흥덕구"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-semibold md:col-span-2">
+              상세주소
+              <input
+                className="field-shell"
+                defaultValue={project?.address || ""}
+                name="address"
+                placeholder="가경동 000-0"
+              />
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               세대수
@@ -108,8 +155,8 @@ export function AdminProjectForm({
 
         <section className="grid gap-4 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Core Copy</p>
-            <h3 className="mt-2 text-2xl">기본 안내 문구</h3>
+            <p className="text-xs uppercase tracking-[0.32em] text-muted">Marketing Copy</p>
+            <h3 className="mt-2 text-2xl">현장 소개 문구</h3>
           </div>
           <div className="grid gap-5">
             <label className="grid gap-2 text-sm font-semibold">
@@ -151,167 +198,52 @@ export function AdminProjectForm({
           </div>
         </section>
 
-        <section className="grid gap-4 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
-          <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Detail Sections</p>
-            <h3 className="mt-2 text-2xl">상세 페이지 안내 내용</h3>
-            <p className="mt-2 text-sm leading-7 text-muted">
-              사업개요부터 교통, 생활 인프라, 평면 안내까지 상세 페이지에 노출할 내용을 직접 입력하실 수 있습니다.
-            </p>
-          </div>
-          <div className="grid gap-5 xl:grid-cols-2">
-            <label className="grid gap-2 text-sm font-semibold">
-              사업개요
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.businessOverview || ""}
-                name="businessOverview"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              교통 환경
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.transportInfo || ""}
-                name="transportInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              생활 인프라
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.livingInfraInfo || ""}
-                name="livingInfraInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              교육 환경
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.educationInfo || ""}
-                name="educationInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              프리미엄 상세
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.premiumDetails || ""}
-                name="premiumDetails"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              단지배치도 안내
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.sitePlanInfo || ""}
-                name="sitePlanInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              평면도 안내
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.floorPlanInfo || ""}
-                name="floorPlanInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              커뮤니티 안내
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.communityInfo || ""}
-                name="communityInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold">
-              개발호재
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.developmentInfo || ""}
-                name="developmentInfo"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-semibold xl:col-span-2">
-              상담문의 안내
-              <textarea
-                className="field-shell min-h-[150px] resize-y"
-                defaultValue={project?.consultationGuide || ""}
-                name="consultationGuide"
-              />
-            </label>
-          </div>
-        </section>
-
-        <section className="grid gap-6 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6 lg:grid-cols-2">
-          <div className="grid gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.32em] text-muted">Images</p>
-              <h3 className="mt-2 text-2xl">대표 이미지</h3>
-            </div>
-            <label className="grid gap-3 text-sm font-semibold">
-              대표 이미지 업로드
-              <input
-                accept="image/*"
-                className="field-shell file:mr-3 file:border-0 file:bg-transparent file:font-medium"
-                name="coverImage"
-                type="file"
-              />
-            </label>
-            <p className="text-sm leading-7 text-muted">
-              JPG, PNG, WEBP 권장. 한 장당 10MB 이하 이미지를 사용하고, 큰 이미지는 먼저 줄여서 올리면 오류를 줄일 수 있습니다.
-            </p>
-            {project?.coverImageUrl ? (
-              <div className="overflow-hidden rounded-[1.5rem] bg-white shadow-soft">
-                <img
-                  alt={`${project.name} 대표 이미지`}
-                  className="aspect-[16/10] w-full object-cover"
-                  src={project.coverImageUrl}
-                />
-              </div>
-            ) : null}
-          </div>
-
-          <div className="grid gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.32em] text-muted">Gallery</p>
-              <h3 className="mt-2 text-2xl">상세 이미지</h3>
-            </div>
-            <label className="grid gap-3 text-sm font-semibold">
-              여러 장 업로드
-              <input
-                accept="image/*"
-                className="field-shell file:mr-3 file:border-0 file:bg-transparent file:font-medium"
-                multiple
-                name="galleryImages"
-                type="file"
-              />
-            </label>
-            <p className="text-sm leading-7 text-muted">
-              여러 이미지는 한 번에 2~3장씩 선택하면 더 안정적으로 업로드됩니다. JPG, PNG, WEBP 기준 한 장당 10MB 이하를 권장합니다.
-            </p>
-          </div>
-        </section>
+        <AdminProjectImageManager
+          coverImageUrl={project?.coverImageUrl}
+          existingImages={project?.gallery || []}
+          projectId={project?.id}
+        />
 
         {project?.gallery.length ? (
-          <section className="space-y-4">
+          <section className="space-y-5">
             <div>
-              <h3 className="text-2xl">등록된 상세 이미지</h3>
+              <h3 className="text-2xl">등록된 이미지</h3>
               <p className="mt-2 text-sm leading-8 text-muted">
-                필요 없는 이미지는 바로 삭제할 수 있습니다.
+                업로드된 이미지는 유형별로 확인할 수 있으며, 필요 없는 이미지는 바로 삭제할 수 있습니다.
               </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {project.gallery.map((image) => (
-                <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white p-3 shadow-soft" key={image.id}>
-                  <img alt={`${project.name} 상세 이미지`} className="aspect-[4/3] w-full rounded-[1.25rem] object-cover" src={image.imageUrl} />
-                  <form action={deleteProjectImageAction} className="mt-3">
-                    <input name="imageId" type="hidden" value={image.id} />
-                    <input name="projectId" type="hidden" value={project.id} />
-                    <SubmitButton className="button-secondary w-full !text-red-600">
-                      이미지 삭제
-                    </SubmitButton>
-                  </form>
+
+            <div className="grid gap-5">
+              {PROJECT_IMAGE_TYPE_OPTIONS.filter((option) => (imagesByType[option.value] || []).length > 0).map((option) => (
+                <div
+                  className="rounded-[1.5rem] border border-[color:var(--line)] bg-white p-5 shadow-soft"
+                  key={option.value}
+                >
+                  <div className="mb-4">
+                    <h4 className="text-xl">{option.label}</h4>
+                    <p className="mt-2 text-sm leading-7 text-muted">{option.description}</p>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    {(imagesByType[option.value] || []).map((image) => (
+                      <div
+                        className="rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 p-3"
+                        key={image.id}
+                      >
+                        <img
+                          alt={`${project.name} ${option.label}`}
+                          className="aspect-[4/3] w-full rounded-[1.25rem] object-cover"
+                          src={image.imageUrl}
+                        />
+                        <form action={deleteProjectImageAction} className="mt-3">
+                          <input name="imageId" type="hidden" value={image.id} />
+                          <input name="projectId" type="hidden" value={project.id} />
+                          <SubmitButton className="button-secondary w-full !text-red-600">
+                            이미지 삭제
+                          </SubmitButton>
+                        </form>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -321,7 +253,7 @@ export function AdminProjectForm({
         <div className="flex flex-wrap gap-3 rounded-[1.75rem] bg-deep px-5 py-5">
           <SubmitButton className="button-accent">{submitLabel}</SubmitButton>
           <p className="self-center text-sm leading-7 text-white/70">
-            저장 후 프론트 페이지와 SEO 메타가 함께 갱신됩니다.
+            저장 후 프론트 페이지와 검색 정보가 함께 갱신됩니다.
           </p>
         </div>
       </form>

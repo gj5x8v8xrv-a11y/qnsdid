@@ -1,10 +1,23 @@
 export type ProjectStatus = "active" | "completed";
 
+export type ProjectImageType =
+  | "main"
+  | "gallery"
+  | "site_plan"
+  | "floor_plan"
+  | "community"
+  | "location"
+  | "premium";
+
 export type Project = {
   id: string;
   name: string;
   slug: string;
   status: ProjectStatus;
+  region: string;
+  province: string | null;
+  city: string | null;
+  address: string | null;
   location: string;
   householdCount: string;
   unitPlan: string;
@@ -12,16 +25,6 @@ export type Project = {
   salesConditions: string;
   premiumSummary: string;
   locationDescription: string;
-  businessOverview: string | null;
-  transportInfo: string | null;
-  livingInfraInfo: string | null;
-  educationInfo: string | null;
-  premiumDetails: string | null;
-  sitePlanInfo: string | null;
-  floorPlanInfo: string | null;
-  communityInfo: string | null;
-  developmentInfo: string | null;
-  consultationGuide: string | null;
   coverImageUrl: string | null;
   coverImagePath: string | null;
   contactPhone: string;
@@ -35,6 +38,7 @@ export type ProjectImage = {
   projectId: string;
   imageUrl: string;
   imagePath: string | null;
+  imageType: ProjectImageType;
   sortOrder: number;
   createdAt: string;
 };
@@ -64,13 +68,6 @@ export type SiteConfig = {
   companyEmail: string;
   companyAddress: string;
   siteUrl: string;
-};
-
-export type HomeHeroContent = {
-  eyebrow: string;
-  title: string;
-  description: string;
-  featuredLabel: string;
 };
 
 export type AdminProjectFormState = {

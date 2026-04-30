@@ -4,6 +4,7 @@ import { deleteProjectAction, updateProjectStatusAction } from "@/app/admin/acti
 import { StatusBadge } from "@/components/ui/status-badge";
 import { SubmitButton } from "@/components/ui/submit-button";
 import type { Project } from "@/lib/types";
+import { getProjectAddressLine, getProjectRegion } from "@/lib/utils";
 
 export function AdminProjectTable({ projects }: { projects: Project[] }) {
   return (
@@ -32,7 +33,7 @@ export function AdminProjectTable({ projects }: { projects: Project[] }) {
                   <div className="flex flex-wrap items-center gap-3">
                     <StatusBadge status={project.status} />
                     <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-                      {project.location}
+                      {getProjectRegion(project)}
                     </span>
                     <span className="rounded-full bg-slate-100 px-3 py-1 font-mono text-[11px] text-slate-600">
                       /projects/{project.slug}
@@ -41,7 +42,8 @@ export function AdminProjectTable({ projects }: { projects: Project[] }) {
 
                   <div>
                     <h3 className="text-2xl leading-tight">{project.name}</h3>
-                    <p className="mt-2 text-sm leading-7 text-muted">{project.premiumSummary}</p>
+                    <p className="mt-2 text-sm leading-7 text-muted">{getProjectAddressLine(project)}</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-700">{project.premiumSummary}</p>
                   </div>
 
                   <dl className="grid gap-3 text-sm sm:grid-cols-3">
