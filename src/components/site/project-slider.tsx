@@ -6,7 +6,9 @@ import type { ProjectWithImages } from "@/lib/types";
 
 export function ProjectSlider({ project }: { project: ProjectWithImages }) {
   const images = useMemo(() => {
-    const galleryUrls = project.gallery.map((item) => item.imageUrl);
+    const galleryUrls = project.gallery
+      .filter((item) => item.imageType === "gallery")
+      .map((item) => item.imageUrl);
     if (project.coverImageUrl) {
       return [project.coverImageUrl, ...galleryUrls];
     }

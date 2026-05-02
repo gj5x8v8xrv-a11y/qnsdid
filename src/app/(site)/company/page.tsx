@@ -4,11 +4,9 @@ import { PageHero } from "@/components/site/page-hero";
 import { SectionHeading } from "@/components/site/section-heading";
 import { getSiteConfig } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = {
   title: "회사소개",
-  description: "분양맵이 어떤 방식으로 현장을 정리해 안내하는지 편하게 확인해보세요."
+  description: "분양맵은 관심 있는 분양 현장을 편하게 살펴보고 문의할 수 있도록 정보를 정리해 소개합니다."
 };
 
 export default function CompanyPage() {
@@ -19,82 +17,57 @@ export default function CompanyPage() {
       <PageHero
         actions={
           <>
-            <Link className="button-primary" href="/contact">
-              상담 문의하기
-            </Link>
-            <Link className="button-secondary" href="/projects">
+            <Link className="button-primary" href="/projects">
               분양중 현장 보기
+            </Link>
+            <Link className="button-secondary" href="/contact">
+              상담문의
             </Link>
           </>
         }
-        description="좋은 분양 현장을 보기 쉽게 정리하고, 필요한 내용은 편하게 문의하실 수 있도록 안내합니다."
-        eyebrow="회사 소개"
-        title={`${site.companyName}는 좋은 분양 현장을 편하게 살펴보실 수 있도록 정리해 안내합니다`}
-        visual={
-          <div className="grid gap-4">
-            {[
-              "현재 분양중인 현장 확인",
-              "현장별 주요 정보 확인",
-              "전화문의와 상담신청 바로 가능"
-            ].map((item) => (
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75" key={item}>
-                {item}
-              </div>
-            ))}
-          </div>
-        }
+        description="분양맵은 관심 있는 현장을 편하게 비교하고 필요한 정보를 차분하게 확인할 수 있도록 정리해 소개합니다."
+        eyebrow="회사소개"
+        stats={[
+          { label: "대표번호", value: site.companyPhone },
+          { label: "문의 메일", value: site.companyEmail },
+          { label: "안내 현장", value: "분양중 · 분양완료" }
+        ]}
+        title="관심 있는 분양 현장을 편하게 살펴볼 수 있도록 안내합니다"
       />
 
       <section className="page-shell pb-24">
-        <SectionHeading
-          description="위치, 세대수, 분양조건처럼 먼저 확인하고 싶은 내용을 보기 쉽게 정리해 안내합니다."
-          eyebrow="분양맵 소개"
-          title="필요한 내용을 보기 편하게 정리했습니다"
-        />
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {[
-            {
-              title: "현장별 주요 정보",
-              description:
-                "현장 위치, 세대수, 평형, 입주예정일처럼 먼저 궁금한 내용을 한눈에 확인하실 수 있습니다."
-            },
-            {
-              title: "편한 문의 방법",
-              description:
-                "전화문의와 상담신청을 통해 궁금한 내용을 편하게 남기실 수 있습니다."
-            },
-            {
-              title: "소개 완료 현장 함께 보기",
-              description:
-                "소개가 완료된 현장도 함께 정리해두어 지금까지 어떤 현장을 소개해왔는지 살펴보실 수 있습니다."
-            }
-          ].map((item) => (
-            <article className="surface-panel p-6 lg:p-7" key={item.title}>
-              <p className="text-xs uppercase tracking-[0.32em] text-muted">안내 항목</p>
-              <h2 className="mt-4 text-3xl">{item.title}</h2>
-              <p className="mt-4 text-sm leading-8 text-muted">{item.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
+          <div className="surface-panel p-8 lg:p-10">
+            <SectionHeading
+              eyebrow="분양맵 소개"
+              title="필요한 정보를 쉽게 확인할 수 있도록 정리했습니다"
+              description="현장별 핵심 정보와 이미지, 문의 동선을 보기 편하게 배치해 처음 방문하셔도 부담 없이 살펴보실 수 있습니다."
+            />
 
-      <section className="page-shell pb-24">
-        <div className="surface-panel p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.34em] text-muted">문의 안내</p>
-              <h2 className="mt-4 text-4xl">궁금한 현장은 편하게 문의해보세요</h2>
-              <p className="mt-5 text-sm leading-8 text-muted">
-                관심 있는 현장과 궁금한 내용을 남겨주시면 확인 후 빠르게 안내해드립니다.
-              </p>
+            <div className="mt-8 grid gap-4">
+              {[
+                "현재 안내 중인 현장과 소개 완료 현장을 구분해 살펴보실 수 있습니다.",
+                "지역, 평형, 세대수, 기본 정보를 함께 보여드려 비교가 편합니다.",
+                "궁금한 현장은 전화나 상담문의, 방문예약으로 바로 연결하실 수 있습니다."
+              ].map((item) => (
+                <div className="rounded-[1.5rem] bg-slate-50 px-5 py-5 text-sm leading-8 text-foreground" key={item}>
+                  {item}
+                </div>
+              ))}
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
-                전화문의
-              </a>
-              <Link className="button-primary" href="/contact">
-                상담신청
-              </Link>
+          </div>
+
+          <div className="surface-panel p-8 lg:p-10">
+            <SectionHeading
+              eyebrow="이용 안내"
+              title="이렇게 활용해보세요"
+              description="메인에서 관심 지역의 현장을 먼저 살펴보시고, 상세페이지에서 이미지와 기본 정보를 확인한 뒤 문의를 남겨주시면 됩니다."
+            />
+
+            <div className="mt-8 space-y-4 text-sm leading-8 text-muted">
+              <p>1. 분양중 현장에서 현재 안내 중인 현장을 확인합니다.</p>
+              <p>2. 상세페이지에서 위치, 평형, 이미지, 기본 정보를 살펴봅니다.</p>
+              <p>3. 궁금한 점이나 방문 희망 일정이 있으면 상담문의를 남깁니다.</p>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { AdminSetupNotice } from "@/components/admin/admin-setup-notice";
 import { FlashBanner } from "@/components/ui/flash-banner";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { getCurrentAdminUser } from "@/lib/auth";
-import { isSupabasePublicConfigured } from "@/lib/utils";
+import { isSupabaseConfigured } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +41,7 @@ export default async function AdminLoginPage({
 
           <div className="mt-10 rounded-[1.75rem] border border-white/10 bg-white p-6">
             <FlashBanner message={error} tone="error" />
-            {isSupabasePublicConfigured() ? (
+            {isSupabaseConfigured() ? (
               <form action={loginAction} className="mt-4 space-y-4">
                 <label className="grid gap-2 text-sm font-semibold">
                   이메일
@@ -61,20 +61,7 @@ export default async function AdminLoginPage({
           </div>
         </div>
 
-        {isSupabasePublicConfigured() ? (
-          <div className="admin-panel space-y-4 p-8">
-            <span className="section-kicker">Operations Ready</span>
-            <h2 className="text-4xl">운영 준비가 완료되었습니다</h2>
-            <p className="max-w-2xl text-sm leading-8 text-muted">
-              관리자 계정으로 로그인하면 현장 추가, 수정, 상태 변경, 문의 확인을 바로 진행할 수 있습니다.
-            </p>
-            <div className="rounded-[1.5rem] bg-slate-50 p-5 text-sm leading-8 text-muted">
-              로그인 후에는 현장 대표 이미지와 상세 이미지를 업로드하고, 분양중/분양완료 상태를 직접 전환할 수 있습니다.
-            </div>
-          </div>
-        ) : (
-          <AdminSetupNotice />
-        )}
+        <AdminSetupNotice />
       </div>
     </div>
   );

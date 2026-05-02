@@ -29,9 +29,7 @@ export function ProjectVisual({
       <div className="relative flex h-full items-end p-6">
         <div>
           <p className="text-[11px] uppercase tracking-[0.38em] text-white/60">Project</p>
-          <p className="mt-3 max-w-[12rem] break-keep text-[1.65rem] leading-tight text-white sm:max-w-[14rem] sm:text-2xl">
-            {title}
-          </p>
+          <p className="mt-3 max-w-[14rem] text-2xl leading-tight text-white">{title}</p>
         </div>
       </div>
     </div>

@@ -36,7 +36,6 @@ body {
   letter-spacing: -0.01em;
   line-height: 1.65;
   text-rendering: optimizeLegibility;
-  overflow-x: clip;
 }
 
 a {

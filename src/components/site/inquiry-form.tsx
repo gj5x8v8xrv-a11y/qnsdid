@@ -12,10 +12,10 @@ export function InquiryForm({
   return (
     <form action={submitInquiryAction} className="surface-panel space-y-6 p-6 sm:p-8 lg:p-10">
       <div>
-        <p className="text-xs uppercase tracking-[0.34em] text-muted">Consulting Form</p>
-        <h2 className="mt-3 text-3xl">상담 정보를 남겨주시면 빠르게 연락드립니다</h2>
+        <p className="text-xs uppercase tracking-[0.34em] text-muted">Inquiry Form</p>
+        <h2 className="mt-3 text-3xl">관심 현장 정보를 남겨주시면 순차적으로 안내해드립니다</h2>
         <p className="mt-3 text-sm leading-7 text-muted">
-          관심 현장, 방문 희망 내용, 궁금한 점을 남겨주시면 담당자가 상담을 도와드립니다.
+          관심 있는 현장과 궁금한 내용을 남겨주시면 확인 후 연락드리겠습니다.
         </p>
       </div>
 
@@ -52,25 +52,20 @@ export function InquiryForm({
         />
       </label>
 
+      <label className="flex items-start gap-3 rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
+        <input className="mt-1 h-4 w-4 shrink-0" name="privacyConsent" required type="checkbox" />
+        <span>
+          개인정보 수집 및 이용에 동의합니다. 자세한 내용은{" "}
+          <a className="font-semibold text-deep underline" href="/privacy" rel="noreferrer" target="_blank">
+            개인정보처리방침
+          </a>
+          에서 확인하실 수 있습니다.
+        </span>
+      </label>
+
       <div className="rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
         남겨주신 문의는 확인 후 순차적으로 연락드리며, 방문 일정과 상담 내용을 함께 안내해드립니다.
       </div>
-
-      <label className="flex items-start gap-3 rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4 text-sm leading-7 text-foreground">
-        <input
-          className="mt-1 h-4 w-4 rounded border-slate-300 text-deep focus:ring-deep"
-          name="privacyConsent"
-          required
-          type="checkbox"
-          value="agreed"
-        />
-        <span>
-          개인정보 수집 및 이용에 동의합니다.{" "}
-          <a className="font-semibold text-deep underline underline-offset-2" href="/privacy">
-            개인정보처리방침 보기
-          </a>
-        </span>
-      </label>
 
       <SubmitButton className="button-primary w-full">상담 문의 접수</SubmitButton>
     </form>

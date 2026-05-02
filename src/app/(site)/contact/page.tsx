@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { FlashBanner } from "@/components/ui/flash-banner";
 import { InquiryForm } from "@/components/site/inquiry-form";
 import { PageHero } from "@/components/site/page-hero";
@@ -10,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "상담문의",
-  description: "관심 있는 현장과 문의 내용을 남겨주시면 확인 후 안내해드립니다."
+  description: "관심 있는 현장과 문의 내용을 남겨주시면 확인 후 순차적으로 안내해드립니다."
 };
 
 export default async function ContactPage({
@@ -30,23 +28,16 @@ export default async function ContactPage({
   return (
     <>
       <PageHero
-        actions={
-          <>
-            <a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
-              전화문의
-            </a>
-            <Link className="button-secondary" href="/projects">분양중 현장 보기</Link>
-          </>
-        }
-        description="관심 있는 현장과 궁금한 내용을 남겨주시면 확인 후 안내해드립니다."
-        eyebrow="상담 문의"
-        title="관심 있는 현장을 편하게 문의해보세요"
+        actions={<a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>전화문의</a>}
+        description="전화와 문의 폼을 통해 관심 현장 상담과 방문 문의를 편하게 남기실 수 있습니다."
+        eyebrow="상담문의"
+        title="궁금한 현장을 편하게 문의해보세요"
         visual={
           <div className="grid gap-4">
             {[
               `대표번호 ${site.companyPhone}`,
-              "관심 현장 선택 가능",
-              "방문 일정도 함께 문의 가능"
+              "관심 현장 선택 후 맞춤 상담 가능",
+              "방문 예약과 분양 조건 안내 연결"
             ].map((item) => (
               <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75" key={item}>
                 {item}
@@ -63,7 +54,7 @@ export default async function ContactPage({
             <div className="mt-5 space-y-3 text-sm leading-8 text-muted">
               <p>대표번호 {site.companyPhone}</p>
               <p>이메일 {site.companyEmail}</p>
-              <p>평일과 주말 모두 확인 후 순차적으로 안내해드립니다.</p>
+              <p>문의 접수 후 순차적으로 연락드립니다.</p>
             </div>
           </div>
 

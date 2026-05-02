@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
 
+type HeroStat = {
+  label: string;
+  value: string;
+};
+
 export function PageHero({
   eyebrow,
   title,
@@ -13,39 +18,34 @@ export function PageHero({
   description: string;
   actions?: ReactNode;
   visual?: ReactNode;
-  stats?: Array<{
-    label: string;
-    value: string;
-  }>;
+  stats?: HeroStat[];
 }) {
   return (
-    <section className="page-shell section-space">
-      <div className="surface-dark overflow-hidden bg-hero-navy px-5 py-8 sm:px-8 sm:py-12 lg:px-10 lg:py-14 xl:px-12">
-        <div className={`grid gap-8 ${visual ? "xl:grid-cols-[1.15fr_0.85fr] xl:items-end" : ""}`}>
-          <div className="min-w-0 max-w-4xl">
-            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70">
+    <section className="page-shell pb-10 pt-8 sm:pb-14 sm:pt-10">
+      <div className="overflow-hidden rounded-[2.75rem] bg-[linear-gradient(135deg,#0f172a_0%,#172554_72%,#334155_100%)] px-6 py-8 text-white shadow-[0_30px_80px_rgba(15,23,42,0.18)] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:items-start">
+          <div>
+            <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.35em] text-white/75">
               {eyebrow}
-            </span>
-            <h1 className="mt-5 max-w-4xl break-keep text-[1.82rem] leading-[1.12] text-white sm:text-[2.55rem] lg:text-[3.65rem] xl:text-[4.2rem]">
+            </p>
+            <h1 className="mt-6 text-[2.4rem] leading-[1.08] text-white sm:text-[3.2rem] lg:text-[4rem]">
               {title}
             </h1>
-            <p className="mt-4 max-w-2xl text-[14px] leading-7 text-white/72 sm:text-base sm:leading-8 lg:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-8 text-white/75 sm:text-lg">
               {description}
             </p>
-            {actions ? (
-              <div className="mt-7 grid gap-3 [&>*]:w-full sm:flex sm:flex-wrap sm:[&>*]:w-auto">
-                {actions}
-              </div>
-            ) : null}
+
+            {actions ? <div className="mt-7 flex flex-wrap gap-3">{actions}</div> : null}
+
             {stats?.length ? (
-              <div className="mt-9 grid gap-4 sm:grid-cols-3">
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {stats.map((stat) => (
                   <div
-                    className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5"
+                    className="rounded-[1.5rem] border border-white/10 bg-white/8 px-5 py-5"
                     key={`${stat.label}-${stat.value}`}
                   >
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/50">{stat.label}</p>
-                    <p className="mt-3 text-[1.55rem] leading-tight text-white sm:text-3xl">{stat.value}</p>
+                    <p className="text-xs uppercase tracking-[0.28em] text-white/45">{stat.label}</p>
+                    <p className="mt-3 text-2xl font-semibold text-white">{stat.value}</p>
                   </div>
                 ))}
               </div>
@@ -53,11 +53,7 @@ export function PageHero({
           </div>
 
           {visual ? (
-            <div className="min-w-0">
-              <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 sm:p-4 backdrop-blur">
-                {visual}
-              </div>
-            </div>
+            <div className="rounded-[2rem] border border-white/10 bg-white/8 p-4 sm:p-5">{visual}</div>
           ) : null}
         </div>
       </div>

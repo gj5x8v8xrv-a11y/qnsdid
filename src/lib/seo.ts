@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
 
-import { absoluteUrl, getSiteConfig, summarizeText } from "@/lib/utils";
+import { absoluteUrl, getProjectAddressLine, getProjectRegion, getSiteConfig, summarizeText } from "@/lib/utils";
 import type { Project, ProjectStatus } from "@/lib/types";
 
 export function buildRootMetadata(): Metadata {
   const site = getSiteConfig();
-  const title = `${site.companyName} | 분양 현장 안내`;
-  const description =
-    "분양중인 현장과 소개가 완료된 현장을 함께 살펴보고, 관심 있는 현장은 편하게 문의하실 수 있습니다.";
 
   return {
     metadataBase: new URL(site.siteUrl),
     title: {
-      default: title,
+      default: `${site.companyName} | ${site.companyTagline}`,
       template: `%s | ${site.companyName}`
     },
-    description,
+    description: site.companyDescription,
     openGraph: {
-      title,
-      description,
+      title: `${site.companyName} | ${site.companyTagline}`,
+      description: site.companyDescription,
       url: site.siteUrl,
       siteName: site.companyName,
       locale: "ko_KR",
@@ -38,8 +35,8 @@ export function buildProjectsMetadata(
   const title = status === "active" ? "분양중 현장" : "분양완료 현장";
   const description =
     status === "active"
-      ? `${site.companyName}에서 현재 살펴보실 수 있는 분양 현장을 확인해보세요.`
-      : `${site.companyName}에서 지금까지 소개해온 현장을 확인해보세요.`;
+      ? `${site.companyName}에서 소개하는 현재 상담 가능한 분양 현장을 확인해보세요.`
+      : `${site.companyName}에서 소개해온 완료 현장을 지역별로 확인해보세요.`;
 
   return {
     title,
@@ -57,13 +54,14 @@ export function buildProjectsMetadata(
 
 export function buildProjectMetadata(project: Project): Metadata {
   const site = getSiteConfig();
+  const addressLine = getProjectAddressLine(project);
   const description = summarizeText(
-    `${project.location} ${project.premiumSummary} ${project.locationDescription}`,
+    `${getProjectRegion(project)} ${addressLine} ${project.premiumSummary} ${project.locationDescription}`,
     150
   );
 
   return {
-    title: `${project.name} ${project.status === "active" ? "안내" : "소개 완료"}`,
+    title: `${project.name} ${project.status === "active" ? "분양 정보" : "분양완료 정보"}`,
     description,
     alternates: {
       canonical: absoluteUrl(`/projects/${project.slug}`)
