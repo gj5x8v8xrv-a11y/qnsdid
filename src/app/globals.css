@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --background: #f4f6fb;
-  --foreground: #111827;
-  --panel: rgba(255, 255, 255, 0.9);
+  --background: #f6f6f4;
+  --foreground: #111111;
+  --panel: rgba(255, 255, 255, 0.96);
   --panel-strong: #ffffff;
-  --muted: #5e697d;
-  --accent: #b59259;
-  --accent-strong: #957343;
-  --deep: #0f172a;
-  --deep-2: #15233f;
-  --line: rgba(15, 23, 42, 0.08);
-  --line-strong: rgba(15, 23, 42, 0.14);
+  --muted: #666666;
+  --accent: #161616;
+  --accent-strong: #000000;
+  --deep: #111111;
+  --deep-2: #222222;
+  --line: rgba(17, 17, 17, 0.08);
+  --line-strong: rgba(17, 17, 17, 0.16);
 }
 
 * {
@@ -28,10 +28,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--foreground);
-  background:
-    radial-gradient(circle at 0% 0%, rgba(181, 146, 89, 0.12), transparent 25%),
-    radial-gradient(circle at 100% 0%, rgba(15, 23, 42, 0.08), transparent 22%),
-    linear-gradient(180deg, #ffffff 0%, #f4f6fb 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f6f6f4 100%);
   font-family: var(--font-body), sans-serif;
   letter-spacing: -0.01em;
   line-height: 1.65;
@@ -77,7 +74,7 @@ textarea {
   }
 
   .section-space {
-    @apply py-20 sm:py-24 lg:py-28;
+    @apply py-16 sm:py-20 lg:py-24;
   }
 
   .surface-panel {
@@ -97,15 +94,15 @@ textarea {
   }
 
   .section-title {
-    @apply text-[2rem] leading-[1.12] sm:text-[2.5rem] lg:text-[3.1rem];
+    @apply text-[1.8rem] leading-[1.16] sm:text-[2.35rem] lg:text-[3rem];
   }
 
   .body-copy {
-    @apply text-[15px] leading-8 text-muted sm:text-base;
+    @apply text-[14px] leading-7 text-muted sm:text-[15px] sm:leading-8 lg:text-base;
   }
 
   .button-base {
-    @apply inline-flex items-center justify-center rounded-2xl px-6 py-4 text-sm font-semibold tracking-[0.01em] transition duration-200;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-2xl px-5 py-3.5 text-sm font-semibold tracking-[0.01em] transition duration-200 sm:px-6 sm:py-4;
   }
 
   .button-primary {
@@ -113,16 +110,16 @@ textarea {
   }
 
   .button-accent {
-    @apply button-base bg-accent text-white shadow-soft hover:-translate-y-0.5 hover:bg-accent-strong;
+    @apply button-base border border-black bg-white text-foreground shadow-soft hover:-translate-y-0.5 hover:bg-slate-50;
   }
 
   .button-secondary {
-    @apply button-base border bg-white text-foreground hover:-translate-y-0.5 hover:bg-white;
+    @apply button-base border bg-white text-foreground hover:-translate-y-0.5 hover:bg-slate-50;
     border-color: var(--line-strong);
   }
 
   .button-secondary:hover {
-    border-color: rgba(15, 23, 42, 0.18);
+    border-color: rgba(17, 17, 17, 0.22);
   }
 
   .field-shell {

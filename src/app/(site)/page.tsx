@@ -82,12 +82,12 @@ export default async function HomePage() {
       </section>
 
       <section className="page-shell pb-24">
-        <div className="surface-dark overflow-hidden bg-hero-navy p-8 lg:p-10">
+        <div className="surface-panel overflow-hidden border border-black/8 bg-white p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.32em] text-white/50">Completed Projects</p>
-              <h2 className="mt-4 text-4xl text-white">소개가 완료된 현장도 함께 확인하실 수 있습니다</h2>
-              <p className="mt-5 text-sm leading-8 text-white/70">
+              <p className="text-xs uppercase tracking-[0.32em] text-muted">분양완료 현장</p>
+              <h2 className="mt-4 text-4xl text-black">소개가 완료된 현장도 함께 확인하실 수 있습니다</h2>
+              <p className="mt-5 text-sm leading-8 text-muted">
                 지금까지 소개해온 현장도 정리해두었습니다. 지역별로 살펴보시고 현재 분양중인 현장과 함께 비교해보세요.
               </p>
             </div>
@@ -96,42 +96,42 @@ export default async function HomePage() {
               <div className="grid gap-4">
                 {completedProjects.slice(0, 2).map((project) => (
                   <div
-                    className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5"
+                    className="rounded-[1.5rem] border border-black/8 bg-slate-50 px-5 py-5"
                     key={project.id}
                   >
-                    <p className="text-sm font-semibold text-white">{project.name}</p>
-                    <p className="mt-2 text-sm leading-7 text-white/70">{project.location}</p>
+                    <p className="text-sm font-semibold text-black">{project.name}</p>
+                    <p className="mt-2 text-sm leading-7 text-muted">{project.location}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-8 text-white/70">
+              <div className="rounded-[1.5rem] border border-black/8 bg-slate-50 px-5 py-5 text-sm leading-8 text-muted">
                 아직 소개 완료 현장이 없습니다. 새로운 현장이 정리되면 이곳에서 함께 확인하실 수 있습니다.
               </div>
             )}
           </div>
 
-          <Link className="button-accent mt-8" href="/completed">
+          <Link className="button-primary mt-8" href="/completed">
             분양완료 현장 보기
           </Link>
         </div>
       </section>
 
       <section className="page-shell pb-24">
-        <div className="surface-dark overflow-hidden bg-hero-navy p-8 lg:p-10">
+        <div className="surface-panel overflow-hidden border border-black/8 bg-white p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.34em] text-white/50">Contact</p>
-              <h2 className="mt-4 text-4xl text-white">궁금한 현장은 쉽고 빠르게 문의하실 수 있습니다</h2>
-              <p className="mt-5 max-w-2xl text-sm leading-8 text-white/70">
+              <p className="text-xs uppercase tracking-[0.34em] text-muted">상담문의</p>
+              <h2 className="mt-4 text-4xl text-black">궁금한 현장은 쉽고 빠르게 문의하실 수 있습니다</h2>
+              <p className="mt-5 max-w-2xl text-sm leading-8 text-muted">
                 대표번호와 상담신청, 방문예약 버튼을 함께 두어 필요한 방식으로 편하게 문의하실 수 있도록 구성했습니다.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              <a className="button-primary" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
                 전화문의
               </a>
-              <Link className="button-secondary !border-white/10 !bg-white !text-deep" href="/contact">
+              <Link className="button-secondary" href="/contact">
                 상담신청
               </Link>
             </div>

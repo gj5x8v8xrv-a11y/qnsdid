@@ -7,17 +7,17 @@ import { formatPhoneHref, getProjectAddressLine, getProjectCardMeta } from "@/li
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="surface-panel overflow-hidden rounded-[2rem] bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+    <article className="surface-panel overflow-hidden rounded-[2rem] border border-black/8 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.08)]">
       <div className="relative p-4 pb-0">
         <ProjectVisual imageUrl={project.coverImageUrl} title={project.name} />
         <div className="absolute left-8 top-8">
           <StatusBadge status={project.status} />
         </div>
       </div>
-      <div className="space-y-5 px-6 pb-6 pt-6">
+      <div className="space-y-5 px-5 pb-6 pt-6 sm:px-6">
         <div className="space-y-3">
           <p className="text-sm font-medium text-muted">{getProjectCardMeta(project)}</p>
-          <h3 className="text-[1.9rem] leading-[1.15]">{project.name}</h3>
+          <h3 className="text-[1.6rem] leading-[1.15] sm:text-[1.85rem]">{project.name}</h3>
           <p className="text-sm leading-7 text-slate-700">{getProjectAddressLine(project)}</p>
           <p className="text-sm leading-7 text-muted">{project.premiumSummary}</p>
         </div>
@@ -41,7 +41,7 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
         </dl>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <a className="button-secondary flex-1" href={formatPhoneHref(project.contactPhone)}>
             전화문의
           </a>
