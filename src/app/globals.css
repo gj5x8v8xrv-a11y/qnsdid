@@ -69,13 +69,13 @@ textarea {
 }
 
 @layer components {
-  .page-shell {
-    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
-  }
+.page-shell {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-10;
+}
 
-  .section-space {
-    @apply py-16 sm:py-20 lg:py-24;
-  }
+.section-space {
+  @apply py-14 sm:py-20 lg:py-24;
+}
 
   .surface-panel {
     @apply rounded-[2rem] border border-[color:var(--line)] bg-panel shadow-soft backdrop-blur;
