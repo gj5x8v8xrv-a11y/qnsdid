@@ -70,11 +70,11 @@ textarea {
 
 @layer components {
 .page-shell {
-  @apply mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-10;
+  @apply mx-auto w-full max-w-7xl px-3.5 sm:px-8 lg:px-10;
 }
 
 .section-space {
-  @apply py-14 sm:py-20 lg:py-24;
+  @apply py-12 sm:py-20 lg:py-24;
 }
 
   .surface-panel {
@@ -94,15 +94,15 @@ textarea {
   }
 
   .section-title {
-    @apply text-[1.8rem] leading-[1.16] sm:text-[2.35rem] lg:text-[3rem];
+    @apply text-[1.65rem] leading-[1.16] sm:text-[2.35rem] lg:text-[3rem];
   }
 
   .body-copy {
-    @apply text-[14px] leading-7 text-muted sm:text-[15px] sm:leading-8 lg:text-base;
+    @apply text-[14px] leading-6 text-muted sm:text-[15px] sm:leading-8 lg:text-base;
   }
 
   .button-base {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-2xl px-5 py-3.5 text-sm font-semibold tracking-[0.01em] transition duration-200 sm:px-6 sm:py-4;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-2xl px-4 py-3 text-[13px] font-semibold tracking-[0.01em] transition duration-200 sm:px-6 sm:py-4 sm:text-sm;
   }
 
   .button-primary {
