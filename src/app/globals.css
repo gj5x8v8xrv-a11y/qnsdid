@@ -130,9 +130,9 @@ textarea {
     box-shadow: 0 0 0 2px rgba(181, 146, 89, 0.12);
   }
 
-  .card-grid {
-    @apply grid gap-6 md:grid-cols-2 xl:grid-cols-3;
-  }
+.card-grid {
+  @apply grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 xl:grid-cols-3;
+}
 
   .info-list {
     @apply grid gap-4 text-sm leading-7 text-muted;
