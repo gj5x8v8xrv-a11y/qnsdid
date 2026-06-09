@@ -16,10 +16,12 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
       <div className="space-y-3 px-4 pb-4 pt-4 sm:space-y-5 sm:px-6 sm:pb-6 sm:pt-6">
         <div className="space-y-2 sm:space-y-3">
-          <p className="text-[0.72rem] font-medium tracking-[0.08em] text-muted sm:text-sm sm:tracking-normal">
+          <p className="text-[0.7rem] font-medium tracking-[0.06em] text-muted sm:text-sm sm:tracking-normal">
             {getProjectCardMeta(project)}
           </p>
-          <h3 className="text-[1.2rem] leading-[1.2] sm:text-[1.85rem] sm:leading-[1.15]">{project.name}</h3>
+          <h3 className="text-[1.28rem] leading-[1.18] tracking-[-0.02em] sm:text-[1.85rem] sm:leading-[1.15]">
+            {project.name}
+          </h3>
           <p className="hidden text-sm leading-7 text-slate-700 sm:block">{getProjectAddressLine(project)}</p>
           <p className="hidden text-sm leading-7 text-muted sm:block">{project.premiumSummary}</p>
         </div>
@@ -43,13 +45,19 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
         </dl>
 
-        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:gap-3">
-          <a className="button-secondary flex-1 text-[0.95rem] font-semibold sm:text-sm" href={formatPhoneHref(project.contactPhone)}>
-            전화문의
-          </a>
-          <Link className="button-primary flex-1" href={`/projects/${project.slug}`}>
+        <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-row sm:gap-3">
+          <Link
+            className="button-secondary min-h-[46px] rounded-[1.1rem] px-3 text-[0.9rem] font-semibold sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+            href={`/projects/${project.slug}`}
+          >
             상세보기
           </Link>
+          <a
+            className="button-primary min-h-[46px] rounded-[1.1rem] px-3 text-[0.95rem] font-semibold sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+            href={formatPhoneHref(project.contactPhone)}
+          >
+            전화문의
+          </a>
         </div>
       </div>
     </article>
