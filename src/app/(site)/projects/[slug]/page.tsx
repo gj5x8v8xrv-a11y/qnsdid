@@ -75,6 +75,13 @@ function groupImagesByType(images: ProjectImage[]) {
   }, {});
 }
 
+function getReadableParagraphs(content: string) {
+  return content
+    .split(/\r?\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
 export default async function ProjectDetailPage({
   params
 }: {
@@ -176,26 +183,44 @@ export default async function ProjectDetailPage({
             </dl>
           </div>
 
-          <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">분양 조건</h2>
-            <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-              <p className="text-base leading-8 text-foreground">{project.salesConditions}</p>
+        <div className="surface-panel p-6 sm:p-8">
+          <h2 className="text-3xl">분양 조건</h2>
+          <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
+            <div className="space-y-4 text-base leading-8 text-foreground sm:text-[1.05rem]">
+              {getReadableParagraphs(project.salesConditions).map((line, index) => (
+                <p className="break-words whitespace-pre-wrap" key={`sales-${index}`}>
+                  {line}
+                </p>
+              ))}
             </div>
           </div>
+        </div>
 
-          <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">입지 안내</h2>
-            <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-              <p className="text-base leading-8 text-foreground">{project.locationDescription}</p>
+        <div className="surface-panel p-6 sm:p-8">
+          <h2 className="text-3xl">입지 안내</h2>
+          <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
+            <div className="space-y-4 text-base leading-8 text-foreground sm:text-[1.05rem]">
+              {getReadableParagraphs(project.locationDescription).map((line, index) => (
+                <p className="break-words whitespace-pre-wrap" key={`location-${index}`}>
+                  {line}
+                </p>
+              ))}
             </div>
           </div>
+        </div>
 
-          <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">프리미엄</h2>
-            <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-              <p className="text-base leading-8 text-foreground">{project.premiumSummary}</p>
+        <div className="surface-panel p-6 sm:p-8">
+          <h2 className="text-3xl">프리미엄</h2>
+          <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
+            <div className="space-y-4 text-base leading-8 text-foreground sm:text-[1.05rem]">
+              {getReadableParagraphs(project.premiumSummary).map((line, index) => (
+                <p className="break-words whitespace-pre-wrap" key={`premium-${index}`}>
+                  {line}
+                </p>
+              ))}
             </div>
           </div>
+        </div>
 
           {IMAGE_SECTION_LABELS.map((section) => {
             const images = groupedImages[section.key] || [];
