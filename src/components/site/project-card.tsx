@@ -45,19 +45,19 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
         </dl>
 
-        <div className="flex flex-col gap-1.5 sm:flex-row sm:gap-3">
-          <a
-            className="button-primary min-h-[40px] rounded-[0.9rem] px-3 text-[0.76rem] font-semibold tracking-[-0.01em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
-            href={formatPhoneHref(project.contactPhone)}
-          >
-            전화문의
-          </a>
-          <Link
-            className="button-secondary min-h-[40px] rounded-[0.9rem] px-3 text-[0.74rem] font-semibold tracking-[-0.01em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
-            href={`/projects/${project.slug}`}
-          >
-            상세보기
-          </Link>
+          <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+            <a
+              className="button-primary min-h-[30px] rounded-[0.75rem] px-2 text-[0.56rem] leading-none font-semibold tracking-[-0.02em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+              href={formatPhoneHref(project.contactPhone)}
+            >
+              전화문의
+            </a>
+            <Link
+              className="button-secondary min-h-[30px] rounded-[0.75rem] px-2 text-[0.56rem] leading-none font-semibold tracking-[-0.02em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+              href={`/projects/${project.slug}`}
+            >
+              상세보기
+            </Link>
         </div>
       </div>
     </article>
