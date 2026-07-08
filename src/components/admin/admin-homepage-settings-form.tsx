@@ -260,9 +260,65 @@ export function AdminHomePageSettingsForm({ settings }: { settings: HomePageSett
         <section className="rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
           <p className="text-xs uppercase tracking-[0.32em] text-muted">Mobile Typography</p>
           <p className="mt-3 text-sm leading-7 text-muted">
-            숫자를 너무 크게 올리면 모바일에서 다시 두 줄로 많이 내려갈 수 있습니다. 보통 본문은 `13~15px`, 제목은 `1.2~1.5rem` 안에서 맞추면 안정적입니다.
+            모바일 기준으로 홈 화면에 보이는 주요 글씨 크기를 세부 항목별로 조정할 수 있습니다. 숫자를 너무 크게 올리면 줄바꿈이 많아질 수 있으니 조금씩 조정해보세요.
           </p>
           <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <NumberField
+              label="상단 안내 문구 `px`"
+              max={16}
+              min={8}
+              name="mobileHeaderAnnouncementPx"
+              step={1}
+              value={settings.mobileHeaderAnnouncementPx}
+            />
+            <NumberField
+              label="영문 브랜드명 `px`"
+              max={16}
+              min={8}
+              name="mobileHeaderBrandEnglishPx"
+              step={1}
+              value={settings.mobileHeaderBrandEnglishPx}
+            />
+            <NumberField
+              label="브랜드명 `rem`"
+              max={1.8}
+              min={0.95}
+              name="mobileHeaderBrandNameRem"
+              step={0.01}
+              value={settings.mobileHeaderBrandNameRem}
+            />
+            <NumberField
+              label="브랜드 보조 문구 `px`"
+              max={16}
+              min={8}
+              name="mobileHeaderBrandCaptionPx"
+              step={1}
+              value={settings.mobileHeaderBrandCaptionPx}
+            />
+            <NumberField
+              label="메뉴 글씨 `px`"
+              max={18}
+              min={10}
+              name="mobileHeaderNavPx"
+              step={1}
+              value={settings.mobileHeaderNavPx}
+            />
+            <NumberField
+              label="버튼 글씨 `px`"
+              max={18}
+              min={11}
+              name="mobileHeaderButtonPx"
+              step={1}
+              value={settings.mobileHeaderButtonPx}
+            />
+            <NumberField
+              label="메인 눈썹 문구 `px`"
+              max={16}
+              min={8}
+              name="mobileHeroEyebrowPx"
+              step={1}
+              value={settings.mobileHeroEyebrowPx}
+            />
             <NumberField
               label="메인 제목 크기 `rem`"
               max={2.2}
@@ -270,6 +326,30 @@ export function AdminHomePageSettingsForm({ settings }: { settings: HomePageSett
               name="mobileHeroTitleRem"
               step={0.01}
               value={settings.mobileHeroTitleRem}
+            />
+            <NumberField
+              label="메인 통계 라벨 `px`"
+              max={16}
+              min={10}
+              name="mobileHeroStatLabelPx"
+              step={1}
+              value={settings.mobileHeroStatLabelPx}
+            />
+            <NumberField
+              label="메인 통계 숫자 `rem`"
+              max={2.2}
+              min={1.1}
+              name="mobileHeroStatValueRem"
+              step={0.01}
+              value={settings.mobileHeroStatValueRem}
+            />
+            <NumberField
+              label="추천 현장 라벨 `px`"
+              max={18}
+              min={10}
+              name="mobileFeaturedLabelPx"
+              step={1}
+              value={settings.mobileFeaturedLabelPx}
             />
             <NumberField
               label="섹션 제목 크기 `rem`"
@@ -294,6 +374,126 @@ export function AdminHomePageSettingsForm({ settings }: { settings: HomePageSett
               name="mobileProjectCardTitleRem"
               step={0.01}
               value={settings.mobileProjectCardTitleRem}
+            />
+            <NumberField
+              label="카드 메타 문구 `px`"
+              max={16}
+              min={10}
+              name="mobileProjectCardMetaPx"
+              step={1}
+              value={settings.mobileProjectCardMetaPx}
+            />
+            <NumberField
+              label="카드 본문 `px`"
+              max={18}
+              min={12}
+              name="mobileProjectCardBodyPx"
+              step={1}
+              value={settings.mobileProjectCardBodyPx}
+            />
+            <NumberField
+              label="카드 라벨 `px`"
+              max={18}
+              min={12}
+              name="mobileProjectCardLabelPx"
+              step={1}
+              value={settings.mobileProjectCardLabelPx}
+            />
+            <NumberField
+              label="카드 버튼 `px`"
+              max={18}
+              min={11}
+              name="mobileProjectCardButtonPx"
+              step={1}
+              value={settings.mobileProjectCardButtonPx}
+            />
+            <NumberField
+              label="완료 현장 제목 `px`"
+              max={18}
+              min={12}
+              name="mobileCompletedListTitlePx"
+              step={1}
+              value={settings.mobileCompletedListTitlePx}
+            />
+            <NumberField
+              label="완료 현장 설명 `px`"
+              max={18}
+              min={12}
+              name="mobileCompletedListBodyPx"
+              step={1}
+              value={settings.mobileCompletedListBodyPx}
+            />
+            <NumberField
+              label="고정 문의 상단 라벨 `px`"
+              max={16}
+              min={10}
+              name="mobileStickyEyebrowPx"
+              step={1}
+              value={settings.mobileStickyEyebrowPx}
+            />
+            <NumberField
+              label="고정 문의 제목 `rem`"
+              max={2.2}
+              min={1.1}
+              name="mobileStickyTitleRem"
+              step={0.01}
+              value={settings.mobileStickyTitleRem}
+            />
+            <NumberField
+              label="고정 문의 본문 `px`"
+              max={18}
+              min={12}
+              name="mobileStickyBodyPx"
+              step={1}
+              value={settings.mobileStickyBodyPx}
+            />
+            <NumberField
+              label="고정 문의 버튼 `px`"
+              max={18}
+              min={11}
+              name="mobileStickyButtonPx"
+              step={1}
+              value={settings.mobileStickyButtonPx}
+            />
+            <NumberField
+              label="푸터 상단 문구 `px`"
+              max={16}
+              min={10}
+              name="mobileFooterEyebrowPx"
+              step={1}
+              value={settings.mobileFooterEyebrowPx}
+            />
+            <NumberField
+              label="푸터 제목 `px`"
+              max={18}
+              min={12}
+              name="mobileFooterTitlePx"
+              step={1}
+              value={settings.mobileFooterTitlePx}
+            />
+            <NumberField
+              label="푸터 본문 `px`"
+              max={18}
+              min={12}
+              name="mobileFooterBodyPx"
+              step={1}
+              value={settings.mobileFooterBodyPx}
+            />
+            <NumberField
+              label="푸터 링크 `px`"
+              max={18}
+              min={12}
+              name="mobileFooterLinkPx"
+              step={1}
+              value={settings.mobileFooterLinkPx}
+            />
+            <NumberField
+              label="푸터 맨 아래 문구 `px`"
+              max={16}
+              min={11}
+              name="mobileFooterBottomPx"
+              step={1}
+              value={settings.mobileFooterBottomPx}
             />
           </div>
         </section>

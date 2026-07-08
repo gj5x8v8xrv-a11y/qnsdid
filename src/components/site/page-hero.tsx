@@ -25,7 +25,7 @@ export function PageHero({
       <div className="overflow-hidden rounded-[2.5rem] border border-black/8 bg-white px-4 py-5 text-black shadow-[0_24px_70px_rgba(15,23,42,0.06)] sm:px-10 sm:py-12 lg:px-12 lg:py-14">
         <div className="grid gap-5 sm:gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:items-start">
           <div>
-            <p className="inline-flex rounded-full border border-black/8 bg-black/[0.03] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.24em] text-muted sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.35em]">
+            <p className="inline-flex rounded-full border border-black/8 bg-black/[0.03] px-3 py-1.5 text-[length:var(--home-hero-eyebrow-size,9px)] font-semibold uppercase tracking-[0.24em] text-muted sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.35em]">
               {eyebrow}
             </p>
             <h1 className="mt-4 text-[length:var(--home-hero-title-size,1.42rem)] leading-[1.24] tracking-[-0.02em] text-black sm:mt-6 sm:text-[2.8rem] lg:text-[3.55rem]">
@@ -44,8 +44,8 @@ export function PageHero({
                     className="rounded-[1.5rem] border border-black/8 bg-slate-50 px-4 py-3.5 sm:px-5 sm:py-5"
                     key={`${stat.label}-${stat.value}`}
                   >
-                    <p className="text-[11px] uppercase tracking-[0.24em] text-muted sm:text-xs sm:tracking-[0.28em]">{stat.label}</p>
-                    <p className="mt-2.5 text-[1.45rem] font-semibold text-black sm:mt-3 sm:text-2xl">{stat.value}</p>
+                    <p className="text-[length:var(--home-hero-stat-label-size,11px)] uppercase tracking-[0.24em] text-muted sm:text-xs sm:tracking-[0.28em]">{stat.label}</p>
+                    <p className="mt-2.5 text-[length:var(--home-hero-stat-value-size,1.45rem)] font-semibold text-black sm:mt-3 sm:text-2xl">{stat.value}</p>
                   </div>
                 ))}
               </div>

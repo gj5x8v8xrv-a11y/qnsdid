@@ -22,17 +22,17 @@ export function ProjectCard({
       </div>
       <div className="space-y-3 px-4 pb-4 pt-4 sm:space-y-5 sm:px-6 sm:pb-6 sm:pt-6">
         <div className="space-y-2 sm:space-y-3">
-          <p className="text-[0.7rem] font-medium tracking-[0.06em] text-muted sm:text-sm sm:tracking-normal">
+          <p className="text-[length:var(--home-card-meta-size,11.2px)] font-medium tracking-[0.06em] text-muted sm:text-sm sm:tracking-normal">
             {getProjectCardMeta(project)}
           </p>
           <h3 className="text-[length:var(--home-card-title-size,1.08rem)] leading-[1.3] tracking-[-0.02em] sm:text-[1.85rem] sm:leading-[1.15]">
             {project.name}
           </h3>
-          <p className="hidden text-sm leading-7 text-slate-700 sm:block">{getProjectAddressLine(project)}</p>
-          <p className="hidden text-sm leading-7 text-muted sm:block">{project.premiumSummary}</p>
+          <p className="hidden text-[length:var(--home-card-body-size,13px)] leading-7 text-slate-700 sm:block">{getProjectAddressLine(project)}</p>
+          <p className="hidden text-[length:var(--home-card-body-size,13px)] leading-7 text-muted sm:block">{project.premiumSummary}</p>
         </div>
 
-        <dl className="hidden grid-cols-2 gap-4 rounded-[1.6rem] bg-slate-50 px-4 py-5 text-sm sm:grid">
+        <dl className="hidden grid-cols-2 gap-4 rounded-[1.6rem] bg-slate-50 px-4 py-5 text-[length:var(--home-card-label-size,13px)] sm:grid sm:text-sm">
           <div>
             <dt className="text-muted">{settings.projectCardHouseholdLabel}</dt>
             <dd className="mt-1 font-semibold text-foreground">{project.householdCount}</dd>
@@ -53,13 +53,13 @@ export function ProjectCard({
 
             <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
               <a
-                className="button-primary min-h-[36px] rounded-[0.9rem] px-3 text-[0.76rem] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+                className="button-primary min-h-[36px] rounded-[0.9rem] px-3 text-[length:var(--home-card-button-size,12.16px)] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
                 href={formatPhoneHref(project.contactPhone)}
               >
                 {settings.projectCardPhoneButtonLabel}
               </a>
               <Link
-                className="button-secondary min-h-[36px] rounded-[0.9rem] px-3 text-[0.76rem] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+                className="button-secondary min-h-[36px] rounded-[0.9rem] px-3 text-[length:var(--home-card-button-size,12.16px)] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
                 href={`/projects/${project.slug}`}
               >
                 {settings.projectCardDetailButtonLabel}

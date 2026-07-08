@@ -698,10 +698,64 @@ export async function updateHomePageSettingsAction(formData: FormData) {
       ),
       footerCopyrightText: getTextField(formData, "footerCopyrightText", "푸터 저작권 문구"),
       footerTaglineText: getTextField(formData, "footerTaglineText", "푸터 마지막 문구"),
+      mobileHeaderAnnouncementPx: getNumberField(
+        formData,
+        "mobileHeaderAnnouncementPx",
+        "상단 안내 문구 크기",
+        { min: 8, max: 16 }
+      ),
+      mobileHeaderBrandEnglishPx: getNumberField(
+        formData,
+        "mobileHeaderBrandEnglishPx",
+        "영문 브랜드명 크기",
+        { min: 8, max: 16 }
+      ),
+      mobileHeaderBrandNameRem: getNumberField(
+        formData,
+        "mobileHeaderBrandNameRem",
+        "브랜드명 크기",
+        { min: 0.95, max: 1.8 }
+      ),
+      mobileHeaderBrandCaptionPx: getNumberField(
+        formData,
+        "mobileHeaderBrandCaptionPx",
+        "브랜드 보조 문구 크기",
+        { min: 8, max: 16 }
+      ),
+      mobileHeaderNavPx: getNumberField(formData, "mobileHeaderNavPx", "메뉴 글씨 크기", {
+        min: 10,
+        max: 18
+      }),
+      mobileHeaderButtonPx: getNumberField(formData, "mobileHeaderButtonPx", "버튼 글씨 크기", {
+        min: 11,
+        max: 18
+      }),
+      mobileHeroEyebrowPx: getNumberField(formData, "mobileHeroEyebrowPx", "메인 눈썹 문구 크기", {
+        min: 8,
+        max: 16
+      }),
       mobileHeroTitleRem: getNumberField(formData, "mobileHeroTitleRem", "모바일 메인 제목 크기", {
         min: 1.1,
         max: 2.2
       }),
+      mobileHeroStatLabelPx: getNumberField(
+        formData,
+        "mobileHeroStatLabelPx",
+        "메인 통계 라벨 크기",
+        { min: 10, max: 16 }
+      ),
+      mobileHeroStatValueRem: getNumberField(
+        formData,
+        "mobileHeroStatValueRem",
+        "메인 통계 숫자 크기",
+        { min: 1.1, max: 2.2 }
+      ),
+      mobileFeaturedLabelPx: getNumberField(
+        formData,
+        "mobileFeaturedLabelPx",
+        "추천 현장 라벨 크기",
+        { min: 10, max: 18 }
+      ),
       mobileSectionTitleRem: getNumberField(
         formData,
         "mobileSectionTitleRem",
@@ -717,6 +771,97 @@ export async function updateHomePageSettingsAction(formData: FormData) {
         "mobileProjectCardTitleRem",
         "모바일 카드 제목 크기",
         { min: 0.95, max: 1.6 }
+      ),
+      mobileProjectCardMetaPx: getNumberField(
+        formData,
+        "mobileProjectCardMetaPx",
+        "카드 메타 문구 크기",
+        { min: 10, max: 16 }
+      ),
+      mobileProjectCardBodyPx: getNumberField(
+        formData,
+        "mobileProjectCardBodyPx",
+        "카드 본문 크기",
+        { min: 12,
+          max: 18 }
+      ),
+      mobileProjectCardLabelPx: getNumberField(
+        formData,
+        "mobileProjectCardLabelPx",
+        "카드 라벨 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileProjectCardButtonPx: getNumberField(
+        formData,
+        "mobileProjectCardButtonPx",
+        "카드 버튼 크기",
+        { min: 11, max: 18 }
+      ),
+      mobileCompletedListTitlePx: getNumberField(
+        formData,
+        "mobileCompletedListTitlePx",
+        "완료 현장 제목 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileCompletedListBodyPx: getNumberField(
+        formData,
+        "mobileCompletedListBodyPx",
+        "완료 현장 설명 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileStickyEyebrowPx: getNumberField(
+        formData,
+        "mobileStickyEyebrowPx",
+        "고정 문의 상단 라벨 크기",
+        { min: 10, max: 16 }
+      ),
+      mobileStickyTitleRem: getNumberField(
+        formData,
+        "mobileStickyTitleRem",
+        "고정 문의 제목 크기",
+        { min: 1.1, max: 2.2 }
+      ),
+      mobileStickyBodyPx: getNumberField(
+        formData,
+        "mobileStickyBodyPx",
+        "고정 문의 본문 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileStickyButtonPx: getNumberField(
+        formData,
+        "mobileStickyButtonPx",
+        "고정 문의 버튼 크기",
+        { min: 11, max: 18 }
+      ),
+      mobileFooterEyebrowPx: getNumberField(
+        formData,
+        "mobileFooterEyebrowPx",
+        "푸터 상단 문구 크기",
+        { min: 10, max: 16 }
+      ),
+      mobileFooterTitlePx: getNumberField(
+        formData,
+        "mobileFooterTitlePx",
+        "푸터 제목 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileFooterBodyPx: getNumberField(
+        formData,
+        "mobileFooterBodyPx",
+        "푸터 본문 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileFooterLinkPx: getNumberField(
+        formData,
+        "mobileFooterLinkPx",
+        "푸터 링크 크기",
+        { min: 12, max: 18 }
+      ),
+      mobileFooterBottomPx: getNumberField(
+        formData,
+        "mobileFooterBottomPx",
+        "푸터 맨 아래 문구 크기",
+        { min: 11, max: 16 }
       )
     };
 

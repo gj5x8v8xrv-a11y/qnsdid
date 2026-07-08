@@ -72,10 +72,35 @@ const HOME_PAGE_STRING_FIELDS = [
 ] as const satisfies readonly (keyof HomePageSettings)[];
 
 const HOME_PAGE_NUMBER_FIELDS = [
+  "mobileHeaderAnnouncementPx",
+  "mobileHeaderBrandEnglishPx",
+  "mobileHeaderBrandNameRem",
+  "mobileHeaderBrandCaptionPx",
+  "mobileHeaderNavPx",
+  "mobileHeaderButtonPx",
+  "mobileHeroEyebrowPx",
   "mobileHeroTitleRem",
+  "mobileHeroStatLabelPx",
+  "mobileHeroStatValueRem",
+  "mobileFeaturedLabelPx",
   "mobileSectionTitleRem",
   "mobileBodyTextPx",
-  "mobileProjectCardTitleRem"
+  "mobileProjectCardTitleRem",
+  "mobileProjectCardMetaPx",
+  "mobileProjectCardBodyPx",
+  "mobileProjectCardLabelPx",
+  "mobileProjectCardButtonPx",
+  "mobileCompletedListTitlePx",
+  "mobileCompletedListBodyPx",
+  "mobileStickyEyebrowPx",
+  "mobileStickyTitleRem",
+  "mobileStickyBodyPx",
+  "mobileStickyButtonPx",
+  "mobileFooterEyebrowPx",
+  "mobileFooterTitlePx",
+  "mobileFooterBodyPx",
+  "mobileFooterLinkPx",
+  "mobileFooterBottomPx"
 ] as const satisfies readonly (keyof HomePageSettings)[];
 
 function sanitizePathSegment(value: string) {

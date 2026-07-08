@@ -129,10 +129,35 @@ export type HomePageSettings = {
   footerInquiryProjectsLabel: string;
   footerCopyrightText: string;
   footerTaglineText: string;
+  mobileHeaderAnnouncementPx: number;
+  mobileHeaderBrandEnglishPx: number;
+  mobileHeaderBrandNameRem: number;
+  mobileHeaderBrandCaptionPx: number;
+  mobileHeaderNavPx: number;
+  mobileHeaderButtonPx: number;
+  mobileHeroEyebrowPx: number;
   mobileHeroTitleRem: number;
+  mobileHeroStatLabelPx: number;
+  mobileHeroStatValueRem: number;
+  mobileFeaturedLabelPx: number;
   mobileSectionTitleRem: number;
   mobileBodyTextPx: number;
   mobileProjectCardTitleRem: number;
+  mobileProjectCardMetaPx: number;
+  mobileProjectCardBodyPx: number;
+  mobileProjectCardLabelPx: number;
+  mobileProjectCardButtonPx: number;
+  mobileCompletedListTitlePx: number;
+  mobileCompletedListBodyPx: number;
+  mobileStickyEyebrowPx: number;
+  mobileStickyTitleRem: number;
+  mobileStickyBodyPx: number;
+  mobileStickyButtonPx: number;
+  mobileFooterEyebrowPx: number;
+  mobileFooterTitlePx: number;
+  mobileFooterBodyPx: number;
+  mobileFooterLinkPx: number;
+  mobileFooterBottomPx: number;
 };
 
 export type AdminProjectFormState = {

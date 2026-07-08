@@ -1,6 +1,4 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
-
 import { PageHero } from "@/components/site/page-hero";
 import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -18,22 +16,16 @@ export default async function HomePage() {
   ]);
   const site = getSiteConfig();
   const featuredProject = activeProjects[0];
-  const homePageStyle = {
-    "--home-hero-title-size": `${homePageSettings.mobileHeroTitleRem}rem`,
-    "--home-section-title-size": `${homePageSettings.mobileSectionTitleRem}rem`,
-    "--home-body-text-size": `${homePageSettings.mobileBodyTextPx}px`,
-    "--home-card-title-size": `${homePageSettings.mobileProjectCardTitleRem}rem`
-  } as CSSProperties;
 
   return (
-    <div style={homePageStyle}>
+    <div>
       <PageHero
         actions={
           <>
-            <a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+            <a className="button-accent text-[length:var(--home-button-size,13px)]" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
               {homePageSettings.heroPhoneButtonLabel}
             </a>
-            <Link className="button-secondary" href="/contact">
+            <Link className="button-secondary text-[length:var(--home-button-size,13px)]" href="/contact">
               {homePageSettings.heroContactButtonLabel}
             </Link>
           </>
@@ -55,7 +47,7 @@ export default async function HomePage() {
                 title={featuredProject.name}
               />
               <div className="rounded-[1.5rem] bg-white/10 px-5 py-5 text-white">
-                <p className="text-xs uppercase tracking-[0.32em] text-white/50">{homePageSettings.featuredProjectLabel}</p>
+                <p className="text-[length:var(--home-featured-label-size,12px)] uppercase tracking-[0.32em] text-white/50">{homePageSettings.featuredProjectLabel}</p>
                 <h2 className="mt-3 text-[length:var(--home-card-title-size,1.08rem)] leading-[1.3] sm:text-2xl">
                   {featuredProject.name}
                 </h2>
@@ -71,7 +63,7 @@ export default async function HomePage() {
       <section className="page-shell section-space">
         <SectionHeading
           action={
-            <Link className="button-secondary" href="/projects">
+            <Link className="button-secondary text-[length:var(--home-button-size,13px)]" href="/projects">
               {homePageSettings.activeSectionButtonLabel}
             </Link>
           }
@@ -113,8 +105,12 @@ export default async function HomePage() {
                     className="rounded-[1.5rem] border border-black/8 bg-slate-50 px-5 py-5"
                     key={project.id}
                   >
-                    <p className="text-sm font-semibold text-black">{project.name}</p>
-                    <p className="mt-2 text-sm leading-7 text-muted">{project.location}</p>
+                    <p className="text-[length:var(--home-completed-list-title-size,14px)] font-semibold text-black sm:text-sm">
+                      {project.name}
+                    </p>
+                    <p className="mt-2 text-[length:var(--home-completed-list-body-size,13px)] leading-7 text-muted sm:text-sm">
+                      {project.location}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -125,7 +121,7 @@ export default async function HomePage() {
             )}
           </div>
 
-          <Link className="button-primary mt-8" href="/completed">
+          <Link className="button-primary mt-8 text-[length:var(--home-button-size,13px)]" href="/completed">
             {homePageSettings.completedSectionButtonLabel}
           </Link>
         </div>
@@ -144,10 +140,10 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <a className="button-primary" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              <a className="button-primary text-[length:var(--home-button-size,13px)]" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
                 {homePageSettings.contactPhoneButtonLabel}
               </a>
-              <Link className="button-secondary" href="/contact">
+              <Link className="button-secondary text-[length:var(--home-button-size,13px)]" href="/contact">
                 {homePageSettings.contactFormButtonLabel}
               </Link>
             </div>
