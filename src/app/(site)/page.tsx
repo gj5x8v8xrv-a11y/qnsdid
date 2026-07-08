@@ -1,24 +1,32 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 import { PageHero } from "@/components/site/page-hero";
 import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ProjectVisual } from "@/components/ui/project-visual";
-import { getProjects } from "@/lib/data";
+import { getHomePageSettings, getProjects } from "@/lib/data";
 import { getSiteConfig } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [activeProjects, completedProjects] = await Promise.all([
+  const [activeProjects, completedProjects, homePageSettings] = await Promise.all([
     getProjects("active"),
-    getProjects("completed")
+    getProjects("completed"),
+    getHomePageSettings()
   ]);
   const site = getSiteConfig();
   const featuredProject = activeProjects[0];
+  const homePageStyle = {
+    "--home-hero-title-size": `${homePageSettings.mobileHeroTitleRem}rem`,
+    "--home-section-title-size": `${homePageSettings.mobileSectionTitleRem}rem`,
+    "--home-body-text-size": `${homePageSettings.mobileBodyTextPx}px`,
+    "--home-card-title-size": `${homePageSettings.mobileProjectCardTitleRem}rem`
+  } as CSSProperties;
 
   return (
-    <>
+    <div style={homePageStyle}>
       <PageHero
         actions={
           <>
@@ -30,14 +38,14 @@ export default async function HomePage() {
             </Link>
           </>
         }
-        description="관심 있는 분양 현장을 살펴보고, 궁금한 내용은 전화나 상담으로 편하게 문의하실 수 있도록 정리했습니다."
+        description={homePageSettings.heroDescription}
         eyebrow="분양 정보 플랫폼"
         stats={[
           { label: "분양중 현장", value: `${activeProjects.length}곳` },
           { label: "분양완료 현장", value: `${completedProjects.length}곳` },
           { label: "대표번호", value: site.companyPhone }
         ]}
-        title="좋은 분양 현장을 선별해 소개해드립니다"
+        title={homePageSettings.heroTitle}
         visual={
           featuredProject ? (
             <div className="space-y-4">
@@ -48,8 +56,12 @@ export default async function HomePage() {
               />
               <div className="rounded-[1.5rem] bg-white/10 px-5 py-5 text-white">
                 <p className="text-xs uppercase tracking-[0.32em] text-white/50">추천 현장</p>
-                <h2 className="mt-3 text-2xl">{featuredProject.name}</h2>
-                <p className="mt-3 text-sm leading-7 text-white/75">{featuredProject.premiumSummary}</p>
+                <h2 className="mt-3 text-[length:var(--home-card-title-size,1.08rem)] leading-[1.3] sm:text-2xl">
+                  {featuredProject.name}
+                </h2>
+                <p className="mt-3 text-[length:var(--home-body-text-size,13px)] leading-6 text-white/75 sm:text-sm sm:leading-7">
+                  {featuredProject.premiumSummary}
+                </p>
               </div>
             </div>
           ) : undefined
@@ -63,9 +75,9 @@ export default async function HomePage() {
               분양중 현장 전체 보기
             </Link>
           }
-          description="지역과 기본 정보를 함께 정리해두었습니다. 관심 있는 현장을 비교해보시고 편하게 문의해보세요."
+          description={homePageSettings.activeSectionDescription}
           eyebrow="분양중 현장"
-          title="현재 안내 중인 현장"
+          title={homePageSettings.activeSectionTitle}
         />
 
         {activeProjects.length > 0 ? (
@@ -86,9 +98,11 @@ export default async function HomePage() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.32em] text-muted">분양완료 현장</p>
-              <h2 className="mt-4 text-4xl text-black">소개가 완료된 현장도 함께 확인하실 수 있습니다</h2>
-              <p className="mt-5 text-sm leading-8 text-muted">
-                지금까지 소개해온 현장도 정리해두었습니다. 지역별로 살펴보시고 현재 분양중인 현장과 함께 비교해보세요.
+              <h2 className="mt-4 text-[length:var(--home-section-title-size,1.34rem)] leading-[1.28] tracking-[-0.02em] text-black sm:text-4xl">
+                {homePageSettings.completedSectionTitle}
+              </h2>
+              <p className="mt-5 text-[length:var(--home-body-text-size,13px)] leading-6 text-muted sm:text-sm sm:leading-8">
+                {homePageSettings.completedSectionDescription}
               </p>
             </div>
 
@@ -122,9 +136,11 @@ export default async function HomePage() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.34em] text-muted">상담문의</p>
-              <h2 className="mt-4 text-4xl text-black">궁금한 현장은 쉽고 빠르게 문의하실 수 있습니다</h2>
-              <p className="mt-5 max-w-2xl text-sm leading-8 text-muted">
-                대표번호와 상담신청, 방문예약 버튼을 함께 두어 필요한 방식으로 편하게 문의하실 수 있도록 구성했습니다.
+              <h2 className="mt-4 text-[length:var(--home-section-title-size,1.34rem)] leading-[1.28] tracking-[-0.02em] text-black sm:text-4xl">
+                {homePageSettings.contactSectionTitle}
+              </h2>
+              <p className="mt-5 max-w-2xl text-[length:var(--home-body-text-size,13px)] leading-6 text-muted sm:text-sm sm:leading-8">
+                {homePageSettings.contactSectionDescription}
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -138,6 +154,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

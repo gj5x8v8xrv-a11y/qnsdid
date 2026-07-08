@@ -1,8 +1,10 @@
 import "server-only";
 
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
+import { readHomePageSettingsFromStorage } from "@/lib/storage";
 import { mockInquiries, mockProjects } from "@/lib/mock-data";
 import type {
+  HomePageSettings,
   Inquiry,
   Project,
   ProjectImage,
@@ -10,7 +12,7 @@ import type {
   ProjectStatus,
   ProjectWithImages
 } from "@/lib/types";
-import { buildProjectLocation, inferProjectRegion } from "@/lib/utils";
+import { buildProjectLocation, getDefaultHomePageSettings, inferProjectRegion } from "@/lib/utils";
 import { isSupabaseConfigured } from "@/lib/utils";
 
 type ProjectRow = {
@@ -206,15 +208,28 @@ export async function getProjectById(projectId: string) {
 }
 
 export async function getAdminDashboardData() {
-  const [projects, inquiries] = await Promise.all([getProjects(), getInquiries()]);
+  const [projects, inquiries, homePageSettings] = await Promise.all([
+    getProjects(),
+    getInquiries(),
+    getHomePageSettings()
+  ]);
 
   return {
     activeCount: projects.filter((project) => project.status === "active").length,
     completedCount: projects.filter((project) => project.status === "completed").length,
     inquiryCount: inquiries.length,
     projects,
-    inquiries
+    inquiries,
+    homePageSettings
   };
+}
+
+export async function getHomePageSettings() {
+  if (!isSupabaseConfigured()) {
+    return getDefaultHomePageSettings();
+  }
+
+  return readHomePageSettingsFromStorage();
 }
 
 export async function getInquiries(limit?: number) {

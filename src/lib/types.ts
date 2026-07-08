@@ -70,6 +70,21 @@ export type SiteConfig = {
   siteUrl: string;
 };
 
+export type HomePageSettings = {
+  heroTitle: string;
+  heroDescription: string;
+  activeSectionTitle: string;
+  activeSectionDescription: string;
+  completedSectionTitle: string;
+  completedSectionDescription: string;
+  contactSectionTitle: string;
+  contactSectionDescription: string;
+  mobileHeroTitleRem: number;
+  mobileSectionTitleRem: number;
+  mobileBodyTextPx: number;
+  mobileProjectCardTitleRem: number;
+};
+
 export type AdminProjectFormState = {
   ok: boolean;
   message: string;

@@ -1,4 +1,4 @@
-import type { InquiryStatus, Project, ProjectStatus, SiteConfig } from "@/lib/types";
+import type { HomePageSettings, InquiryStatus, Project, ProjectStatus, SiteConfig } from "@/lib/types";
 
 type SupabaseConfigIssue =
   | "missing-url"
@@ -43,6 +43,27 @@ export function getSiteConfig(): SiteConfig {
       process.env.NEXT_PUBLIC_COMPANY_ADDRESS || "",
     siteUrl:
       process.env.NEXT_PUBLIC_SITE_URL || "https://www.example-estate.co.kr"
+  };
+}
+
+export function getDefaultHomePageSettings(): HomePageSettings {
+  return {
+    heroTitle: "좋은 분양 현장을 선별해 소개해드립니다",
+    heroDescription:
+      "관심 있는 분양 현장을 살펴보고, 궁금한 내용은 전화나 상담으로 편하게 문의하실 수 있도록 정리했습니다.",
+    activeSectionTitle: "현재 안내 중인 현장",
+    activeSectionDescription:
+      "지역과 기본 정보를 함께 정리해두었습니다. 관심 있는 현장을 비교해보시고 편하게 문의해보세요.",
+    completedSectionTitle: "소개가 완료된 현장도 함께 확인하실 수 있습니다",
+    completedSectionDescription:
+      "지금까지 소개해온 현장도 정리해두었습니다. 지역별로 살펴보시고 현재 분양중인 현장과 함께 비교해보세요.",
+    contactSectionTitle: "궁금한 현장은 쉽고 빠르게 문의하실 수 있습니다",
+    contactSectionDescription:
+      "대표번호와 상담신청, 방문예약 버튼을 함께 두어 필요한 방식으로 편하게 문의하실 수 있도록 구성했습니다.",
+    mobileHeroTitleRem: 1.42,
+    mobileSectionTitleRem: 1.34,
+    mobileBodyTextPx: 13,
+    mobileProjectCardTitleRem: 1.08
   };
 }
 

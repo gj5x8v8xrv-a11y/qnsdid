@@ -1,4 +1,5 @@
 import { AdminProjectTable } from "@/components/admin/admin-project-table";
+import { AdminHomePageSettingsForm } from "@/components/admin/admin-homepage-settings-form";
 import { AdminSetupNotice } from "@/components/admin/admin-setup-notice";
 import { AdminStatGrid } from "@/components/admin/admin-stat-grid";
 import { FlashBanner } from "@/components/ui/flash-banner";
@@ -27,6 +28,7 @@ export default async function AdminDashboardPage({
         completedCount={dashboard.completedCount}
         inquiryCount={dashboard.inquiryCount}
       />
+      <AdminHomePageSettingsForm settings={dashboard.homePageSettings} />
       <div className="admin-panel grid gap-6 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-7">
         <div>
           <p className="text-xs uppercase tracking-[0.32em] text-muted">Operations Summary</p>

@@ -44,6 +44,23 @@ create table if not exists public.inquiries (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.site_settings (
+  id text primary key,
+  hero_title text,
+  hero_description text,
+  active_section_title text,
+  active_section_description text,
+  completed_section_title text,
+  completed_section_description text,
+  contact_section_title text,
+  contact_section_description text,
+  mobile_hero_title_rem double precision,
+  mobile_section_title_rem double precision,
+  mobile_body_text_px double precision,
+  mobile_project_card_title_rem double precision,
+  updated_at timestamptz not null default now()
+);
+
 create index if not exists projects_status_idx on public.projects(status);
 create index if not exists project_images_project_id_idx on public.project_images(project_id);
 create index if not exists inquiries_project_id_idx on public.inquiries(project_id);
@@ -56,6 +73,7 @@ alter table public.projects add column if not exists province text;
 alter table public.projects add column if not exists city text;
 alter table public.projects add column if not exists address text;
 alter table public.project_images add column if not exists image_type text not null default 'gallery';
+alter table public.site_settings add column if not exists updated_at timestamptz not null default now();
 
 update public.projects
 set region = coalesce(nullif(region, ''), split_part(location, ' ', 1))
@@ -77,9 +95,16 @@ before update on public.projects
 for each row
 execute function public.set_updated_at();
 
+drop trigger if exists set_site_settings_updated_at on public.site_settings;
+create trigger set_site_settings_updated_at
+before update on public.site_settings
+for each row
+execute function public.set_updated_at();
+
 alter table public.projects enable row level security;
 alter table public.project_images enable row level security;
 alter table public.inquiries enable row level security;
+alter table public.site_settings enable row level security;
 
 insert into storage.buckets (id, name, public)
 values ('project-media', 'project-media', true)

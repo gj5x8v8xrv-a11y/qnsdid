@@ -10,8 +10,12 @@ import { getProjectById } from "@/lib/data";
 import { isAllowedAdmin, requireAdminUser } from "@/lib/auth";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 import { getServerSupabaseClient } from "@/lib/supabase/server";
-import { isSupportedProjectImageType, removeProjectAsset } from "@/lib/storage";
-import type { InquiryStatus, ProjectImageType, ProjectStatus } from "@/lib/types";
+import {
+  isSupportedProjectImageType,
+  removeProjectAsset,
+  writeHomePageSettingsToStorage
+} from "@/lib/storage";
+import type { HomePageSettings, InquiryStatus, ProjectImageType, ProjectStatus } from "@/lib/types";
 import {
   buildProjectLocation,
   getSupabaseConfigMessage,
@@ -58,6 +62,29 @@ function getOptionalTextField(formData: FormData, key: string) {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : null;
+}
+
+function getNumberField(
+  formData: FormData,
+  key: string,
+  label: string,
+  { min, max }: { min: number; max: number }
+) {
+  const value = formData.get(key);
+  if (typeof value !== "string" || !value.trim()) {
+    throw new Error(`${label}을 입력해주세요.`);
+  }
+
+  const parsed = Number.parseFloat(value);
+  if (!Number.isFinite(parsed)) {
+    throw new Error(`${label}은 숫자로 입력해주세요.`);
+  }
+
+  if (parsed < min || parsed > max) {
+    throw new Error(`${label}은 ${min} 이상 ${max} 이하로 입력해주세요.`);
+  }
+
+  return parsed;
 }
 
 function getStatusField(formData: FormData) {
@@ -508,6 +535,84 @@ export async function updateProjectStatusAction(formData: FormData) {
     revalidateProjectPaths(project.slug);
     destination = buildRedirectUrl("/admin", {
       message: "현장 상태가 변경되었습니다."
+    });
+  } catch (error) {
+    destination = buildRedirectUrl("/admin", {
+      error: getErrorMessage(error)
+    });
+  }
+
+  redirect(destination);
+}
+
+export async function updateHomePageSettingsAction(formData: FormData) {
+  if (!isSupabaseConfigured()) {
+    redirect(
+      buildRedirectUrl("/admin", {
+        error: getSupabaseSetupError("Supabase 설정 후 홈페이지 문구를 저장할 수 있습니다.")
+      })
+    );
+  }
+
+  await requireAdminUser();
+
+  let destination = "/admin";
+
+  try {
+    const payload: HomePageSettings = {
+      heroTitle: getTextField(formData, "heroTitle", "메인 제목"),
+      heroDescription: getTextField(formData, "heroDescription", "메인 설명"),
+      activeSectionTitle: getTextField(formData, "activeSectionTitle", "분양중 섹션 제목"),
+      activeSectionDescription: getTextField(
+        formData,
+        "activeSectionDescription",
+        "분양중 섹션 설명"
+      ),
+      completedSectionTitle: getTextField(
+        formData,
+        "completedSectionTitle",
+        "분양완료 섹션 제목"
+      ),
+      completedSectionDescription: getTextField(
+        formData,
+        "completedSectionDescription",
+        "분양완료 섹션 설명"
+      ),
+      contactSectionTitle: getTextField(formData, "contactSectionTitle", "문의 섹션 제목"),
+      contactSectionDescription: getTextField(
+        formData,
+        "contactSectionDescription",
+        "문의 섹션 설명"
+      ),
+      mobileHeroTitleRem: getNumberField(formData, "mobileHeroTitleRem", "모바일 메인 제목 크기", {
+        min: 1.1,
+        max: 2.2
+      }),
+      mobileSectionTitleRem: getNumberField(
+        formData,
+        "mobileSectionTitleRem",
+        "모바일 섹션 제목 크기",
+        { min: 1, max: 2 }
+      ),
+      mobileBodyTextPx: getNumberField(formData, "mobileBodyTextPx", "모바일 본문 크기", {
+        min: 12,
+        max: 18
+      }),
+      mobileProjectCardTitleRem: getNumberField(
+        formData,
+        "mobileProjectCardTitleRem",
+        "모바일 카드 제목 크기",
+        { min: 0.95, max: 1.6 }
+      )
+    };
+
+    await writeHomePageSettingsToStorage(payload);
+
+    revalidatePath("/");
+    revalidatePath("/admin");
+
+    destination = buildRedirectUrl("/admin", {
+      message: "홈페이지 소개 문구와 모바일 글씨 크기가 저장되었습니다."
     });
   } catch (error) {
     destination = buildRedirectUrl("/admin", {

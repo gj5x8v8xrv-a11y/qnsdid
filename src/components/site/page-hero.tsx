@@ -28,10 +28,10 @@ export function PageHero({
             <p className="inline-flex rounded-full border border-black/8 bg-black/[0.03] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.24em] text-muted sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.35em]">
               {eyebrow}
             </p>
-            <h1 className="mt-4 text-[1.62rem] leading-[1.1] text-black sm:mt-6 sm:text-[2.8rem] lg:text-[3.55rem]">
+            <h1 className="mt-4 text-[length:var(--home-hero-title-size,1.42rem)] leading-[1.24] tracking-[-0.02em] text-black sm:mt-6 sm:text-[2.8rem] lg:text-[3.55rem]">
               {title}
             </h1>
-            <p className="mt-3 max-w-3xl text-[14px] leading-6 text-muted sm:mt-5 sm:text-[17px] sm:leading-8">
+            <p className="mt-3 max-w-3xl text-[length:var(--home-body-text-size,13px)] leading-6 text-muted sm:mt-5 sm:text-[17px] sm:leading-8">
               {description}
             </p>
 

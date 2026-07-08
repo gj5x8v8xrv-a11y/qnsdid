@@ -94,11 +94,13 @@ textarea {
   }
 
   .section-title {
-    @apply text-[1.65rem] leading-[1.16] sm:text-[2.35rem] lg:text-[3rem];
+    font-size: var(--home-section-title-size, 1.34rem);
+    @apply leading-[1.28] tracking-[-0.02em] sm:text-[2.35rem] lg:text-[3rem];
   }
 
   .body-copy {
-    @apply text-[14px] leading-6 text-muted sm:text-[15px] sm:leading-8 lg:text-base;
+    font-size: var(--home-body-text-size, 13px);
+    @apply leading-6 text-muted sm:text-[15px] sm:leading-8 lg:text-base;
   }
 
   .button-base {
@@ -131,7 +133,7 @@ textarea {
   }
 
 .card-grid {
-  @apply grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 xl:grid-cols-3;
+  @apply grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:grid-cols-2 xl:grid-cols-3;
 }
 
   .info-list {

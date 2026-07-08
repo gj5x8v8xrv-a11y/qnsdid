@@ -19,7 +19,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <p className="text-[0.7rem] font-medium tracking-[0.06em] text-muted sm:text-sm sm:tracking-normal">
             {getProjectCardMeta(project)}
           </p>
-          <h3 className="text-[1.28rem] leading-[1.18] tracking-[-0.02em] sm:text-[1.85rem] sm:leading-[1.15]">
+          <h3 className="text-[length:var(--home-card-title-size,1.08rem)] leading-[1.3] tracking-[-0.02em] sm:text-[1.85rem] sm:leading-[1.15]">
             {project.name}
           </h3>
           <p className="hidden text-sm leading-7 text-slate-700 sm:block">{getProjectAddressLine(project)}</p>
@@ -47,13 +47,13 @@ export function ProjectCard({ project }: { project: Project }) {
 
             <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
               <a
-                className="button-primary min-h-[28px] rounded-[0.7rem] px-2 text-[0.5rem] leading-none font-semibold tracking-[-0.03em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+                className="button-primary min-h-[36px] rounded-[0.9rem] px-3 text-[0.76rem] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
                 href={formatPhoneHref(project.contactPhone)}
               >
                 전화문의
               </a>
               <Link
-                className="button-secondary min-h-[28px] rounded-[0.7rem] px-2 text-[0.5rem] leading-none font-semibold tracking-[-0.03em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
+                className="button-secondary min-h-[36px] rounded-[0.9rem] px-3 text-[0.76rem] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
                 href={`/projects/${project.slug}`}
               >
                 상세보기
