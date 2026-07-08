@@ -1,3 +1,4 @@
+import { SITE_NAV_ITEMS } from "@/lib/constants";
 import type { HomePageSettings, InquiryStatus, Project, ProjectStatus, SiteConfig } from "@/lib/types";
 
 type SupabaseConfigIssue =
@@ -48,23 +49,84 @@ export function getSiteConfig(): SiteConfig {
 
 export function getDefaultHomePageSettings(): HomePageSettings {
   return {
+    headerAnnouncement: "중부권 분양 정보를 편하게 살펴볼 수 있는 분양 정보 플랫폼",
+    headerPhoneLabel: "대표번호",
+    brandEnglishName: "BUNYANG MAP",
+    brandCaption: "중부권 분양 정보 플랫폼",
+    navHomeLabel: "홈",
+    navCompanyLabel: "회사소개",
+    navProjectsLabel: "분양중",
+    navCompletedLabel: "분양완료",
+    navContactLabel: "상담문의",
+    headerPhoneButtonLabel: "전화문의",
+    headerContactButtonLabel: "상담신청",
+    heroEyebrow: "분양 정보 플랫폼",
     heroTitle: "좋은 분양 현장을 선별해 소개해드립니다",
     heroDescription:
       "관심 있는 분양 현장을 살펴보고, 궁금한 내용은 전화나 상담으로 편하게 문의하실 수 있도록 정리했습니다.",
+    heroPhoneButtonLabel: "전화문의",
+    heroContactButtonLabel: "상담신청",
+    heroActiveStatLabel: "분양중 현장",
+    heroCompletedStatLabel: "분양완료 현장",
+    heroPhoneStatLabel: "대표번호",
+    featuredProjectLabel: "추천 현장",
+    activeSectionEyebrow: "분양중 현장",
     activeSectionTitle: "현재 안내 중인 현장",
     activeSectionDescription:
       "지역과 기본 정보를 함께 정리해두었습니다. 관심 있는 현장을 비교해보시고 편하게 문의해보세요.",
+    activeSectionButtonLabel: "분양중 현장 전체 보기",
+    activeSectionEmptyMessage:
+      "현재 안내 중인 분양중 현장이 없습니다. 상담문의로 남겨주시면 맞춤 현장을 안내해드립니다.",
+    completedSectionEyebrow: "분양완료 현장",
     completedSectionTitle: "소개가 완료된 현장도 함께 확인하실 수 있습니다",
     completedSectionDescription:
       "지금까지 소개해온 현장도 정리해두었습니다. 지역별로 살펴보시고 현재 분양중인 현장과 함께 비교해보세요.",
+    completedSectionEmptyMessage:
+      "아직 소개 완료 현장이 없습니다. 새로운 현장이 정리되면 이곳에서 함께 확인하실 수 있습니다.",
+    completedSectionButtonLabel: "분양완료 현장 보기",
+    contactSectionEyebrow: "상담문의",
     contactSectionTitle: "궁금한 현장은 쉽고 빠르게 문의하실 수 있습니다",
     contactSectionDescription:
       "대표번호와 상담신청, 방문예약 버튼을 함께 두어 필요한 방식으로 편하게 문의하실 수 있도록 구성했습니다.",
+    contactPhoneButtonLabel: "전화문의",
+    contactFormButtonLabel: "상담신청",
+    projectCardHouseholdLabel: "세대수",
+    projectCardUnitPlanLabel: "평형",
+    projectCardMoveInLabel: "입주예정",
+    projectCardPhoneLabel: "상담번호",
+    projectCardPhoneButtonLabel: "전화문의",
+    projectCardDetailButtonLabel: "상세보기",
+    stickyEyebrow: "상담 안내",
+    stickyTitle: "궁금한 현장은 바로 문의하실 수 있습니다",
+    stickyDescription:
+      "문의를 남겨주시면 확인 후 순차적으로 안내해드립니다.",
+    stickyPhoneButtonLabel: "전화문의",
+    stickyContactButtonLabel: "상담신청",
+    footerBrandEyebrow: "BUNYANG MAP",
+    footerDescription:
+      "관심 있는 분양 현장을 살펴보고, 궁금한 내용은 편하게 문의하실 수 있도록 구성했습니다.",
+    footerPhoneLabel: "대표번호",
+    footerEmailLabel: "이메일",
+    footerSitemapTitle: "사이트맵",
+    footerInquiryTitle: "문의 안내",
+    footerInquiryContactLabel: "상담문의",
+    footerPrivacyLabel: "개인정보처리방침",
+    footerInquiryPhoneLabel: "전화문의",
+    footerInquiryProjectsLabel: "분양중 현장",
+    footerCopyrightText: "All rights reserved.",
+    footerTaglineText: "좋은 분양 현장을 편하게 살펴볼 수 있는 분양 정보 플랫폼",
     mobileHeroTitleRem: 1.42,
     mobileSectionTitleRem: 1.34,
     mobileBodyTextPx: 13,
     mobileProjectCardTitleRem: 1.08
   };
+}
+
+export function getSiteNavItems(settings: HomePageSettings) {
+  return SITE_NAV_ITEMS.map((item) => ({
+    href: item.href,
+    label: settings[item.labelKey]
+  }));
 }
 
 export function formatStatusLabel(status: ProjectStatus | InquiryStatus) {

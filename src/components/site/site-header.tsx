@@ -3,21 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SITE_NAV_ITEMS } from "@/lib/constants";
-import { getSiteConfig } from "@/lib/utils";
+import type { HomePageSettings } from "@/lib/types";
+import { getSiteConfig, getSiteNavItems } from "@/lib/utils";
 
-export function SiteHeader() {
+export function SiteHeader({ settings }: { settings: HomePageSettings }) {
   const pathname = usePathname();
   const site = getSiteConfig();
   const phoneHref = `tel:${site.companyPhone.replace(/[^+\d]/g, "")}`;
+  const navItems = getSiteNavItems(settings);
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white/92 backdrop-blur-xl">
       <div className="border-b border-black/6 bg-black text-white">
         <div className="page-shell flex min-h-[28px] items-center justify-between gap-2 text-[9px] tracking-[0.01em] text-white/68 sm:min-h-[42px] sm:gap-4 sm:text-[11px]">
-          <p className="truncate">중부권 분양 정보를 편하게 살펴볼 수 있는 분양 정보 플랫폼</p>
+          <p className="truncate">{settings.headerAnnouncement}</p>
           <a className="hidden font-semibold text-white sm:block" href={phoneHref}>
-            대표번호 {site.companyPhone}
+            {settings.headerPhoneLabel} {site.companyPhone}
           </a>
         </div>
       </div>
@@ -26,19 +27,19 @@ export function SiteHeader() {
         <Link className="flex items-center gap-2.5 sm:gap-4" href="/">
           <div className="space-y-0 sm:space-y-1">
             <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[11px] sm:tracking-[0.32em]">
-              BUNYANG MAP
+              {settings.brandEnglishName}
             </p>
             <p className="text-[1.05rem] font-extrabold leading-none tracking-[-0.045em] text-black sm:text-[1.65rem]">
               {site.companyName}
             </p>
             <p className="text-[9px] font-medium tracking-[0.04em] text-muted sm:text-xs sm:tracking-[0.08em]">
-              중부권 분양 정보 플랫폼
+              {settings.brandCaption}
             </p>
           </div>
         </Link>
 
         <nav className="flex gap-1.5 overflow-x-auto pb-0.5 sm:gap-2 sm:pb-1">
-          {SITE_NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const isActive =
               item.href === "/"
                 ? pathname === "/"
@@ -64,10 +65,10 @@ export function SiteHeader() {
 
         <div className="hidden lg:flex lg:items-center lg:gap-3">
           <a className="button-secondary" href={phoneHref}>
-            전화문의
+            {settings.headerPhoneButtonLabel}
           </a>
           <Link className="button-primary" href="/contact">
-            상담신청
+            {settings.headerContactButtonLabel}
           </Link>
         </div>
       </div>

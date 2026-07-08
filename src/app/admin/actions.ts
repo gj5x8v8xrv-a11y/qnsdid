@@ -560,13 +560,51 @@ export async function updateHomePageSettingsAction(formData: FormData) {
 
   try {
     const payload: HomePageSettings = {
+      headerAnnouncement: getTextField(formData, "headerAnnouncement", "상단 안내 문구"),
+      headerPhoneLabel: getTextField(formData, "headerPhoneLabel", "상단 전화 라벨"),
+      brandEnglishName: getTextField(formData, "brandEnglishName", "영문 브랜드명"),
+      brandCaption: getTextField(formData, "brandCaption", "브랜드 보조 문구"),
+      navHomeLabel: getTextField(formData, "navHomeLabel", "홈 메뉴명"),
+      navCompanyLabel: getTextField(formData, "navCompanyLabel", "회사소개 메뉴명"),
+      navProjectsLabel: getTextField(formData, "navProjectsLabel", "분양중 메뉴명"),
+      navCompletedLabel: getTextField(formData, "navCompletedLabel", "분양완료 메뉴명"),
+      navContactLabel: getTextField(formData, "navContactLabel", "상담문의 메뉴명"),
+      headerPhoneButtonLabel: getTextField(formData, "headerPhoneButtonLabel", "상단 전화 버튼명"),
+      headerContactButtonLabel: getTextField(formData, "headerContactButtonLabel", "상단 상담 버튼명"),
+      heroEyebrow: getTextField(formData, "heroEyebrow", "메인 눈썹 문구"),
       heroTitle: getTextField(formData, "heroTitle", "메인 제목"),
       heroDescription: getTextField(formData, "heroDescription", "메인 설명"),
+      heroPhoneButtonLabel: getTextField(formData, "heroPhoneButtonLabel", "메인 전화 버튼명"),
+      heroContactButtonLabel: getTextField(formData, "heroContactButtonLabel", "메인 상담 버튼명"),
+      heroActiveStatLabel: getTextField(formData, "heroActiveStatLabel", "메인 통계 분양중 라벨"),
+      heroCompletedStatLabel: getTextField(
+        formData,
+        "heroCompletedStatLabel",
+        "메인 통계 분양완료 라벨"
+      ),
+      heroPhoneStatLabel: getTextField(formData, "heroPhoneStatLabel", "메인 통계 대표번호 라벨"),
+      featuredProjectLabel: getTextField(formData, "featuredProjectLabel", "추천 현장 라벨"),
+      activeSectionEyebrow: getTextField(formData, "activeSectionEyebrow", "분양중 섹션 상단 라벨"),
       activeSectionTitle: getTextField(formData, "activeSectionTitle", "분양중 섹션 제목"),
       activeSectionDescription: getTextField(
         formData,
         "activeSectionDescription",
         "분양중 섹션 설명"
+      ),
+      activeSectionButtonLabel: getTextField(
+        formData,
+        "activeSectionButtonLabel",
+        "분양중 섹션 버튼명"
+      ),
+      activeSectionEmptyMessage: getTextField(
+        formData,
+        "activeSectionEmptyMessage",
+        "분양중 빈 상태 문구"
+      ),
+      completedSectionEyebrow: getTextField(
+        formData,
+        "completedSectionEyebrow",
+        "분양완료 섹션 상단 라벨"
       ),
       completedSectionTitle: getTextField(
         formData,
@@ -578,12 +616,88 @@ export async function updateHomePageSettingsAction(formData: FormData) {
         "completedSectionDescription",
         "분양완료 섹션 설명"
       ),
+      completedSectionEmptyMessage: getTextField(
+        formData,
+        "completedSectionEmptyMessage",
+        "분양완료 빈 상태 문구"
+      ),
+      completedSectionButtonLabel: getTextField(
+        formData,
+        "completedSectionButtonLabel",
+        "분양완료 섹션 버튼명"
+      ),
+      contactSectionEyebrow: getTextField(formData, "contactSectionEyebrow", "문의 섹션 상단 라벨"),
       contactSectionTitle: getTextField(formData, "contactSectionTitle", "문의 섹션 제목"),
       contactSectionDescription: getTextField(
         formData,
         "contactSectionDescription",
         "문의 섹션 설명"
       ),
+      contactPhoneButtonLabel: getTextField(
+        formData,
+        "contactPhoneButtonLabel",
+        "문의 섹션 전화 버튼명"
+      ),
+      contactFormButtonLabel: getTextField(
+        formData,
+        "contactFormButtonLabel",
+        "문의 섹션 상담 버튼명"
+      ),
+      projectCardHouseholdLabel: getTextField(
+        formData,
+        "projectCardHouseholdLabel",
+        "카드 세대수 라벨"
+      ),
+      projectCardUnitPlanLabel: getTextField(formData, "projectCardUnitPlanLabel", "카드 평형 라벨"),
+      projectCardMoveInLabel: getTextField(formData, "projectCardMoveInLabel", "카드 입주예정 라벨"),
+      projectCardPhoneLabel: getTextField(formData, "projectCardPhoneLabel", "카드 상담번호 라벨"),
+      projectCardPhoneButtonLabel: getTextField(
+        formData,
+        "projectCardPhoneButtonLabel",
+        "카드 전화 버튼명"
+      ),
+      projectCardDetailButtonLabel: getTextField(
+        formData,
+        "projectCardDetailButtonLabel",
+        "카드 상세 버튼명"
+      ),
+      stickyEyebrow: getTextField(formData, "stickyEyebrow", "하단 고정 문의 상단 라벨"),
+      stickyTitle: getTextField(formData, "stickyTitle", "하단 고정 문의 제목"),
+      stickyDescription: getTextField(formData, "stickyDescription", "하단 고정 문의 설명"),
+      stickyPhoneButtonLabel: getTextField(
+        formData,
+        "stickyPhoneButtonLabel",
+        "하단 고정 문의 전화 버튼명"
+      ),
+      stickyContactButtonLabel: getTextField(
+        formData,
+        "stickyContactButtonLabel",
+        "하단 고정 문의 상담 버튼명"
+      ),
+      footerBrandEyebrow: getTextField(formData, "footerBrandEyebrow", "푸터 상단 브랜드 문구"),
+      footerDescription: getTextField(formData, "footerDescription", "푸터 설명"),
+      footerPhoneLabel: getTextField(formData, "footerPhoneLabel", "푸터 전화 라벨"),
+      footerEmailLabel: getTextField(formData, "footerEmailLabel", "푸터 이메일 라벨"),
+      footerSitemapTitle: getTextField(formData, "footerSitemapTitle", "푸터 사이트맵 제목"),
+      footerInquiryTitle: getTextField(formData, "footerInquiryTitle", "푸터 문의 안내 제목"),
+      footerInquiryContactLabel: getTextField(
+        formData,
+        "footerInquiryContactLabel",
+        "푸터 상담문의 링크명"
+      ),
+      footerPrivacyLabel: getTextField(formData, "footerPrivacyLabel", "푸터 개인정보처리방침 링크명"),
+      footerInquiryPhoneLabel: getTextField(
+        formData,
+        "footerInquiryPhoneLabel",
+        "푸터 전화문의 링크명"
+      ),
+      footerInquiryProjectsLabel: getTextField(
+        formData,
+        "footerInquiryProjectsLabel",
+        "푸터 분양중 링크명"
+      ),
+      footerCopyrightText: getTextField(formData, "footerCopyrightText", "푸터 저작권 문구"),
+      footerTaglineText: getTextField(formData, "footerTaglineText", "푸터 마지막 문구"),
       mobileHeroTitleRem: getNumberField(formData, "mobileHeroTitleRem", "모바일 메인 제목 크기", {
         min: 1.1,
         max: 2.2

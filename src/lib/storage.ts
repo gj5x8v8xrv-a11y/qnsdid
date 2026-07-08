@@ -10,6 +10,73 @@ import { getDefaultHomePageSettings } from "@/lib/utils";
 import { getAdminSupabaseClient } from "@/lib/supabase/admin";
 
 const HOME_PAGE_SETTINGS_PATH = "site-settings/home-page.json";
+const HOME_PAGE_STRING_FIELDS = [
+  "headerAnnouncement",
+  "headerPhoneLabel",
+  "brandEnglishName",
+  "brandCaption",
+  "navHomeLabel",
+  "navCompanyLabel",
+  "navProjectsLabel",
+  "navCompletedLabel",
+  "navContactLabel",
+  "headerPhoneButtonLabel",
+  "headerContactButtonLabel",
+  "heroEyebrow",
+  "heroTitle",
+  "heroDescription",
+  "heroPhoneButtonLabel",
+  "heroContactButtonLabel",
+  "heroActiveStatLabel",
+  "heroCompletedStatLabel",
+  "heroPhoneStatLabel",
+  "featuredProjectLabel",
+  "activeSectionEyebrow",
+  "activeSectionTitle",
+  "activeSectionDescription",
+  "activeSectionButtonLabel",
+  "activeSectionEmptyMessage",
+  "completedSectionEyebrow",
+  "completedSectionTitle",
+  "completedSectionDescription",
+  "completedSectionEmptyMessage",
+  "completedSectionButtonLabel",
+  "contactSectionEyebrow",
+  "contactSectionTitle",
+  "contactSectionDescription",
+  "contactPhoneButtonLabel",
+  "contactFormButtonLabel",
+  "projectCardHouseholdLabel",
+  "projectCardUnitPlanLabel",
+  "projectCardMoveInLabel",
+  "projectCardPhoneLabel",
+  "projectCardPhoneButtonLabel",
+  "projectCardDetailButtonLabel",
+  "stickyEyebrow",
+  "stickyTitle",
+  "stickyDescription",
+  "stickyPhoneButtonLabel",
+  "stickyContactButtonLabel",
+  "footerBrandEyebrow",
+  "footerDescription",
+  "footerPhoneLabel",
+  "footerEmailLabel",
+  "footerSitemapTitle",
+  "footerInquiryTitle",
+  "footerInquiryContactLabel",
+  "footerPrivacyLabel",
+  "footerInquiryPhoneLabel",
+  "footerInquiryProjectsLabel",
+  "footerCopyrightText",
+  "footerTaglineText"
+] as const satisfies readonly (keyof HomePageSettings)[];
+
+const HOME_PAGE_NUMBER_FIELDS = [
+  "mobileHeroTitleRem",
+  "mobileSectionTitleRem",
+  "mobileBodyTextPx",
+  "mobileProjectCardTitleRem"
+] as const satisfies readonly (keyof HomePageSettings)[];
 
 function sanitizePathSegment(value: string) {
   return value
@@ -98,61 +165,23 @@ function normalizeHomePageSettings(value: unknown): HomePageSettings {
   }
 
   const record = value as Record<string, unknown>;
+  const normalized: HomePageSettings = { ...defaults };
 
-  return {
-    heroTitle:
-      typeof record.heroTitle === "string" && record.heroTitle.trim()
-        ? record.heroTitle.trim()
-        : defaults.heroTitle,
-    heroDescription:
-      typeof record.heroDescription === "string" && record.heroDescription.trim()
-        ? record.heroDescription.trim()
-        : defaults.heroDescription,
-    activeSectionTitle:
-      typeof record.activeSectionTitle === "string" && record.activeSectionTitle.trim()
-        ? record.activeSectionTitle.trim()
-        : defaults.activeSectionTitle,
-    activeSectionDescription:
-      typeof record.activeSectionDescription === "string" && record.activeSectionDescription.trim()
-        ? record.activeSectionDescription.trim()
-        : defaults.activeSectionDescription,
-    completedSectionTitle:
-      typeof record.completedSectionTitle === "string" && record.completedSectionTitle.trim()
-        ? record.completedSectionTitle.trim()
-        : defaults.completedSectionTitle,
-    completedSectionDescription:
-      typeof record.completedSectionDescription === "string" &&
-      record.completedSectionDescription.trim()
-        ? record.completedSectionDescription.trim()
-        : defaults.completedSectionDescription,
-    contactSectionTitle:
-      typeof record.contactSectionTitle === "string" && record.contactSectionTitle.trim()
-        ? record.contactSectionTitle.trim()
-        : defaults.contactSectionTitle,
-    contactSectionDescription:
-      typeof record.contactSectionDescription === "string" &&
-      record.contactSectionDescription.trim()
-        ? record.contactSectionDescription.trim()
-        : defaults.contactSectionDescription,
-    mobileHeroTitleRem:
-      typeof record.mobileHeroTitleRem === "number" && Number.isFinite(record.mobileHeroTitleRem)
-        ? record.mobileHeroTitleRem
-        : defaults.mobileHeroTitleRem,
-    mobileSectionTitleRem:
-      typeof record.mobileSectionTitleRem === "number" &&
-      Number.isFinite(record.mobileSectionTitleRem)
-        ? record.mobileSectionTitleRem
-        : defaults.mobileSectionTitleRem,
-    mobileBodyTextPx:
-      typeof record.mobileBodyTextPx === "number" && Number.isFinite(record.mobileBodyTextPx)
-        ? record.mobileBodyTextPx
-        : defaults.mobileBodyTextPx,
-    mobileProjectCardTitleRem:
-      typeof record.mobileProjectCardTitleRem === "number" &&
-      Number.isFinite(record.mobileProjectCardTitleRem)
-        ? record.mobileProjectCardTitleRem
-        : defaults.mobileProjectCardTitleRem
-  };
+  for (const key of HOME_PAGE_STRING_FIELDS) {
+    const candidate = record[key];
+    if (typeof candidate === "string" && candidate.trim()) {
+      normalized[key] = candidate.trim();
+    }
+  }
+
+  for (const key of HOME_PAGE_NUMBER_FIELDS) {
+    const candidate = record[key];
+    if (typeof candidate === "number" && Number.isFinite(candidate)) {
+      normalized[key] = candidate;
+    }
+  }
+
+  return normalized;
 }
 
 export async function readHomePageSettingsFromStorage() {

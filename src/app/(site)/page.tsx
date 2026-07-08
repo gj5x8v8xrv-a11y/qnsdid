@@ -31,19 +31,19 @@ export default async function HomePage() {
         actions={
           <>
             <a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
-              전화문의
+              {homePageSettings.heroPhoneButtonLabel}
             </a>
             <Link className="button-secondary" href="/contact">
-              상담신청
+              {homePageSettings.heroContactButtonLabel}
             </Link>
           </>
         }
         description={homePageSettings.heroDescription}
-        eyebrow="분양 정보 플랫폼"
+        eyebrow={homePageSettings.heroEyebrow}
         stats={[
-          { label: "분양중 현장", value: `${activeProjects.length}곳` },
-          { label: "분양완료 현장", value: `${completedProjects.length}곳` },
-          { label: "대표번호", value: site.companyPhone }
+          { label: homePageSettings.heroActiveStatLabel, value: `${activeProjects.length}곳` },
+          { label: homePageSettings.heroCompletedStatLabel, value: `${completedProjects.length}곳` },
+          { label: homePageSettings.heroPhoneStatLabel, value: site.companyPhone }
         ]}
         title={homePageSettings.heroTitle}
         visual={
@@ -55,7 +55,7 @@ export default async function HomePage() {
                 title={featuredProject.name}
               />
               <div className="rounded-[1.5rem] bg-white/10 px-5 py-5 text-white">
-                <p className="text-xs uppercase tracking-[0.32em] text-white/50">추천 현장</p>
+                <p className="text-xs uppercase tracking-[0.32em] text-white/50">{homePageSettings.featuredProjectLabel}</p>
                 <h2 className="mt-3 text-[length:var(--home-card-title-size,1.08rem)] leading-[1.3] sm:text-2xl">
                   {featuredProject.name}
                 </h2>
@@ -72,23 +72,23 @@ export default async function HomePage() {
         <SectionHeading
           action={
             <Link className="button-secondary" href="/projects">
-              분양중 현장 전체 보기
+              {homePageSettings.activeSectionButtonLabel}
             </Link>
           }
           description={homePageSettings.activeSectionDescription}
-          eyebrow="분양중 현장"
+          eyebrow={homePageSettings.activeSectionEyebrow}
           title={homePageSettings.activeSectionTitle}
         />
 
         {activeProjects.length > 0 ? (
           <div className="card-grid mt-10">
             {activeProjects.slice(0, 3).map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} settings={homePageSettings} />
             ))}
           </div>
         ) : (
           <div className="surface-panel mt-10 p-8 text-center text-sm leading-8 text-muted">
-            현재 안내 중인 분양중 현장이 없습니다. 상담문의로 남겨주시면 맞춤 현장을 안내해드립니다.
+            {homePageSettings.activeSectionEmptyMessage}
           </div>
         )}
       </section>
@@ -97,7 +97,7 @@ export default async function HomePage() {
         <div className="surface-panel overflow-hidden border border-black/8 bg-white p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.32em] text-muted">분양완료 현장</p>
+              <p className="text-xs uppercase tracking-[0.32em] text-muted">{homePageSettings.completedSectionEyebrow}</p>
               <h2 className="mt-4 text-[length:var(--home-section-title-size,1.34rem)] leading-[1.28] tracking-[-0.02em] text-black sm:text-4xl">
                 {homePageSettings.completedSectionTitle}
               </h2>
@@ -120,13 +120,13 @@ export default async function HomePage() {
               </div>
             ) : (
               <div className="rounded-[1.5rem] border border-black/8 bg-slate-50 px-5 py-5 text-sm leading-8 text-muted">
-                아직 소개 완료 현장이 없습니다. 새로운 현장이 정리되면 이곳에서 함께 확인하실 수 있습니다.
+                {homePageSettings.completedSectionEmptyMessage}
               </div>
             )}
           </div>
 
           <Link className="button-primary mt-8" href="/completed">
-            분양완료 현장 보기
+            {homePageSettings.completedSectionButtonLabel}
           </Link>
         </div>
       </section>
@@ -135,7 +135,7 @@ export default async function HomePage() {
         <div className="surface-panel overflow-hidden border border-black/8 bg-white p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.34em] text-muted">상담문의</p>
+              <p className="text-xs uppercase tracking-[0.34em] text-muted">{homePageSettings.contactSectionEyebrow}</p>
               <h2 className="mt-4 text-[length:var(--home-section-title-size,1.34rem)] leading-[1.28] tracking-[-0.02em] text-black sm:text-4xl">
                 {homePageSettings.contactSectionTitle}
               </h2>
@@ -145,10 +145,10 @@ export default async function HomePage() {
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <a className="button-primary" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
-                전화문의
+                {homePageSettings.contactPhoneButtonLabel}
               </a>
               <Link className="button-secondary" href="/contact">
-                상담신청
+                {homePageSettings.contactFormButtonLabel}
               </Link>
             </div>
           </div>

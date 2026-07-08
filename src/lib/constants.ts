@@ -54,9 +54,9 @@ export const PROJECT_IMAGE_TYPE_OPTIONS: Array<{
 ];
 
 export const SITE_NAV_ITEMS = [
-  { href: "/", label: "홈" },
-  { href: "/company", label: "회사소개" },
-  { href: "/projects", label: "분양중" },
-  { href: "/completed", label: "분양완료" },
-  { href: "/contact", label: "상담문의" }
-];
+  { href: "/", labelKey: "navHomeLabel" },
+  { href: "/company", labelKey: "navCompanyLabel" },
+  { href: "/projects", labelKey: "navProjectsLabel" },
+  { href: "/completed", labelKey: "navCompletedLabel" },
+  { href: "/contact", labelKey: "navContactLabel" }
+] as const;

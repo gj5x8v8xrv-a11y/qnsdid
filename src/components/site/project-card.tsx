@@ -2,10 +2,16 @@ import Link from "next/link";
 
 import { StatusBadge } from "@/components/ui/status-badge";
 import { ProjectVisual } from "@/components/ui/project-visual";
-import type { Project } from "@/lib/types";
-import { formatPhoneHref, getProjectAddressLine, getProjectCardMeta } from "@/lib/utils";
+import type { HomePageSettings, Project } from "@/lib/types";
+import { formatPhoneHref, getDefaultHomePageSettings, getProjectAddressLine, getProjectCardMeta } from "@/lib/utils";
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  settings = getDefaultHomePageSettings()
+}: {
+  project: Project;
+  settings?: HomePageSettings;
+}) {
   return (
     <article className="surface-panel overflow-hidden rounded-[2rem] border border-black/8 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(15,23,42,0.08)]">
       <div className="relative p-3 pb-0 sm:p-4">
@@ -28,19 +34,19 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <dl className="hidden grid-cols-2 gap-4 rounded-[1.6rem] bg-slate-50 px-4 py-5 text-sm sm:grid">
           <div>
-            <dt className="text-muted">세대수</dt>
+            <dt className="text-muted">{settings.projectCardHouseholdLabel}</dt>
             <dd className="mt-1 font-semibold text-foreground">{project.householdCount}</dd>
           </div>
           <div>
-            <dt className="text-muted">평형</dt>
+            <dt className="text-muted">{settings.projectCardUnitPlanLabel}</dt>
             <dd className="mt-1 font-semibold text-foreground">{project.unitPlan}</dd>
           </div>
           <div>
-            <dt className="text-muted">입주예정</dt>
+            <dt className="text-muted">{settings.projectCardMoveInLabel}</dt>
             <dd className="mt-1 font-semibold text-foreground">{project.expectedMoveIn}</dd>
           </div>
           <div>
-            <dt className="text-muted">상담번호</dt>
+            <dt className="text-muted">{settings.projectCardPhoneLabel}</dt>
             <dd className="mt-1 font-semibold text-foreground">{project.contactPhone}</dd>
           </div>
         </dl>
@@ -50,13 +56,13 @@ export function ProjectCard({ project }: { project: Project }) {
                 className="button-primary min-h-[36px] rounded-[0.9rem] px-3 text-[0.76rem] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
                 href={formatPhoneHref(project.contactPhone)}
               >
-                전화문의
+                {settings.projectCardPhoneButtonLabel}
               </a>
               <Link
                 className="button-secondary min-h-[36px] rounded-[0.9rem] px-3 text-[0.76rem] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
                 href={`/projects/${project.slug}`}
               >
-                상세보기
+                {settings.projectCardDetailButtonLabel}
               </Link>
         </div>
       </div>

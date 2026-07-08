@@ -1,177 +1,305 @@
+import type { ReactNode } from "react";
+
 import { updateHomePageSettingsAction } from "@/app/admin/actions";
 import { SubmitButton } from "@/components/ui/submit-button";
 import type { HomePageSettings } from "@/lib/types";
+
+function TextField({
+  label,
+  name,
+  value
+}: {
+  label: string;
+  name: keyof HomePageSettings;
+  value: string;
+}) {
+  return (
+    <label className="space-y-2">
+      <span className="block text-sm font-semibold text-foreground">{label}</span>
+      <input className="field-shell" defaultValue={value} name={name} />
+    </label>
+  );
+}
+
+function TextAreaField({
+  label,
+  name,
+  value,
+  rows = 4
+}: {
+  label: string;
+  name: keyof HomePageSettings;
+  value: string;
+  rows?: number;
+}) {
+  return (
+    <label className="space-y-2">
+      <span className="block text-sm font-semibold text-foreground">{label}</span>
+      <textarea className="field-shell min-h-[108px]" defaultValue={value} name={name} rows={rows} />
+    </label>
+  );
+}
+
+function NumberField({
+  label,
+  name,
+  value,
+  min,
+  max,
+  step
+}: {
+  label: string;
+  name: keyof HomePageSettings;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+}) {
+  return (
+    <label className="space-y-2 text-sm font-semibold text-foreground">
+      <span>{label}</span>
+      <input
+        className="field-shell"
+        defaultValue={value}
+        max={max}
+        min={min}
+        name={name}
+        step={step}
+        type="number"
+      />
+    </label>
+  );
+}
+
+function SettingsSection({
+  title,
+  description,
+  children
+}: {
+  title: string;
+  description: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
+      <p className="text-xs uppercase tracking-[0.32em] text-muted">{title}</p>
+      <p className="mt-3 text-sm leading-7 text-muted">{description}</p>
+      <div className="mt-5 grid gap-4 md:grid-cols-2">{children}</div>
+    </section>
+  );
+}
 
 export function AdminHomePageSettingsForm({ settings }: { settings: HomePageSettings }) {
   return (
     <div className="admin-panel overflow-hidden">
       <div className="border-b border-black/5 px-6 py-6">
         <p className="text-xs uppercase tracking-[0.32em] text-muted">Homepage Settings</p>
-        <h2 className="mt-3 text-3xl">홈페이지 소개 글과 모바일 글씨 크기</h2>
+        <h2 className="mt-3 text-3xl">홈페이지 전체 문구와 모바일 글씨 크기</h2>
         <p className="mt-2 text-sm leading-8 text-muted">
-          메인 소개 문구와 모바일에서 보이는 제목/본문 글씨 크기를 관리자에서 직접 조정할 수 있습니다.
+          홈 화면에 보이는 상단 메뉴, 소개 문구, 버튼, 카드, 하단 문의 박스, 푸터 문구까지 관리자에서 직접 수정할 수 있습니다.
         </p>
       </div>
 
-      <form action={updateHomePageSettingsAction} className="grid gap-8 px-6 py-8 lg:grid-cols-2 lg:px-7">
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="heroTitle">
-              메인 제목
-            </label>
-            <textarea className="field-shell min-h-[108px]" defaultValue={settings.heroTitle} id="heroTitle" name="heroTitle" />
-          </div>
+      <form action={updateHomePageSettingsAction} className="space-y-6 px-6 py-8 lg:px-7">
+        <SettingsSection
+          description="헤더 상단 안내문, 로고 아래 보조 문구, 메뉴 이름, 우측 버튼 이름을 수정합니다."
+          title="Header"
+        >
+          <TextAreaField label="상단 안내 문구" name="headerAnnouncement" rows={3} value={settings.headerAnnouncement} />
+          <TextField label="상단 전화 라벨" name="headerPhoneLabel" value={settings.headerPhoneLabel} />
+          <TextField label="영문 브랜드명" name="brandEnglishName" value={settings.brandEnglishName} />
+          <TextField label="브랜드 보조 문구" name="brandCaption" value={settings.brandCaption} />
+          <TextField label="메뉴: 홈" name="navHomeLabel" value={settings.navHomeLabel} />
+          <TextField label="메뉴: 회사소개" name="navCompanyLabel" value={settings.navCompanyLabel} />
+          <TextField label="메뉴: 분양중" name="navProjectsLabel" value={settings.navProjectsLabel} />
+          <TextField label="메뉴: 분양완료" name="navCompletedLabel" value={settings.navCompletedLabel} />
+          <TextField label="메뉴: 상담문의" name="navContactLabel" value={settings.navContactLabel} />
+          <TextField label="상단 전화 버튼명" name="headerPhoneButtonLabel" value={settings.headerPhoneButtonLabel} />
+          <TextField label="상단 상담 버튼명" name="headerContactButtonLabel" value={settings.headerContactButtonLabel} />
+        </SettingsSection>
 
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="heroDescription">
-              메인 설명
-            </label>
-            <textarea
-              className="field-shell min-h-[140px]"
-              defaultValue={settings.heroDescription}
-              id="heroDescription"
-              name="heroDescription"
+        <SettingsSection
+          description="메인 히어로 영역의 배지, 제목, 설명, 버튼, 통계 라벨, 추천 현장 라벨을 수정합니다."
+          title="Hero"
+        >
+          <TextField label="메인 눈썹 문구" name="heroEyebrow" value={settings.heroEyebrow} />
+          <TextAreaField label="메인 제목" name="heroTitle" rows={4} value={settings.heroTitle} />
+          <TextAreaField label="메인 설명" name="heroDescription" rows={5} value={settings.heroDescription} />
+          <TextField label="메인 전화 버튼명" name="heroPhoneButtonLabel" value={settings.heroPhoneButtonLabel} />
+          <TextField label="메인 상담 버튼명" name="heroContactButtonLabel" value={settings.heroContactButtonLabel} />
+          <TextField label="통계: 분양중 라벨" name="heroActiveStatLabel" value={settings.heroActiveStatLabel} />
+          <TextField label="통계: 분양완료 라벨" name="heroCompletedStatLabel" value={settings.heroCompletedStatLabel} />
+          <TextField label="통계: 대표번호 라벨" name="heroPhoneStatLabel" value={settings.heroPhoneStatLabel} />
+          <TextField label="추천 현장 라벨" name="featuredProjectLabel" value={settings.featuredProjectLabel} />
+        </SettingsSection>
+
+        <SettingsSection
+          description="분양중/분양완료/상담문의 섹션의 라벨, 제목, 설명, 버튼, 빈 상태 문구를 수정합니다."
+          title="Sections"
+        >
+          <TextField label="분양중 상단 라벨" name="activeSectionEyebrow" value={settings.activeSectionEyebrow} />
+          <TextAreaField label="분양중 섹션 제목" name="activeSectionTitle" rows={4} value={settings.activeSectionTitle} />
+          <TextAreaField
+            label="분양중 섹션 설명"
+            name="activeSectionDescription"
+            rows={4}
+            value={settings.activeSectionDescription}
+          />
+          <TextField label="분양중 섹션 버튼명" name="activeSectionButtonLabel" value={settings.activeSectionButtonLabel} />
+          <TextAreaField
+            label="분양중 빈 상태 문구"
+            name="activeSectionEmptyMessage"
+            rows={4}
+            value={settings.activeSectionEmptyMessage}
+          />
+          <TextField
+            label="분양완료 상단 라벨"
+            name="completedSectionEyebrow"
+            value={settings.completedSectionEyebrow}
+          />
+          <TextAreaField
+            label="분양완료 섹션 제목"
+            name="completedSectionTitle"
+            rows={4}
+            value={settings.completedSectionTitle}
+          />
+          <TextAreaField
+            label="분양완료 섹션 설명"
+            name="completedSectionDescription"
+            rows={4}
+            value={settings.completedSectionDescription}
+          />
+          <TextAreaField
+            label="분양완료 빈 상태 문구"
+            name="completedSectionEmptyMessage"
+            rows={4}
+            value={settings.completedSectionEmptyMessage}
+          />
+          <TextField
+            label="분양완료 섹션 버튼명"
+            name="completedSectionButtonLabel"
+            value={settings.completedSectionButtonLabel}
+          />
+          <TextField label="문의 상단 라벨" name="contactSectionEyebrow" value={settings.contactSectionEyebrow} />
+          <TextAreaField label="문의 섹션 제목" name="contactSectionTitle" rows={4} value={settings.contactSectionTitle} />
+          <TextAreaField
+            label="문의 섹션 설명"
+            name="contactSectionDescription"
+            rows={4}
+            value={settings.contactSectionDescription}
+          />
+          <TextField label="문의 전화 버튼명" name="contactPhoneButtonLabel" value={settings.contactPhoneButtonLabel} />
+          <TextField label="문의 상담 버튼명" name="contactFormButtonLabel" value={settings.contactFormButtonLabel} />
+        </SettingsSection>
+
+        <SettingsSection
+          description="현장 카드 안에 들어가는 라벨과 버튼 문구를 수정합니다."
+          title="Project Cards"
+        >
+          <TextField label="카드 세대수 라벨" name="projectCardHouseholdLabel" value={settings.projectCardHouseholdLabel} />
+          <TextField label="카드 평형 라벨" name="projectCardUnitPlanLabel" value={settings.projectCardUnitPlanLabel} />
+          <TextField label="카드 입주예정 라벨" name="projectCardMoveInLabel" value={settings.projectCardMoveInLabel} />
+          <TextField label="카드 상담번호 라벨" name="projectCardPhoneLabel" value={settings.projectCardPhoneLabel} />
+          <TextField
+            label="카드 전화 버튼명"
+            name="projectCardPhoneButtonLabel"
+            value={settings.projectCardPhoneButtonLabel}
+          />
+          <TextField
+            label="카드 상세 버튼명"
+            name="projectCardDetailButtonLabel"
+            value={settings.projectCardDetailButtonLabel}
+          />
+        </SettingsSection>
+
+        <SettingsSection
+          description="우측 하단 고정 문의 박스와 모바일 하단 고정 버튼 문구를 수정합니다."
+          title="Sticky CTA"
+        >
+          <TextField label="고정 문의 상단 라벨" name="stickyEyebrow" value={settings.stickyEyebrow} />
+          <TextAreaField label="고정 문의 제목" name="stickyTitle" rows={4} value={settings.stickyTitle} />
+          <TextAreaField label="고정 문의 설명" name="stickyDescription" rows={4} value={settings.stickyDescription} />
+          <TextField
+            label="고정 문의 전화 버튼명"
+            name="stickyPhoneButtonLabel"
+            value={settings.stickyPhoneButtonLabel}
+          />
+          <TextField
+            label="고정 문의 상담 버튼명"
+            name="stickyContactButtonLabel"
+            value={settings.stickyContactButtonLabel}
+          />
+        </SettingsSection>
+
+        <SettingsSection
+          description="푸터 소개 문구, 섹션 제목, 링크 이름, 마지막 저작권 문구를 수정합니다."
+          title="Footer"
+        >
+          <TextField label="푸터 브랜드 문구" name="footerBrandEyebrow" value={settings.footerBrandEyebrow} />
+          <TextAreaField label="푸터 설명" name="footerDescription" rows={4} value={settings.footerDescription} />
+          <TextField label="푸터 전화 라벨" name="footerPhoneLabel" value={settings.footerPhoneLabel} />
+          <TextField label="푸터 이메일 라벨" name="footerEmailLabel" value={settings.footerEmailLabel} />
+          <TextField label="푸터 사이트맵 제목" name="footerSitemapTitle" value={settings.footerSitemapTitle} />
+          <TextField label="푸터 문의 안내 제목" name="footerInquiryTitle" value={settings.footerInquiryTitle} />
+          <TextField
+            label="푸터 상담문의 링크명"
+            name="footerInquiryContactLabel"
+            value={settings.footerInquiryContactLabel}
+          />
+          <TextField label="푸터 개인정보 링크명" name="footerPrivacyLabel" value={settings.footerPrivacyLabel} />
+          <TextField label="푸터 전화문의 링크명" name="footerInquiryPhoneLabel" value={settings.footerInquiryPhoneLabel} />
+          <TextField
+            label="푸터 분양중 링크명"
+            name="footerInquiryProjectsLabel"
+            value={settings.footerInquiryProjectsLabel}
+          />
+          <TextField label="푸터 저작권 문구" name="footerCopyrightText" value={settings.footerCopyrightText} />
+          <TextAreaField label="푸터 마지막 문구" name="footerTaglineText" rows={3} value={settings.footerTaglineText} />
+        </SettingsSection>
+
+        <section className="rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
+          <p className="text-xs uppercase tracking-[0.32em] text-muted">Mobile Typography</p>
+          <p className="mt-3 text-sm leading-7 text-muted">
+            숫자를 너무 크게 올리면 모바일에서 다시 두 줄로 많이 내려갈 수 있습니다. 보통 본문은 `13~15px`, 제목은 `1.2~1.5rem` 안에서 맞추면 안정적입니다.
+          </p>
+          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <NumberField
+              label="메인 제목 크기 `rem`"
+              max={2.2}
+              min={1.1}
+              name="mobileHeroTitleRem"
+              step={0.01}
+              value={settings.mobileHeroTitleRem}
+            />
+            <NumberField
+              label="섹션 제목 크기 `rem`"
+              max={2}
+              min={1}
+              name="mobileSectionTitleRem"
+              step={0.01}
+              value={settings.mobileSectionTitleRem}
+            />
+            <NumberField
+              label="본문 크기 `px`"
+              max={18}
+              min={12}
+              name="mobileBodyTextPx"
+              step={1}
+              value={settings.mobileBodyTextPx}
+            />
+            <NumberField
+              label="카드 제목 크기 `rem`"
+              max={1.6}
+              min={0.95}
+              name="mobileProjectCardTitleRem"
+              step={0.01}
+              value={settings.mobileProjectCardTitleRem}
             />
           </div>
+        </section>
 
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="activeSectionTitle">
-              분양중 섹션 제목
-            </label>
-            <input className="field-shell" defaultValue={settings.activeSectionTitle} id="activeSectionTitle" name="activeSectionTitle" />
-          </div>
-
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="activeSectionDescription">
-              분양중 섹션 설명
-            </label>
-            <textarea
-              className="field-shell min-h-[120px]"
-              defaultValue={settings.activeSectionDescription}
-              id="activeSectionDescription"
-              name="activeSectionDescription"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="completedSectionTitle">
-              분양완료 섹션 제목
-            </label>
-            <textarea
-              className="field-shell min-h-[108px]"
-              defaultValue={settings.completedSectionTitle}
-              id="completedSectionTitle"
-              name="completedSectionTitle"
-            />
-          </div>
-
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="completedSectionDescription">
-              분양완료 섹션 설명
-            </label>
-            <textarea
-              className="field-shell min-h-[120px]"
-              defaultValue={settings.completedSectionDescription}
-              id="completedSectionDescription"
-              name="completedSectionDescription"
-            />
-          </div>
-
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="contactSectionTitle">
-              문의 섹션 제목
-            </label>
-            <textarea
-              className="field-shell min-h-[108px]"
-              defaultValue={settings.contactSectionTitle}
-              id="contactSectionTitle"
-              name="contactSectionTitle"
-            />
-          </div>
-
-          <div className="space-y-3">
-            <label className="block text-sm font-semibold text-foreground" htmlFor="contactSectionDescription">
-              문의 섹션 설명
-            </label>
-            <textarea
-              className="field-shell min-h-[120px]"
-              defaultValue={settings.contactSectionDescription}
-              id="contactSectionDescription"
-              name="contactSectionDescription"
-            />
-          </div>
-        </div>
-
-        <div className="lg:col-span-2">
-          <div className="rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Mobile Typography</p>
-            <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <label className="space-y-2 text-sm font-semibold text-foreground" htmlFor="mobileHeroTitleRem">
-                <span>메인 제목 크기 `rem`</span>
-                <input
-                  className="field-shell"
-                  defaultValue={settings.mobileHeroTitleRem}
-                  id="mobileHeroTitleRem"
-                  max="2.2"
-                  min="1.1"
-                  name="mobileHeroTitleRem"
-                  step="0.01"
-                  type="number"
-                />
-              </label>
-
-              <label className="space-y-2 text-sm font-semibold text-foreground" htmlFor="mobileSectionTitleRem">
-                <span>섹션 제목 크기 `rem`</span>
-                <input
-                  className="field-shell"
-                  defaultValue={settings.mobileSectionTitleRem}
-                  id="mobileSectionTitleRem"
-                  max="2"
-                  min="1"
-                  name="mobileSectionTitleRem"
-                  step="0.01"
-                  type="number"
-                />
-              </label>
-
-              <label className="space-y-2 text-sm font-semibold text-foreground" htmlFor="mobileBodyTextPx">
-                <span>본문 크기 `px`</span>
-                <input
-                  className="field-shell"
-                  defaultValue={settings.mobileBodyTextPx}
-                  id="mobileBodyTextPx"
-                  max="18"
-                  min="12"
-                  name="mobileBodyTextPx"
-                  step="1"
-                  type="number"
-                />
-              </label>
-
-              <label className="space-y-2 text-sm font-semibold text-foreground" htmlFor="mobileProjectCardTitleRem">
-                <span>카드 제목 크기 `rem`</span>
-                <input
-                  className="field-shell"
-                  defaultValue={settings.mobileProjectCardTitleRem}
-                  id="mobileProjectCardTitleRem"
-                  max="1.6"
-                  min="0.95"
-                  name="mobileProjectCardTitleRem"
-                  step="0.01"
-                  type="number"
-                />
-              </label>
-            </div>
-            <p className="mt-4 text-sm leading-7 text-muted">
-              숫자를 너무 크게 올리면 모바일에서 다시 두 줄로 많이 내려갈 수 있습니다. 보통 본문은 `13~15px`, 제목은 `1.2~1.5rem` 안에서 맞추면 안정적입니다.
-            </p>
-          </div>
-
-          <div className="mt-6 flex justify-end">
-            <SubmitButton className="button-primary">홈페이지 설정 저장</SubmitButton>
-          </div>
+        <div className="flex justify-end">
+          <SubmitButton className="button-primary">홈페이지 설정 저장</SubmitButton>
         </div>
       </form>
     </div>
