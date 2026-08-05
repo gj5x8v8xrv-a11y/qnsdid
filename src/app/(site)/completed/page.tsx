@@ -38,10 +38,10 @@ export default async function CompletedProjectsPage({
       <PageHero
         actions={
           <>
-            <Link className="button-primary !min-h-[42px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/projects">
+            <Link className="button-primary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/projects">
               분양중 현장 보기
             </Link>
-            <Link className="button-secondary !min-h-[42px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/contact">
+            <Link className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/contact">
               상담문의
             </Link>
           </>
@@ -54,7 +54,7 @@ export default async function CompletedProjectsPage({
 
       <section className="page-shell pb-24">
         <SectionHeading
-          description="지역별로 살펴보시고 현재 분양중 현장과 함께 비교해보세요."
+          description="지역별로 살펴보시고 현재 분양중 현장과 비교해보세요."
           eyebrow="지역별 보기"
           title={activeRegion ? `${activeRegion} 소개 완료 현장` : "지역별 완료 현장"}
         />
@@ -88,7 +88,7 @@ export default async function CompletedProjectsPage({
         ) : null}
 
         {filteredProjects.length > 0 ? (
-          <div className="card-grid mt-7 sm:mt-10">
+          <div className="card-grid mt-6 sm:mt-10">
             {filteredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
