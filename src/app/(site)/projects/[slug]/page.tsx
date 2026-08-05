@@ -159,10 +159,10 @@ export default async function ProjectDetailPage({
   const premiumLines = getReadableParagraphs(project.premiumSummary);
 
   return (
-    <section className="page-shell pb-24 pt-4 sm:pt-6">
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
-        <div className="space-y-6">
-          <section className="surface-panel p-4 sm:p-8">
+    <section className="page-shell pb-24 pt-3 sm:pt-6">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
+        <div className="space-y-4">
+          <section className="surface-panel p-3.5 sm:p-8">
             {heroImage ? (
               <div className="overflow-hidden rounded-[1.65rem] border border-[color:var(--line)] bg-slate-50">
                 <LightboxImage
@@ -174,29 +174,29 @@ export default async function ProjectDetailPage({
               </div>
             ) : null}
 
-            <div className="mt-4 flex items-start justify-between gap-3">
+            <div className="mt-3 flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[11px] font-semibold tracking-[0.16em] text-muted sm:text-[13px] sm:tracking-[0.22em]">
+                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted sm:text-[13px] sm:tracking-[0.22em]">
                   {getProjectRegion(project)}
                 </p>
-                <h1 className="mt-2 break-keep text-[1.55rem] leading-[1.18] tracking-[-0.04em] sm:text-[3rem]">
+                <h1 className="mt-1.5 break-keep text-[1.36rem] leading-[1.18] tracking-[-0.04em] sm:text-[3rem]">
                   {project.name}
                 </h1>
-                <p className="mt-2 break-keep text-[12.5px] leading-5 text-muted sm:text-[15px] sm:leading-7">
+                <p className="mt-1.5 break-keep text-[11.5px] leading-4.5 text-muted sm:text-[15px] sm:leading-7">
                   {premiumLines[0] || addressLine || project.location}
                 </p>
               </div>
-              <span className="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-[11px] font-semibold text-foreground sm:text-xs">
+              <span className="shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-foreground sm:text-xs">
                 {formatStatusLabel(project.status)}
               </span>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2 lg:hidden">
-              <a className="button-accent !min-h-[42px] !rounded-[1rem] !px-3 !text-[12px]" href={formatPhoneHref(project.contactPhone)}>
+            <div className="mt-3 grid grid-cols-2 gap-2 lg:hidden">
+              <a className="button-accent !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]" href={formatPhoneHref(project.contactPhone)}>
                 전화문의
               </a>
               <a
-                className="button-primary !min-h-[42px] !rounded-[1rem] !px-3 !text-[12px]"
+                className="button-primary !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]"
                 href={reservationHref}
                 rel="noreferrer"
                 target="_blank"
@@ -205,29 +205,29 @@ export default async function ProjectDetailPage({
               </a>
             </div>
 
-            <div className="mt-3 rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-4 lg:hidden">
-              <p className="text-[12px] font-semibold text-foreground">바로가기</p>
-              <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="mt-2.5 rounded-[1.3rem] border border-[color:var(--line)] bg-white px-3.5 py-3.5 lg:hidden">
+              <p className="text-[11px] font-semibold text-foreground">바로가기</p>
+              <div className="mt-2.5 grid grid-cols-2 gap-1.5">
                 <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
                   href="#overview"
                 >
                   기본정보
                 </a>
                 <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
                   href="#types"
                 >
                   타입정보
                 </a>
                 <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
                   href="#location"
                 >
                   입지안내
                 </a>
                 <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
                   href="#faq"
                 >
                   자주하는질문
@@ -236,23 +236,23 @@ export default async function ProjectDetailPage({
             </div>
           </section>
 
-          <section className="surface-panel p-5 sm:p-8" id="overview">
+          <section className="surface-panel p-4 sm:p-8" id="overview">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">사업 개요</h2>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-foreground sm:text-xs">
+              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">사업 개요</h2>
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-foreground sm:text-xs">
                 {formatStatusLabel(project.status)}
               </span>
             </div>
 
-            <div className="mt-5 space-y-2.5 sm:mt-6 sm:space-y-4">
+            <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-4">
               {overviewRows.map((row) => (
                 <div
-                  className="rounded-[1.4rem] border border-[color:var(--line)] bg-slate-50 px-4 py-3.5 sm:px-5 sm:py-5"
+                  className="rounded-[1.25rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3 sm:px-5 sm:py-5"
                   key={row.label}
                 >
                   <div className="flex items-center justify-between gap-4 sm:gap-6">
-                    <p className="shrink-0 text-[11px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
-                    <p className="min-w-0 break-keep text-right text-[0.86rem] font-semibold leading-5 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7">
+                    <p className="shrink-0 text-[10px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
+                    <p className="min-w-0 break-keep text-right text-[0.8rem] font-semibold leading-5 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7">
                       {row.value}
                     </p>
                   </div>
@@ -261,21 +261,21 @@ export default async function ProjectDetailPage({
             </div>
           </section>
 
-          <section className="surface-panel p-5 sm:p-8" id="types">
+          <section className="surface-panel p-4 sm:p-8" id="types">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">타입 정보</h2>
-              <span className="text-[11.5px] font-medium text-muted sm:text-sm">핵심 타입만 빠르게 확인</span>
+              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">타입 정보</h2>
+              <span className="text-[10.5px] font-medium text-muted sm:text-sm">핵심 타입만 빠르게 확인</span>
             </div>
 
-            <div className="mt-5 rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4 sm:mt-6 sm:px-5 sm:py-6">
-              <p className="text-[12px] text-muted sm:text-sm">공급 타입</p>
-              <p className="mt-2 break-keep text-[1rem] font-semibold leading-[1.55] text-foreground sm:text-[1.8rem]">
+            <div className="mt-4 rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3.5 sm:mt-6 sm:px-5 sm:py-6">
+              <p className="text-[11px] text-muted sm:text-sm">공급 타입</p>
+              <p className="mt-1.5 break-keep text-[0.9rem] font-semibold leading-[1.5] text-foreground sm:text-[1.8rem]">
                 {project.unitPlan}
               </p>
             </div>
 
             {floorPlanImages.length > 0 && (
-              <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
+              <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4">
                 {floorPlanImages.map((image) => (
                   <div
                     className="overflow-hidden rounded-[1.5rem] border border-[color:var(--line)] bg-white"
@@ -292,32 +292,32 @@ export default async function ProjectDetailPage({
               </div>
             )}
 
-            <div className="mt-5 grid gap-2.5 sm:mt-6 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4">
-                <p className="text-[12px] text-muted sm:text-sm">공급 세대</p>
-                <p className="mt-2 text-[1.06rem] font-semibold text-foreground sm:text-[1.7rem]">
+            <div className="mt-4 grid gap-2 sm:mt-6 sm:grid-cols-2">
+              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-white px-3.5 py-3.5">
+                <p className="text-[11px] text-muted sm:text-sm">공급 세대</p>
+                <p className="mt-1.5 text-[0.92rem] font-semibold text-foreground sm:text-[1.7rem]">
                   {project.householdCount}
                 </p>
               </div>
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4">
-                <p className="text-[12px] text-muted sm:text-sm">입주 예정</p>
-                <p className="mt-2 text-[1.06rem] font-semibold text-foreground sm:text-[1.7rem]">
+              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-white px-3.5 py-3.5">
+                <p className="text-[11px] text-muted sm:text-sm">입주 예정</p>
+                <p className="mt-1.5 text-[0.92rem] font-semibold text-foreground sm:text-[1.7rem]">
                   {project.expectedMoveIn}
                 </p>
               </div>
             </div>
           </section>
 
-          <section className="surface-panel p-5 sm:p-8" id="location">
+          <section className="surface-panel p-4 sm:p-8" id="location">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">입지 안내</h2>
-              <span className="text-[11.5px] font-medium text-muted sm:text-sm">현장 주변 핵심 정보</span>
+              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">입지 안내</h2>
+              <span className="text-[10.5px] font-medium text-muted sm:text-sm">현장 주변 핵심 정보</span>
             </div>
 
-            <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4">
-                <p className="text-[12px] font-semibold text-muted sm:text-sm">현장 위치 및 주변환경</p>
-                <div className="mt-3 space-y-2.5 text-[13px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
+            <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2">
+              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3.5">
+                <p className="text-[11px] font-semibold text-muted sm:text-sm">현장 위치 및 주변환경</p>
+                <div className="mt-2.5 space-y-2 text-[12px] leading-5 text-foreground sm:text-[15px] sm:leading-7">
                   {locationLines.map((line, index) => (
                     <p className="break-keep" key={`location-line-${index}`}>
                       {line}
@@ -326,9 +326,9 @@ export default async function ProjectDetailPage({
                 </div>
               </div>
 
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4">
-                <p className="text-[12px] font-semibold text-muted sm:text-sm">프리미엄 포인트</p>
-                <div className="mt-3 space-y-2.5 text-[13px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
+              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3.5">
+                <p className="text-[11px] font-semibold text-muted sm:text-sm">프리미엄 포인트</p>
+                <div className="mt-2.5 space-y-2 text-[12px] leading-5 text-foreground sm:text-[15px] sm:leading-7">
                   {premiumLines.map((line, index) => (
                     <p className="break-keep" key={`premium-line-${index}`}>
                       {line}
@@ -350,29 +350,29 @@ export default async function ProjectDetailPage({
             )}
 
             {lifestyleSections.length > 0 && (
-              <div className="mt-5 space-y-4 sm:mt-6">
+              <div className="mt-4 space-y-3 sm:mt-6">
                 {lifestyleSections.map((section) => {
                   const images = groupedImages[section.key] || [];
 
                   return (
                     <div
-                      className="rounded-[1.5rem] border border-[color:var(--line)] bg-white p-4 sm:p-5"
+                      className="rounded-[1.35rem] border border-[color:var(--line)] bg-white p-3.5 sm:p-5"
                       key={section.key}
                     >
                       <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                        <h3 className="text-[1rem] leading-6 sm:text-[1.35rem]">{section.title}</h3>
-                        <span className="text-[11px] text-muted sm:text-[13px]">{section.description}</span>
+                        <h3 className="text-[0.9rem] leading-5 sm:text-[1.35rem]">{section.title}</h3>
+                        <span className="text-[10px] text-muted sm:text-[13px]">{section.description}</span>
                       </div>
-                      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
                         {images.slice(0, 4).map((image) => (
                           <div
-                            className="overflow-hidden rounded-[1.2rem] border border-[color:var(--line)] bg-slate-50"
+                            className="overflow-hidden rounded-[1.05rem] border border-[color:var(--line)] bg-slate-50"
                             key={image.id}
                           >
                             <LightboxImage
                               alt={`${project.name} ${section.title}`}
                               imageClassName="aspect-[4/3]"
-                              wrapperClassName="rounded-[1.2rem]"
+                              wrapperClassName="rounded-[1.05rem]"
                               src={image.imageUrl}
                             />
                           </div>
@@ -385,31 +385,31 @@ export default async function ProjectDetailPage({
             )}
           </section>
 
-          <section className="surface-panel p-5 sm:p-8" id="faq">
+          <section className="surface-panel p-4 sm:p-8" id="faq">
             <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">자주하는 질문</h2>
-              <span className="text-[11.5px] font-medium text-muted sm:text-sm">현장 문의 전 빠르게 확인</span>
+              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">자주하는 질문</h2>
+              <span className="text-[10.5px] font-medium text-muted sm:text-sm">현장 문의 전 빠르게 확인</span>
             </div>
 
-            <div className="mt-5 space-y-4 sm:mt-6">
+            <div className="mt-4 space-y-3 sm:mt-6">
               {faqEntries.map((item, index) => (
                 <div
-                  className="overflow-hidden rounded-[1.5rem] border border-[color:var(--line)] bg-white shadow-[0_12px_28px_rgba(15,23,42,0.04)]"
+                  className="overflow-hidden rounded-[1.35rem] border border-[color:var(--line)] bg-white shadow-[0_10px_22px_rgba(15,23,42,0.035)]"
                   key={`${item.question}-${index}`}
                 >
-                  <div className="flex gap-3 border-b border-[color:var(--line)] px-4 py-4 sm:px-6 sm:py-5">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-[0.92rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
+                  <div className="flex gap-2.5 border-b border-[color:var(--line)] px-3.5 py-3.5 sm:px-6 sm:py-5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-[0.82rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
                       Q
                     </span>
-                    <p className="break-keep pt-0.5 text-[0.85rem] font-semibold leading-6 text-foreground sm:pt-1 sm:text-[1.35rem] sm:leading-8">
+                    <p className="break-keep pt-0.5 text-[0.78rem] font-semibold leading-5 text-foreground sm:pt-1 sm:text-[1.35rem] sm:leading-8">
                       {item.question}
                     </p>
                   </div>
-                  <div className="flex gap-3 px-4 py-4 sm:px-6 sm:py-5">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[0.92rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
+                  <div className="flex gap-2.5 px-3.5 py-3.5 sm:px-6 sm:py-5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[0.82rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
                       A
                     </span>
-                    <p className="break-keep pt-0.5 text-[12px] leading-5 text-slate-700 sm:pt-1 sm:text-[1.02rem] sm:leading-8">
+                    <p className="break-keep pt-0.5 text-[11px] leading-4.5 text-slate-700 sm:pt-1 sm:text-[1.02rem] sm:leading-8">
                       {item.answer}
                     </p>
                   </div>
