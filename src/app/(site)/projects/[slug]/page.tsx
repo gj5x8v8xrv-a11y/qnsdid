@@ -211,8 +211,8 @@ export default async function ProjectDetailPage({
 
           <section className="surface-panel p-5 sm:p-8" id="overview">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.95rem] sm:text-3xl">사업 개요</h2>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-foreground">
+              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">사업 개요</h2>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-foreground sm:text-xs">
                 {formatStatusLabel(project.status)}
               </span>
             </div>
@@ -235,8 +235,8 @@ export default async function ProjectDetailPage({
                   key={row.label}
                 >
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-                    <p className="text-[13px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
-                    <p className="break-keep text-[1.02rem] font-semibold leading-7 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:text-right">
+                    <p className="text-[12px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
+                    <p className="break-keep text-[0.94rem] font-semibold leading-6 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7 sm:text-right">
                       {row.value}
                     </p>
                   </div>
@@ -246,14 +246,14 @@ export default async function ProjectDetailPage({
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="types">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.95rem] sm:text-3xl">타입 정보</h2>
-              <span className="text-[13px] font-medium text-muted sm:text-sm">평형 및 구조 안내</span>
+            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">타입 정보</h2>
+              <span className="text-[11.5px] font-medium text-muted sm:text-sm">평형 및 구조 안내</span>
             </div>
 
             <div className="mt-5 rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-5 sm:mt-6 sm:px-5 sm:py-6">
-              <p className="text-[13px] text-muted sm:text-sm">공급 타입</p>
-              <p className="mt-2 break-keep text-[1.35rem] font-semibold leading-[1.45] text-foreground sm:text-[1.8rem]">
+              <p className="text-[12px] text-muted sm:text-sm">공급 타입</p>
+              <p className="mt-2 break-keep text-[1.08rem] font-semibold leading-[1.5] text-foreground sm:text-[1.8rem]">
                 {project.unitPlan}
               </p>
             </div>
@@ -278,14 +278,14 @@ export default async function ProjectDetailPage({
 
             <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2">
               <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
-                <p className="text-[13px] text-muted sm:text-sm">공급 세대</p>
-                <p className="mt-2 text-[1.25rem] font-semibold text-foreground sm:text-[1.7rem]">
+                <p className="text-[12px] text-muted sm:text-sm">공급 세대</p>
+                <p className="mt-2 text-[1.06rem] font-semibold text-foreground sm:text-[1.7rem]">
                   {project.householdCount}
                 </p>
               </div>
               <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
-                <p className="text-[13px] text-muted sm:text-sm">입주 예정</p>
-                <p className="mt-2 text-[1.25rem] font-semibold text-foreground sm:text-[1.7rem]">
+                <p className="text-[12px] text-muted sm:text-sm">입주 예정</p>
+                <p className="mt-2 text-[1.06rem] font-semibold text-foreground sm:text-[1.7rem]">
                   {project.expectedMoveIn}
                 </p>
               </div>
@@ -293,15 +293,15 @@ export default async function ProjectDetailPage({
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="location">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.95rem] sm:text-3xl">입지 환경</h2>
-              <span className="text-[13px] font-medium text-muted sm:text-sm">현장 주변 핵심 정보</span>
+            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">입지 환경</h2>
+              <span className="text-[11.5px] font-medium text-muted sm:text-sm">현장 주변 핵심 정보</span>
             </div>
 
             <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2">
               <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
-                <p className="text-[13px] font-semibold text-muted sm:text-sm">현장 위치 및 주변환경</p>
-                <div className="mt-3 space-y-3 text-[14px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
+                <p className="text-[12px] font-semibold text-muted sm:text-sm">현장 위치 및 주변환경</p>
+                <div className="mt-3 space-y-2.5 text-[13px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
                   {getReadableParagraphs(project.locationDescription).map((line, index) => (
                     <p className="break-keep" key={`location-line-${index}`}>
                       {line}
@@ -311,8 +311,8 @@ export default async function ProjectDetailPage({
               </div>
 
               <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
-                <p className="text-[13px] font-semibold text-muted sm:text-sm">프리미엄 포인트</p>
-                <div className="mt-3 space-y-3 text-[14px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
+                <p className="text-[12px] font-semibold text-muted sm:text-sm">프리미엄 포인트</p>
+                <div className="mt-3 space-y-2.5 text-[13px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
                   {getReadableParagraphs(project.premiumSummary).map((line, index) => (
                     <p className="break-keep" key={`premium-line-${index}`}>
                       {line}
@@ -343,9 +343,9 @@ export default async function ProjectDetailPage({
                       className="rounded-[1.5rem] border border-[color:var(--line)] bg-white p-4 sm:p-5"
                       key={section.key}
                     >
-                      <div className="flex items-center justify-between gap-3">
-                        <h3 className="text-[1.1rem] sm:text-[1.35rem]">{section.title}</h3>
-                        <span className="text-[12px] text-muted sm:text-[13px]">{section.description}</span>
+                      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                        <h3 className="text-[1rem] leading-6 sm:text-[1.35rem]">{section.title}</h3>
+                        <span className="text-[11px] text-muted sm:text-[13px]">{section.description}</span>
                       </div>
                       <div className="mt-4 grid gap-3 sm:grid-cols-2">
                         {images.slice(0, 4).map((image) => (
@@ -370,9 +370,9 @@ export default async function ProjectDetailPage({
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="faq">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.95rem] sm:text-3xl">자주하는 질문</h2>
-              <span className="text-[13px] font-medium text-muted sm:text-sm">현장 문의 전 빠르게 확인</span>
+            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">자주하는 질문</h2>
+              <span className="text-[11.5px] font-medium text-muted sm:text-sm">현장 문의 전 빠르게 확인</span>
             </div>
 
             <div className="mt-5 space-y-4 sm:mt-6">
@@ -382,18 +382,18 @@ export default async function ProjectDetailPage({
                   key={`${item.question}-${index}`}
                 >
                   <div className="flex gap-4 border-b border-[color:var(--line)] px-4 py-5 sm:px-6">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-black text-lg font-bold text-white">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-[1rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
                       Q
                     </span>
-                    <p className="break-keep pt-1 text-[1.05rem] font-semibold leading-8 text-foreground sm:text-[1.35rem]">
+                    <p className="break-keep pt-0.5 text-[0.96rem] font-semibold leading-7 text-foreground sm:pt-1 sm:text-[1.35rem] sm:leading-8">
                       {item.question}
                     </p>
                   </div>
                   <div className="flex gap-4 px-4 py-5 sm:px-6">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-900 text-lg font-bold text-white">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[1rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
                       A
                     </span>
-                    <p className="break-keep pt-1 text-[14px] leading-7 text-slate-700 sm:text-[1.02rem] sm:leading-8">
+                    <p className="break-keep pt-0.5 text-[13px] leading-6 text-slate-700 sm:pt-1 sm:text-[1.02rem] sm:leading-8">
                       {item.answer}
                     </p>
                   </div>
