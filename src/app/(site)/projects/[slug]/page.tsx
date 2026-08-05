@@ -397,19 +397,19 @@ export default async function ProjectDetailPage({
                   className="overflow-hidden rounded-[1.5rem] border border-[color:var(--line)] bg-white shadow-[0_12px_28px_rgba(15,23,42,0.04)]"
                   key={`${item.question}-${index}`}
                 >
-                  <div className="flex gap-4 border-b border-[color:var(--line)] px-4 py-5 sm:px-6">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-[1rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
+                  <div className="flex gap-3 border-b border-[color:var(--line)] px-4 py-4 sm:px-6 sm:py-5">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-[0.92rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
                       Q
                     </span>
-                    <p className="break-keep pt-0.5 text-[0.96rem] font-semibold leading-7 text-foreground sm:pt-1 sm:text-[1.35rem] sm:leading-8">
+                    <p className="break-keep pt-0.5 text-[0.85rem] font-semibold leading-6 text-foreground sm:pt-1 sm:text-[1.35rem] sm:leading-8">
                       {item.question}
                     </p>
                   </div>
-                  <div className="flex gap-4 px-4 py-5 sm:px-6">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[1rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
+                  <div className="flex gap-3 px-4 py-4 sm:px-6 sm:py-5">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[0.92rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
                       A
                     </span>
-                    <p className="break-keep pt-0.5 text-[13px] leading-6 text-slate-700 sm:pt-1 sm:text-[1.02rem] sm:leading-8">
+                    <p className="break-keep pt-0.5 text-[12px] leading-5 text-slate-700 sm:pt-1 sm:text-[1.02rem] sm:leading-8">
                       {item.answer}
                     </p>
                   </div>
