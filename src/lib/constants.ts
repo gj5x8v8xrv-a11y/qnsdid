@@ -55,7 +55,6 @@ export const PROJECT_IMAGE_TYPE_OPTIONS: Array<{
 
 export const SITE_NAV_ITEMS = [
   { href: "/", labelKey: "navHomeLabel" },
-  { href: "/company", labelKey: "navCompanyLabel" },
   { href: "/projects", labelKey: "navProjectsLabel" },
   { href: "/completed", labelKey: "navCompletedLabel" },
   { href: "/contact", labelKey: "navContactLabel" }

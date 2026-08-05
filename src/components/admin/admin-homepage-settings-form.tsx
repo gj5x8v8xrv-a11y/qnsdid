@@ -110,7 +110,6 @@ export function AdminHomePageSettingsForm({ settings }: { settings: HomePageSett
           <TextField label="영문 브랜드명" name="brandEnglishName" value={settings.brandEnglishName} />
           <TextField label="브랜드 보조 문구" name="brandCaption" value={settings.brandCaption} />
           <TextField label="메뉴: 홈" name="navHomeLabel" value={settings.navHomeLabel} />
-          <TextField label="메뉴: 회사소개" name="navCompanyLabel" value={settings.navCompanyLabel} />
           <TextField label="메뉴: 분양중" name="navProjectsLabel" value={settings.navProjectsLabel} />
           <TextField label="메뉴: 분양완료" name="navCompletedLabel" value={settings.navCompletedLabel} />
           <TextField label="메뉴: 상담문의" name="navContactLabel" value={settings.navContactLabel} />

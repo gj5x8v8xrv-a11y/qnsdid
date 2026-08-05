@@ -565,7 +565,6 @@ export async function updateHomePageSettingsAction(formData: FormData) {
       brandEnglishName: getTextField(formData, "brandEnglishName", "영문 브랜드명"),
       brandCaption: getTextField(formData, "brandCaption", "브랜드 보조 문구"),
       navHomeLabel: getTextField(formData, "navHomeLabel", "홈 메뉴명"),
-      navCompanyLabel: getTextField(formData, "navCompanyLabel", "회사소개 메뉴명"),
       navProjectsLabel: getTextField(formData, "navProjectsLabel", "분양중 메뉴명"),
       navCompletedLabel: getTextField(formData, "navCompletedLabel", "분양완료 메뉴명"),
       navContactLabel: getTextField(formData, "navContactLabel", "상담문의 메뉴명"),

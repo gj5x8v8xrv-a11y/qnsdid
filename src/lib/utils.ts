@@ -54,7 +54,6 @@ export function getDefaultHomePageSettings(): HomePageSettings {
     brandEnglishName: "BUNYANG MAP",
     brandCaption: "중부권 분양 정보 플랫폼",
     navHomeLabel: "홈",
-    navCompanyLabel: "회사소개",
     navProjectsLabel: "분양중",
     navCompletedLabel: "분양완료",
     navContactLabel: "상담문의",

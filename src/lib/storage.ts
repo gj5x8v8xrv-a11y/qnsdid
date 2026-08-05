@@ -16,7 +16,6 @@ const HOME_PAGE_STRING_FIELDS = [
   "brandEnglishName",
   "brandCaption",
   "navHomeLabel",
-  "navCompanyLabel",
   "navProjectsLabel",
   "navCompletedLabel",
   "navContactLabel",

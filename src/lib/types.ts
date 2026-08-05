@@ -76,7 +76,6 @@ export type HomePageSettings = {
   brandEnglishName: string;
   brandCaption: string;
   navHomeLabel: string;
-  navCompanyLabel: string;
   navProjectsLabel: string;
   navCompletedLabel: string;
   navContactLabel: string;
