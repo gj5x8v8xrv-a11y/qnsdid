@@ -154,87 +154,73 @@ export default async function ProjectDetailPage({
     const images = groupedImages[section.key] || [];
     return images.length > 0 && section.key !== "floor_plan" && section.key !== "gallery";
   });
+  const salesLines = getReadableParagraphs(project.salesConditions);
+  const locationLines = getReadableParagraphs(project.locationDescription);
+  const premiumLines = getReadableParagraphs(project.premiumSummary);
 
   return (
     <section className="page-shell pb-24 pt-4 sm:pt-6">
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
         <div className="space-y-6">
-          <section className="surface-panel overflow-hidden">
-            <div className="relative min-h-[340px] overflow-hidden rounded-[2rem] sm:min-h-[420px]">
-              {heroImage ? (
-                <>
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${heroImage})` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/68 via-black/28 to-black/12" />
-                </>
-              ) : (
-                <div className="absolute inset-0 bg-slate-200" />
-              )}
+          <section className="surface-panel p-4 sm:p-8">
+            {heroImage ? (
+              <div className="overflow-hidden rounded-[1.65rem] border border-[color:var(--line)] bg-slate-50">
+                <LightboxImage
+                  alt={`${project.name} 대표 이미지`}
+                  imageClassName="aspect-[16/10]"
+                  wrapperClassName="rounded-[1.65rem]"
+                  src={heroImage}
+                />
+              </div>
+            ) : null}
 
-              <div className="relative flex min-h-[340px] flex-col justify-end px-5 pb-7 pt-8 text-white sm:min-h-[420px] sm:px-8 sm:pb-10">
-                <span className="mb-3 inline-flex w-fit items-center rounded-full bg-white/14 px-3.5 py-1.5 text-[12px] font-semibold backdrop-blur sm:mb-4 sm:px-4 sm:py-2 sm:text-[13px]">
-                  {formatStatusLabel(project.status)}
-                </span>
-                <p className="text-[11px] font-semibold tracking-[0.18em] text-white/78 sm:text-[13px] sm:tracking-[0.22em]">
+            <div className="mt-4 flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold tracking-[0.16em] text-muted sm:text-[13px] sm:tracking-[0.22em]">
                   {getProjectRegion(project)}
                 </p>
-                <h1 className="mt-2 break-keep pr-2 text-[1.72rem] leading-[1.14] tracking-[-0.045em] sm:mt-3 sm:text-[3.4rem] sm:leading-[1.08] sm:tracking-[-0.05em]">
+                <h1 className="mt-2 break-keep text-[1.55rem] leading-[1.18] tracking-[-0.04em] sm:text-[3rem]">
                   {project.name}
                 </h1>
-                <p className="mt-2 max-w-3xl break-keep pr-2 text-[12.5px] leading-5 text-white/88 sm:mt-3 sm:text-[15px] sm:leading-7">
-                  {addressLine || project.location}
+                <p className="mt-2 break-keep text-[12.5px] leading-5 text-muted sm:text-[15px] sm:leading-7">
+                  {premiumLines[0] || addressLine || project.location}
                 </p>
               </div>
+              <span className="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-[11px] font-semibold text-foreground sm:text-xs">
+                {formatStatusLabel(project.status)}
+              </span>
             </div>
 
-            <div className="border-t border-[color:var(--line)] bg-white px-3 py-3 sm:px-5">
-              <nav className="flex gap-2 overflow-x-auto pb-1">
-                {[
-                  ["overview", "기본정보"],
-                  ["types", "타입정보"],
-                  ["location", "입지환경"],
-                  ["faq", "자주하는질문"]
-                ].map(([href, label]) => (
-                  <a
-                    className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[color:var(--line)] bg-white px-3.5 py-2 text-[12.5px] font-semibold text-foreground transition hover:bg-slate-50 sm:px-4 sm:py-2.5 sm:text-[14px]"
-                    href={`#${href}`}
-                    key={href}
-                  >
-                    {label}
-                  </a>
-                ))}
-              </nav>
+            <div className="mt-4 grid grid-cols-2 gap-2 lg:hidden">
+              <a className="button-accent !min-h-[42px] !rounded-[1rem] !px-3 !text-[12px]" href={formatPhoneHref(project.contactPhone)}>
+                전화문의
+              </a>
+              <a
+                className="button-primary !min-h-[42px] !rounded-[1rem] !px-3 !text-[12px]"
+                href={reservationHref}
+                rel="noreferrer"
+                target="_blank"
+              >
+                방문예약
+              </a>
             </div>
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="overview">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">사업 개요</h2>
+              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">사업 개요</h2>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-foreground sm:text-xs">
                 {formatStatusLabel(project.status)}
               </span>
             </div>
 
-            {galleryImages.length > 0 && (
-              <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 sm:mt-6">
-                <LightboxImage
-                  alt={`${project.name} 대표 이미지`}
-                  imageClassName="aspect-[16/10]"
-                  wrapperClassName="rounded-[1.5rem]"
-                  src={galleryImages[0]?.imageUrl || heroImage}
-                />
-              </div>
-            )}
-
-            <div className="mt-5 space-y-3 sm:mt-6 sm:space-y-4">
+            <div className="mt-5 space-y-2.5 sm:mt-6 sm:space-y-4">
               {overviewRows.map((row) => (
                 <div
-                  className="rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-4 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:px-5 sm:py-5"
+                  className="rounded-[1.4rem] border border-[color:var(--line)] bg-slate-50 px-4 py-3.5 sm:px-5 sm:py-5"
                   key={row.label}
                 >
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                     <p className="text-[12px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
                     <p className="break-keep text-[0.94rem] font-semibold leading-6 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7 sm:text-right">
                       {row.value}
@@ -246,14 +232,14 @@ export default async function ProjectDetailPage({
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="types">
-            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">타입 정보</h2>
-              <span className="text-[11.5px] font-medium text-muted sm:text-sm">평형 및 구조 안내</span>
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">타입 정보</h2>
+              <span className="text-[11.5px] font-medium text-muted sm:text-sm">핵심 타입만 빠르게 확인</span>
             </div>
 
-            <div className="mt-5 rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-5 sm:mt-6 sm:px-5 sm:py-6">
+            <div className="mt-5 rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4 sm:mt-6 sm:px-5 sm:py-6">
               <p className="text-[12px] text-muted sm:text-sm">공급 타입</p>
-              <p className="mt-2 break-keep text-[1.08rem] font-semibold leading-[1.5] text-foreground sm:text-[1.8rem]">
+              <p className="mt-2 break-keep text-[1rem] font-semibold leading-[1.55] text-foreground sm:text-[1.8rem]">
                 {project.unitPlan}
               </p>
             </div>
@@ -276,14 +262,14 @@ export default async function ProjectDetailPage({
               </div>
             )}
 
-            <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
+            <div className="mt-5 grid gap-2.5 sm:mt-6 sm:grid-cols-2">
+              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4">
                 <p className="text-[12px] text-muted sm:text-sm">공급 세대</p>
                 <p className="mt-2 text-[1.06rem] font-semibold text-foreground sm:text-[1.7rem]">
                   {project.householdCount}
                 </p>
               </div>
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
+              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4">
                 <p className="text-[12px] text-muted sm:text-sm">입주 예정</p>
                 <p className="mt-2 text-[1.06rem] font-semibold text-foreground sm:text-[1.7rem]">
                   {project.expectedMoveIn}
@@ -293,16 +279,16 @@ export default async function ProjectDetailPage({
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="location">
-            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">입지 환경</h2>
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">입지 안내</h2>
               <span className="text-[11.5px] font-medium text-muted sm:text-sm">현장 주변 핵심 정보</span>
             </div>
 
             <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
+              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4">
                 <p className="text-[12px] font-semibold text-muted sm:text-sm">현장 위치 및 주변환경</p>
                 <div className="mt-3 space-y-2.5 text-[13px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
-                  {getReadableParagraphs(project.locationDescription).map((line, index) => (
+                  {locationLines.map((line, index) => (
                     <p className="break-keep" key={`location-line-${index}`}>
                       {line}
                     </p>
@@ -310,10 +296,10 @@ export default async function ProjectDetailPage({
                 </div>
               </div>
 
-              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-5">
+              <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4">
                 <p className="text-[12px] font-semibold text-muted sm:text-sm">프리미엄 포인트</p>
                 <div className="mt-3 space-y-2.5 text-[13px] leading-6 text-foreground sm:text-[15px] sm:leading-7">
-                  {getReadableParagraphs(project.premiumSummary).map((line, index) => (
+                  {premiumLines.map((line, index) => (
                     <p className="break-keep" key={`premium-line-${index}`}>
                       {line}
                     </p>
@@ -371,7 +357,7 @@ export default async function ProjectDetailPage({
 
           <section className="surface-panel p-5 sm:p-8" id="faq">
             <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.62rem] leading-[1.15] sm:text-3xl">자주하는 질문</h2>
+              <h2 className="text-[1.56rem] leading-[1.15] sm:text-3xl">자주하는 질문</h2>
               <span className="text-[11.5px] font-medium text-muted sm:text-sm">현장 문의 전 빠르게 확인</span>
             </div>
 
