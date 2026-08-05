@@ -173,17 +173,17 @@ export default async function ProjectDetailPage({
                 <div className="absolute inset-0 bg-slate-200" />
               )}
 
-              <div className="relative flex min-h-[340px] flex-col justify-end px-5 pb-8 pt-8 text-white sm:min-h-[420px] sm:px-8 sm:pb-10">
-                <span className="mb-4 inline-flex w-fit items-center rounded-full bg-white/14 px-4 py-2 text-[13px] font-semibold backdrop-blur">
+              <div className="relative flex min-h-[340px] flex-col justify-end px-5 pb-7 pt-8 text-white sm:min-h-[420px] sm:px-8 sm:pb-10">
+                <span className="mb-3 inline-flex w-fit items-center rounded-full bg-white/14 px-3.5 py-1.5 text-[12px] font-semibold backdrop-blur sm:mb-4 sm:px-4 sm:py-2 sm:text-[13px]">
                   {formatStatusLabel(project.status)}
                 </span>
-                <p className="text-[12px] font-semibold tracking-[0.22em] text-white/78 sm:text-[13px]">
+                <p className="text-[11px] font-semibold tracking-[0.18em] text-white/78 sm:text-[13px] sm:tracking-[0.22em]">
                   {getProjectRegion(project)}
                 </p>
-                <h1 className="mt-3 text-[2.1rem] leading-[1.08] tracking-[-0.05em] sm:text-[3.4rem]">
+                <h1 className="mt-2 break-keep pr-2 text-[1.72rem] leading-[1.14] tracking-[-0.045em] sm:mt-3 sm:text-[3.4rem] sm:leading-[1.08] sm:tracking-[-0.05em]">
                   {project.name}
                 </h1>
-                <p className="mt-3 max-w-3xl text-[14px] leading-6 text-white/88 sm:text-[15px] sm:leading-7">
+                <p className="mt-2 max-w-3xl break-keep pr-2 text-[12.5px] leading-5 text-white/88 sm:mt-3 sm:text-[15px] sm:leading-7">
                   {addressLine || project.location}
                 </p>
               </div>
@@ -198,7 +198,7 @@ export default async function ProjectDetailPage({
                   ["faq", "자주하는질문"]
                 ].map(([href, label]) => (
                   <a
-                    className="inline-flex min-w-fit items-center justify-center rounded-full border border-[color:var(--line)] bg-white px-4 py-2.5 text-[14px] font-semibold text-foreground transition hover:bg-slate-50"
+                    className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[color:var(--line)] bg-white px-3.5 py-2 text-[12.5px] font-semibold text-foreground transition hover:bg-slate-50 sm:px-4 sm:py-2.5 sm:text-[14px]"
                     href={`#${href}`}
                     key={href}
                   >
