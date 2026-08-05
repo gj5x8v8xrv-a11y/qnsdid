@@ -204,6 +204,36 @@ export default async function ProjectDetailPage({
                 방문예약
               </a>
             </div>
+
+            <div className="mt-3 rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-4 lg:hidden">
+              <p className="text-[12px] font-semibold text-foreground">바로가기</p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <a
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  href="#overview"
+                >
+                  기본정보
+                </a>
+                <a
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  href="#types"
+                >
+                  타입정보
+                </a>
+                <a
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  href="#location"
+                >
+                  입지안내
+                </a>
+                <a
+                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-3 py-2 text-[12px] font-semibold text-foreground transition hover:bg-slate-50"
+                  href="#faq"
+                >
+                  자주하는질문
+                </a>
+              </div>
+            </div>
           </section>
 
           <section className="surface-panel p-5 sm:p-8" id="overview">
@@ -415,24 +445,6 @@ export default async function ProjectDetailPage({
               대표번호 {project.contactPhone}
               <br />
               관심 현장을 남겨주시면 빠르게 상담 도와드립니다.
-            </div>
-
-            <div className="mt-4 rounded-[1.5rem] border border-[color:var(--line)] bg-white px-4 py-4 text-sm leading-7 text-foreground">
-              <p className="font-semibold">바로가기</p>
-              <div className="mt-3 grid gap-2">
-                <a className="text-muted transition hover:text-foreground" href="#overview">
-                  기본정보 보기
-                </a>
-                <a className="text-muted transition hover:text-foreground" href="#types">
-                  타입정보 보기
-                </a>
-                <a className="text-muted transition hover:text-foreground" href="#location">
-                  입지환경 보기
-                </a>
-                <a className="text-muted transition hover:text-foreground" href="#faq">
-                  자주하는질문 보기
-                </a>
-              </div>
             </div>
 
             <Link
