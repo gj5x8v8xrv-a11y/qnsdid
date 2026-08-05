@@ -36,6 +36,10 @@ export function AdminProjectForm({
       <div className="border-b border-black/5 px-6 py-6 sm:px-8">
         <h2 className="text-4xl">{title}</h2>
         <p className="mt-3 max-w-2xl text-sm leading-8 text-muted">{description}</p>
+        <div className="mt-4 rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
+          상세페이지 연동 안내: 아래 입력값을 저장하면 `사업 개요`, `타입 정보`, `입지 안내`, `자주하는 질문` 내용이
+          상세페이지에 바로 반영됩니다.
+        </div>
       </div>
 
       <form action={action} className="space-y-8 px-6 py-8 sm:px-8">
@@ -119,6 +123,7 @@ export function AdminProjectForm({
                 placeholder="총 582세대"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">상세페이지 `사업 개요`, `타입 정보`에 표시됩니다.</span>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               평형
@@ -129,6 +134,7 @@ export function AdminProjectForm({
                 placeholder="59㎡ / 84㎡"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">상세페이지 `사업 개요`, `타입 정보`에 표시됩니다.</span>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               입주예정일
@@ -139,6 +145,7 @@ export function AdminProjectForm({
                 placeholder="2028년 06월 예정"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">상세페이지 `사업 개요`, `타입 정보`, FAQ 답변에 표시됩니다.</span>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               전화문의 번호
@@ -149,14 +156,18 @@ export function AdminProjectForm({
                 placeholder="1533-8170"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">상세페이지 상단 문의 버튼과 `사업 개요`에 표시됩니다.</span>
             </label>
           </div>
         </section>
 
         <section className="grid gap-4 rounded-[1.75rem] bg-slate-50 p-5 sm:p-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Marketing Copy</p>
-            <h3 className="mt-2 text-2xl">현장 소개 문구</h3>
+            <p className="text-xs uppercase tracking-[0.32em] text-muted">Detail Content</p>
+            <h3 className="mt-2 text-2xl">상세페이지 문구</h3>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              이 구역의 내용은 상세페이지 본문과 FAQ 카드 생성에 직접 반영됩니다.
+            </p>
           </div>
           <div className="grid gap-5">
             <label className="grid gap-2 text-sm font-semibold">
@@ -167,6 +178,9 @@ export function AdminProjectForm({
                 name="salesConditions"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">
+                상세페이지 `분양 조건` 본문과 FAQ 답변에 반영됩니다. 줄바꿈 기준으로 문단이 나뉩니다.
+              </span>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               프리미엄 요약
@@ -176,6 +190,9 @@ export function AdminProjectForm({
                 name="premiumSummary"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">
+                상세페이지 상단 소개 문구, `입지 안내`, FAQ 답변에 반영됩니다. 첫 줄이 대표 소개 문구로 우선 사용됩니다.
+              </span>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               입지 설명
@@ -185,6 +202,9 @@ export function AdminProjectForm({
                 name="locationDescription"
                 required
               />
+              <span className="text-xs font-normal leading-6 text-muted">
+                상세페이지 `입지 안내` 본문과 FAQ 답변에 반영됩니다. 줄바꿈 기준으로 문단이 나뉩니다.
+              </span>
             </label>
             <label className="grid gap-2 text-sm font-semibold">
               네이버 예약 URL
@@ -194,9 +214,23 @@ export function AdminProjectForm({
                 name="reservationUrl"
                 placeholder="https://booking.naver.com/..."
               />
+              <span className="text-xs font-normal leading-6 text-muted">상세페이지 상단과 하단 `방문예약` 버튼에 연결됩니다.</span>
             </label>
           </div>
         </section>
+
+        {project ? (
+          <section className="rounded-[1.75rem] border border-[color:var(--line)] bg-white px-5 py-5 sm:px-6">
+            <p className="text-xs uppercase tracking-[0.32em] text-muted">Preview</p>
+            <h3 className="mt-2 text-2xl">상세페이지 바로 확인</h3>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              저장 후 아래 링크로 실제 상세페이지 노출 상태를 바로 확인할 수 있습니다.
+            </p>
+            <a className="button-secondary mt-4" href={`/projects/${project.slug}`} target="_blank" rel="noreferrer">
+              상세페이지 열기
+            </a>
+          </section>
+        ) : null}
 
         <AdminProjectImageManager
           coverImageUrl={project?.coverImageUrl}
