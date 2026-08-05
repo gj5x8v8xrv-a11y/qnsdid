@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { PageHero } from "@/components/site/page-hero";
 import { ProjectSlider } from "@/components/site/project-slider";
+import { LightboxImage } from "@/components/ui/lightbox-image";
 import { buildProjectMetadata } from "@/lib/seo";
 import { getProjectBySlug } from "@/lib/data";
 import { formatPhoneHref, formatStatusLabel, getProjectAddressLine, getProjectRegion } from "@/lib/utils";
@@ -236,9 +237,10 @@ export default async function ProjectDetailPage({
                       className="overflow-hidden rounded-[1.75rem] border border-[color:var(--line)] bg-slate-50"
                       key={image.id}
                     >
-                      <img
+                      <LightboxImage
                         alt={`${project.name} ${section.title}`}
-                        className="aspect-[4/3] w-full object-cover"
+                        imageClassName="aspect-[4/3]"
+                        wrapperClassName="rounded-[1.75rem]"
                         src={image.imageUrl}
                       />
                     </div>

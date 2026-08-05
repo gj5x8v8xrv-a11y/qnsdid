@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { LightboxImage } from "@/components/ui/lightbox-image";
 import type { ProjectWithImages } from "@/lib/types";
 
 export function ProjectSlider({ project }: { project: ProjectWithImages }) {
@@ -34,9 +35,10 @@ export function ProjectSlider({ project }: { project: ProjectWithImages }) {
     <div className="space-y-4">
       <div className="surface-panel overflow-hidden rounded-[2rem] p-4">
         <div className="relative overflow-hidden rounded-[1.6rem]">
-          <img
+          <LightboxImage
             alt={project.name}
-            className="aspect-[16/9] w-full object-cover"
+            imageClassName="aspect-[16/9]"
+            wrapperClassName="rounded-[1.6rem]"
             src={currentImage}
           />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5">

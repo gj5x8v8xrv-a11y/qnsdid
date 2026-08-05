@@ -1,3 +1,5 @@
+import { LightboxImage } from "@/components/ui/lightbox-image";
+
 export function ProjectVisual({
   title,
   imageUrl,
@@ -10,12 +12,13 @@ export function ProjectVisual({
   if (imageUrl) {
     return (
       <div className={`relative overflow-hidden rounded-[1.75rem] ${className}`}>
-        <img
+        <LightboxImage
           alt={title}
-          className="h-full w-full object-cover transition duration-700 hover:scale-[1.04]"
+          imageClassName="h-full w-full"
+          overlayClassName="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 via-transparent to-transparent"
           src={imageUrl}
+          wrapperClassName="h-full rounded-[1.75rem]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 via-transparent to-transparent" />
       </div>
     );
   }
