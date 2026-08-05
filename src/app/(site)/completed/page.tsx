@@ -38,35 +38,31 @@ export default async function CompletedProjectsPage({
       <PageHero
         actions={
           <>
-            <Link className="button-primary" href="/projects">
+            <Link className="button-primary !min-h-[42px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/projects">
               분양중 현장 보기
             </Link>
-            <Link className="button-secondary" href="/contact">
+            <Link className="button-secondary !min-h-[42px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/contact">
               상담문의
             </Link>
           </>
         }
-        description="소개가 완료된 현장도 함께 정리해두었습니다. 어떤 지역의 현장을 소개해왔는지 편하게 확인해보세요."
+        actionsClassName="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap"
+        description="소개 완료된 현장도 지역별로 빠르게 확인하실 수 있습니다."
         eyebrow="분양완료 현장"
-        stats={[
-          { label: "분양완료 현장", value: `${projects.length}곳` },
-          { label: "정리된 지역", value: `${regions.length}곳` },
-          { label: "현재 상담", value: "분양중 현장 연결" }
-        ]}
         title="지금까지 소개해온 분양 현장"
       />
 
       <section className="page-shell pb-24">
         <SectionHeading
-          description="완료된 현장도 지역별로 정리해두었습니다. 살펴보시고 현재 분양중인 현장과 함께 비교해보세요."
+          description="지역별로 살펴보시고 현재 분양중 현장과 함께 비교해보세요."
           eyebrow="지역별 보기"
           title={activeRegion ? `${activeRegion} 소개 완료 현장` : "지역별 완료 현장"}
         />
 
         {regions.length ? (
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
             <Link
-              className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+              className={`rounded-full px-4 py-2.5 text-[15px] font-semibold transition sm:px-5 sm:py-3 sm:text-sm ${
                 activeRegion
                   ? "bg-slate-100 text-slate-600"
                   : "bg-deep text-white shadow-soft"
@@ -77,7 +73,7 @@ export default async function CompletedProjectsPage({
             </Link>
             {regions.map((region) => (
               <Link
-                className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+                className={`rounded-full px-4 py-2.5 text-[15px] font-semibold transition sm:px-5 sm:py-3 sm:text-sm ${
                   activeRegion === region
                     ? "bg-deep text-white shadow-soft"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -92,7 +88,7 @@ export default async function CompletedProjectsPage({
         ) : null}
 
         {filteredProjects.length > 0 ? (
-          <div className="card-grid mt-10">
+          <div className="card-grid mt-7 sm:mt-10">
             {filteredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
