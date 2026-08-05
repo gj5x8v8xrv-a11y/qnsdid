@@ -250,9 +250,9 @@ export default async function ProjectDetailPage({
                   className="rounded-[1.4rem] border border-[color:var(--line)] bg-slate-50 px-4 py-3.5 sm:px-5 sm:py-5"
                   key={row.label}
                 >
-                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-                    <p className="text-[12px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
-                    <p className="break-keep text-[0.94rem] font-semibold leading-6 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7 sm:text-right">
+                  <div className="flex items-center justify-between gap-4 sm:gap-6">
+                    <p className="shrink-0 text-[11px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
+                    <p className="min-w-0 break-keep text-right text-[0.86rem] font-semibold leading-5 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7">
                       {row.value}
                     </p>
                   </div>
