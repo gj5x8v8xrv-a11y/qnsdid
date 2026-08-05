@@ -1,11 +1,15 @@
 "use client";
 
-import Link from "next/link";
-
 import type { HomePageSettings } from "@/lib/types";
 import { getSiteConfig } from "@/lib/utils";
 
-export function SiteStickyCta({ settings }: { settings: HomePageSettings }) {
+export function SiteStickyCta({
+  settings,
+  reservationHref
+}: {
+  settings: HomePageSettings;
+  reservationHref: string;
+}) {
   const site = getSiteConfig();
   const phoneHref = `tel:${site.companyPhone.replace(/[^+\d]/g, "")}`;
 
@@ -24,9 +28,14 @@ export function SiteStickyCta({ settings }: { settings: HomePageSettings }) {
             <a className="button-primary w-full text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
               {settings.stickyPhoneButtonLabel}
             </a>
-            <Link className="button-secondary w-full text-[length:var(--home-sticky-button-size,14px)]" href="/contact">
-              {settings.stickyContactButtonLabel}
-            </Link>
+            <a
+              className="button-secondary w-full text-[length:var(--home-sticky-button-size,14px)]"
+              href={reservationHref}
+              rel="noreferrer"
+              target="_blank"
+            >
+              방문예약
+            </a>
           </div>
         </div>
       </div>
@@ -36,9 +45,14 @@ export function SiteStickyCta({ settings }: { settings: HomePageSettings }) {
           <a className="button-primary !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
             {settings.stickyPhoneButtonLabel}
           </a>
-          <Link className="button-accent !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]" href="/contact">
-            {settings.stickyContactButtonLabel}
-          </Link>
+          <a
+            className="button-accent !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]"
+            href={reservationHref}
+            rel="noreferrer"
+            target="_blank"
+          >
+            방문예약
+          </a>
         </div>
       </div>
     </>

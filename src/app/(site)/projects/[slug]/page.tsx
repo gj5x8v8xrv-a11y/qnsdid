@@ -7,7 +7,13 @@ import { ProjectSlider } from "@/components/site/project-slider";
 import { LightboxImage } from "@/components/ui/lightbox-image";
 import { buildProjectMetadata } from "@/lib/seo";
 import { getProjectBySlug } from "@/lib/data";
-import { formatPhoneHref, formatStatusLabel, getProjectAddressLine, getProjectRegion } from "@/lib/utils";
+import {
+  formatPhoneHref,
+  formatStatusLabel,
+  getProjectAddressLine,
+  getProjectRegion,
+  getProjectReservationHref
+} from "@/lib/utils";
 import type { ProjectImage, ProjectImageType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -98,9 +104,7 @@ export default async function ProjectDetailPage({
   const addressLine = getProjectAddressLine(project);
   const groupedImages = groupImagesByType(project.gallery);
   const heroSummaryLines = getReadableParagraphs(project.premiumSummary).slice(0, 3);
-  const mapHref = addressLine
-    ? `https://map.naver.com/p/search/${encodeURIComponent(addressLine)}`
-    : undefined;
+  const reservationHref = getProjectReservationHref(project);
 
   return (
     <>
@@ -113,17 +117,11 @@ export default async function ProjectDetailPage({
             >
               전화문의
             </a>
-            <Link
-              className="button-secondary !min-h-[42px] !px-3.5 sm:!min-h-[44px] sm:!px-6"
-              href={`/contact?project=${project.slug}`}
-            >
-              상담신청
-            </Link>
             <a
-              className="button-primary col-span-2 !min-h-[42px] !px-3.5 sm:col-span-1 sm:!min-h-[44px] sm:!px-6"
-              href={project.reservationUrl || `/contact?project=${project.slug}`}
+              className="button-primary !min-h-[42px] !px-3.5 sm:!min-h-[44px] sm:!px-6"
+              href={reservationHref}
               rel="noreferrer"
-              target={project.reservationUrl ? "_blank" : undefined}
+              target="_blank"
             >
               방문예약
             </a>
@@ -152,16 +150,14 @@ export default async function ProjectDetailPage({
               <br />
               대표번호 {project.contactPhone}
             </div>
-            {mapHref ? (
-              <a
-                className="rounded-[1.2rem] border border-black/8 bg-white px-4 py-3.5 text-[13px] font-semibold text-black transition hover:bg-slate-50 sm:rounded-[1.25rem] sm:px-5 sm:py-4 sm:text-sm"
-                href={mapHref}
-                rel="noreferrer"
-                target="_blank"
-              >
-                위치 확인하기
-              </a>
-            ) : null}
+            <a
+              className="rounded-[1.2rem] border border-black/8 bg-white px-4 py-3.5 text-[13px] font-semibold text-black transition hover:bg-slate-50 sm:rounded-[1.25rem] sm:px-5 sm:py-4 sm:text-sm"
+              href={reservationHref}
+              rel="noreferrer"
+              target="_blank"
+            >
+              방문예약 바로가기
+            </a>
           </div>
         }
       />
@@ -270,21 +266,18 @@ export default async function ProjectDetailPage({
             <p className="text-xs uppercase tracking-[0.32em] text-muted">Contact</p>
             <h2 className="mt-3 text-3xl">문의 안내</h2>
             <p className="mt-3 text-sm leading-8 text-muted">
-              궁금한 내용은 전화나 상담신청, 방문예약으로 편하게 문의하실 수 있습니다.
+              궁금한 내용은 전화나 방문예약으로 바로 확인하실 수 있습니다.
             </p>
 
-            <div className="mt-6 grid gap-3">
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               <a className="button-accent w-full" href={formatPhoneHref(project.contactPhone)}>
                 전화문의
               </a>
-              <Link className="button-primary w-full" href={`/contact?project=${project.slug}`}>
-                상담신청
-              </Link>
               <a
-                className="button-secondary w-full"
-                href={project.reservationUrl || `/contact?project=${project.slug}`}
+                className="button-primary w-full"
+                href={reservationHref}
                 rel="noreferrer"
-                target={project.reservationUrl ? "_blank" : undefined}
+                target="_blank"
               >
                 방문예약
               </a>

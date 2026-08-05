@@ -1,12 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import type { HomePageSettings } from "@/lib/types";
 import { getSiteConfig, getSiteNavItems } from "@/lib/utils";
 
-export function SiteHeader({ settings }: { settings: HomePageSettings }) {
+export function SiteHeader({
+  settings,
+  reservationHref
+}: {
+  settings: HomePageSettings;
+  reservationHref: string;
+}) {
   const pathname = usePathname();
   const site = getSiteConfig();
   const phoneHref = `tel:${site.companyPhone.replace(/[^+\d]/g, "")}`;
@@ -67,9 +73,14 @@ export function SiteHeader({ settings }: { settings: HomePageSettings }) {
           <a className="button-secondary text-[length:var(--home-button-size,13px)]" href={phoneHref}>
             {settings.headerPhoneButtonLabel}
           </a>
-          <Link className="button-primary text-[length:var(--home-button-size,13px)]" href="/contact">
-            {settings.headerContactButtonLabel}
-          </Link>
+          <a
+            className="button-primary text-[length:var(--home-button-size,13px)]"
+            href={reservationHref}
+            rel="noreferrer"
+            target="_blank"
+          >
+            방문예약
+          </a>
         </div>
       </div>
     </header>

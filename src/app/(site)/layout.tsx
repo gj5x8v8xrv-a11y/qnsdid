@@ -3,14 +3,21 @@ import type { CSSProperties, ReactNode } from "react";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteStickyCta } from "@/components/site/site-sticky-cta";
-import { getHomePageSettings } from "@/lib/data";
+import { getHomePageSettings, getProjects } from "@/lib/data";
+import { getProjectReservationHref } from "@/lib/utils";
 
 export default async function SiteLayout({
   children
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const homePageSettings = await getHomePageSettings();
+  const [homePageSettings, activeProjects] = await Promise.all([
+    getHomePageSettings(),
+    getProjects("active")
+  ]);
+  const featuredReservationHref = activeProjects[0]
+    ? getProjectReservationHref(activeProjects[0])
+    : "/projects";
   const homePageStyle = {
     "--home-header-announcement-size": `${homePageSettings.mobileHeaderAnnouncementPx}px`,
     "--home-brand-english-size": `${homePageSettings.mobileHeaderBrandEnglishPx}px`,
@@ -45,10 +52,10 @@ export default async function SiteLayout({
 
   return (
     <div className="min-h-screen overflow-x-clip" style={homePageStyle}>
-      <SiteHeader settings={homePageSettings} />
+      <SiteHeader reservationHref={featuredReservationHref} settings={homePageSettings} />
       <main className="pb-24 lg:pb-0">{children}</main>
       <SiteFooter settings={homePageSettings} />
-      <SiteStickyCta settings={homePageSettings} />
+      <SiteStickyCta reservationHref={featuredReservationHref} settings={homePageSettings} />
     </div>
   );
 }

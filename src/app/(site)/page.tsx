@@ -4,7 +4,7 @@ import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ProjectVisual } from "@/components/ui/project-visual";
 import { getHomePageSettings, getProjects } from "@/lib/data";
-import { getSiteConfig } from "@/lib/utils";
+import { getProjectReservationHref, getSiteConfig } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +16,9 @@ export default async function HomePage() {
   ]);
   const site = getSiteConfig();
   const featuredProject = activeProjects[0];
+  const featuredReservationHref = featuredProject
+    ? getProjectReservationHref(featuredProject)
+    : "/projects";
 
   return (
     <div>
@@ -25,9 +28,14 @@ export default async function HomePage() {
             <a className="button-accent text-[length:var(--home-button-size,13px)]" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
               {homePageSettings.heroPhoneButtonLabel}
             </a>
-            <Link className="button-secondary text-[length:var(--home-button-size,13px)]" href="/contact">
-              {homePageSettings.heroContactButtonLabel}
-            </Link>
+            <a
+              className="button-secondary text-[length:var(--home-button-size,13px)]"
+              href={featuredReservationHref}
+              rel="noreferrer"
+              target="_blank"
+            >
+              방문예약
+            </a>
           </>
         }
         description={homePageSettings.heroDescription}
@@ -143,9 +151,14 @@ export default async function HomePage() {
               <a className="button-primary text-[length:var(--home-button-size,13px)]" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
                 {homePageSettings.contactPhoneButtonLabel}
               </a>
-              <Link className="button-secondary text-[length:var(--home-button-size,13px)]" href="/contact">
-                {homePageSettings.contactFormButtonLabel}
-              </Link>
+              <a
+                className="button-secondary text-[length:var(--home-button-size,13px)]"
+                href={featuredReservationHref}
+                rel="noreferrer"
+                target="_blank"
+              >
+                방문예약
+              </a>
             </div>
           </div>
         </div>

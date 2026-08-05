@@ -323,6 +323,17 @@ export function getProjectAddressLine(
   return buildProjectLocation(project);
 }
 
+export function getProjectReservationHref(
+  project: Pick<Project, "reservationUrl" | "province" | "city" | "address" | "location">
+) {
+  if (project.reservationUrl?.trim()) {
+    return project.reservationUrl.trim();
+  }
+
+  const addressLine = getProjectAddressLine(project);
+  return `https://map.naver.com/p/search/${encodeURIComponent(addressLine || project.location)}`;
+}
+
 export function getProjectCardMeta(
   project: Pick<Project, "region" | "province" | "city" | "location" | "unitPlan" | "status">
 ) {
