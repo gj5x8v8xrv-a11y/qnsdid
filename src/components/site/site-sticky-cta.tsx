@@ -31,12 +31,12 @@ export function SiteStickyCta({ settings }: { settings: HomePageSettings }) {
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/8 bg-white/95 p-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
-        <div className="page-shell flex gap-3 px-0">
-          <a className="button-primary flex-1 text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/8 bg-white/95 p-2.5 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
+        <div className="page-shell flex gap-2 px-0">
+          <a className="button-primary !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
             {settings.stickyPhoneButtonLabel}
           </a>
-          <Link className="button-accent flex-1 text-[length:var(--home-sticky-button-size,14px)]" href="/contact">
+          <Link className="button-accent !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]" href="/contact">
             {settings.stickyContactButtonLabel}
           </Link>
         </div>

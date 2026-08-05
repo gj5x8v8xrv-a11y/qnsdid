@@ -23,7 +23,7 @@ export function SiteHeader({ settings }: { settings: HomePageSettings }) {
         </div>
       </div>
 
-      <div className="page-shell flex flex-col gap-2 py-2 sm:gap-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="page-shell flex flex-col gap-1.5 py-1.5 sm:gap-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
         <Link className="flex items-center gap-2.5 sm:gap-4" href="/">
           <div className="space-y-0 sm:space-y-1">
             <p className="text-[length:var(--home-brand-english-size,9px)] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[11px] sm:tracking-[0.32em]">
@@ -38,7 +38,7 @@ export function SiteHeader({ settings }: { settings: HomePageSettings }) {
           </div>
         </Link>
 
-        <nav className="flex gap-1.5 overflow-x-auto pb-0.5 sm:gap-2 sm:pb-1">
+        <nav className="flex gap-1 overflow-x-auto pb-0.5 sm:gap-2 sm:pb-1">
           {navItems.map((item) => {
             const isActive =
               item.href === "/"
@@ -49,7 +49,7 @@ export function SiteHeader({ settings }: { settings: HomePageSettings }) {
 
             return (
               <Link
-                className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[length:var(--home-nav-size,12px)] font-semibold transition sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[length:var(--home-nav-size,12px)] font-semibold transition sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
                     ? "bg-black text-white shadow-soft"
                     : "border border-black/8 bg-white text-foreground hover:bg-slate-50"

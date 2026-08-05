@@ -97,6 +97,7 @@ export default async function ProjectDetailPage({
 
   const addressLine = getProjectAddressLine(project);
   const groupedImages = groupImagesByType(project.gallery);
+  const heroSummaryLines = getReadableParagraphs(project.premiumSummary).slice(0, 3);
   const mapHref = addressLine
     ? `https://map.naver.com/p/search/${encodeURIComponent(addressLine)}`
     : undefined;
@@ -106,14 +107,20 @@ export default async function ProjectDetailPage({
       <PageHero
         actions={
           <>
-            <a className="button-accent" href={formatPhoneHref(project.contactPhone)}>
+            <a
+              className="button-accent !min-h-[42px] !px-3.5 sm:!min-h-[44px] sm:!px-6"
+              href={formatPhoneHref(project.contactPhone)}
+            >
               전화문의
             </a>
-            <Link className="button-secondary" href={`/contact?project=${project.slug}`}>
+            <Link
+              className="button-secondary !min-h-[42px] !px-3.5 sm:!min-h-[44px] sm:!px-6"
+              href={`/contact?project=${project.slug}`}
+            >
               상담신청
             </Link>
             <a
-              className="button-primary"
+              className="button-primary col-span-2 !min-h-[42px] !px-3.5 sm:col-span-1 sm:!min-h-[44px] sm:!px-6"
               href={project.reservationUrl || `/contact?project=${project.slug}`}
               rel="noreferrer"
               target={project.reservationUrl ? "_blank" : undefined}
@@ -122,27 +129,32 @@ export default async function ProjectDetailPage({
             </a>
           </>
         }
-        description={project.premiumSummary}
+        actionsClassName="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap"
+        description={
+          <div className="space-y-1.5">
+            {heroSummaryLines.map((line, index) => (
+              <p className="break-keep" key={`hero-summary-${index}`}>
+                {line}
+              </p>
+            ))}
+          </div>
+        }
+        descriptionClassName="text-[14px] leading-6 sm:text-[17px] sm:leading-8"
         eyebrow={`${formatStatusLabel(project.status)} · ${getProjectRegion(project)}`}
-        stats={[
-          { label: "지역", value: getProjectRegion(project) },
-          { label: "세대수", value: project.householdCount },
-          { label: "평형", value: project.unitPlan }
-        ]}
         title={project.name}
         visual={
-          <div className="grid gap-4">
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75">
+          <div className="grid gap-3">
+            <div className="rounded-[1.35rem] border border-black/8 bg-slate-50 px-4 py-4 text-[13px] leading-6 text-foreground sm:rounded-[1.5rem] sm:px-5 sm:py-5 sm:text-sm sm:leading-7">
               {addressLine || project.location}
             </div>
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75">
+            <div className="rounded-[1.35rem] border border-black/8 bg-slate-50 px-4 py-4 text-[13px] leading-6 text-foreground sm:rounded-[1.5rem] sm:px-5 sm:py-5 sm:text-sm sm:leading-7">
               입주예정 {project.expectedMoveIn}
               <br />
               대표번호 {project.contactPhone}
             </div>
             {mapHref ? (
               <a
-                className="rounded-[1.25rem] border border-white/10 bg-white/10 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/15"
+                className="rounded-[1.2rem] border border-black/8 bg-white px-4 py-3.5 text-[13px] font-semibold text-black transition hover:bg-slate-50 sm:rounded-[1.25rem] sm:px-5 sm:py-4 sm:text-sm"
                 href={mapHref}
                 rel="noreferrer"
                 target="_blank"
@@ -158,16 +170,16 @@ export default async function ProjectDetailPage({
         <ProjectSlider project={project} />
       </section>
 
-      <section className="page-shell grid gap-8 pb-24 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <section className="page-shell grid gap-5 pb-24 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
         <div className="space-y-6">
-          <div className="surface-panel p-6 sm:p-8">
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="text-3xl">사업개요</h2>
+          <div className="surface-panel p-5 sm:p-8">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <h2 className="text-[2rem] sm:text-3xl">사업개요</h2>
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold">
                 {formatStatusLabel(project.status)}
               </span>
             </div>
-            <dl className="mt-6 grid gap-4 sm:grid-cols-2">
+            <dl className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 sm:grid-cols-2">
               {[
                 ["지역", getProjectRegion(project)],
                 ["주소", addressLine || project.location],
@@ -176,18 +188,20 @@ export default async function ProjectDetailPage({
                 ["입주예정일", project.expectedMoveIn],
                 ["상담전화", project.contactPhone]
               ].map(([label, value]) => (
-                <div className="rounded-[1.5rem] bg-slate-50 px-5 py-5" key={label}>
-                  <dt className="text-sm text-muted">{label}</dt>
-                  <dd className="mt-2 text-sm font-semibold leading-7 text-foreground">{value}</dd>
+                <div className="rounded-[1.35rem] bg-slate-50 px-4 py-4 sm:rounded-[1.5rem] sm:px-5 sm:py-5" key={label}>
+                  <dt className="text-[13px] text-muted sm:text-sm">{label}</dt>
+                  <dd className="mt-2 break-keep text-[15px] font-semibold leading-7 text-foreground sm:text-[17px]">
+                    {value}
+                  </dd>
                 </div>
               ))}
             </dl>
           </div>
 
-        <div className="surface-panel p-6 sm:p-8">
-          <h2 className="text-3xl">분양 조건</h2>
-          <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-            <div className="space-y-4 text-base leading-8 text-foreground sm:text-[1.05rem]">
+        <div className="surface-panel p-5 sm:p-8">
+          <h2 className="text-[2rem] sm:text-3xl">분양 조건</h2>
+          <div className="mt-5 rounded-[1.35rem] bg-slate-50 p-5 sm:mt-6 sm:rounded-[1.75rem] sm:p-6">
+            <div className="space-y-3 text-[15px] leading-7 text-foreground sm:space-y-4 sm:text-[1.05rem] sm:leading-8">
               {getReadableParagraphs(project.salesConditions).map((line, index) => (
                 <p className="break-words whitespace-pre-wrap" key={`sales-${index}`}>
                   {line}
@@ -197,10 +211,10 @@ export default async function ProjectDetailPage({
           </div>
         </div>
 
-        <div className="surface-panel p-6 sm:p-8">
-          <h2 className="text-3xl">입지 안내</h2>
-          <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-            <div className="space-y-4 text-base leading-8 text-foreground sm:text-[1.05rem]">
+        <div className="surface-panel p-5 sm:p-8">
+          <h2 className="text-[2rem] sm:text-3xl">입지 안내</h2>
+          <div className="mt-5 rounded-[1.35rem] bg-slate-50 p-5 sm:mt-6 sm:rounded-[1.75rem] sm:p-6">
+            <div className="space-y-3 text-[15px] leading-7 text-foreground sm:space-y-4 sm:text-[1.05rem] sm:leading-8">
               {getReadableParagraphs(project.locationDescription).map((line, index) => (
                 <p className="break-words whitespace-pre-wrap" key={`location-${index}`}>
                   {line}
@@ -210,10 +224,10 @@ export default async function ProjectDetailPage({
           </div>
         </div>
 
-        <div className="surface-panel p-6 sm:p-8">
-          <h2 className="text-3xl">프리미엄</h2>
-          <div className="mt-6 rounded-[1.75rem] bg-slate-50 p-6">
-            <div className="space-y-4 text-base leading-8 text-foreground sm:text-[1.05rem]">
+        <div className="surface-panel p-5 sm:p-8">
+          <h2 className="text-[2rem] sm:text-3xl">프리미엄</h2>
+          <div className="mt-5 rounded-[1.35rem] bg-slate-50 p-5 sm:mt-6 sm:rounded-[1.75rem] sm:p-6">
+            <div className="space-y-3 text-[15px] leading-7 text-foreground sm:space-y-4 sm:text-[1.05rem] sm:leading-8">
               {getReadableParagraphs(project.premiumSummary).map((line, index) => (
                 <p className="break-words whitespace-pre-wrap" key={`premium-${index}`}>
                   {line}
@@ -228,19 +242,19 @@ export default async function ProjectDetailPage({
             if (images.length === 0) return null;
 
             return (
-              <div className="surface-panel p-6 sm:p-8" key={section.key}>
-                <h2 className="text-3xl">{section.title}</h2>
-                <p className="mt-3 text-sm leading-8 text-muted">{section.description}</p>
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <div className="surface-panel p-5 sm:p-8" key={section.key}>
+                <h2 className="text-[2rem] sm:text-3xl">{section.title}</h2>
+                <p className="mt-3 text-[13px] leading-6 text-muted sm:text-sm sm:leading-8">{section.description}</p>
+                <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 sm:grid-cols-2">
                   {images.map((image) => (
                     <div
-                      className="overflow-hidden rounded-[1.75rem] border border-[color:var(--line)] bg-slate-50"
+                      className="overflow-hidden rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 sm:rounded-[1.75rem]"
                       key={image.id}
                     >
                       <LightboxImage
                         alt={`${project.name} ${section.title}`}
                         imageClassName="aspect-[4/3]"
-                        wrapperClassName="rounded-[1.75rem]"
+                        wrapperClassName="rounded-[1.35rem] sm:rounded-[1.75rem]"
                         src={image.imageUrl}
                       />
                     </div>
@@ -284,25 +298,6 @@ export default async function ProjectDetailPage({
           </div>
         </aside>
       </section>
-
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/5 bg-white/95 p-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
-        <div className="page-shell grid grid-cols-3 gap-2 px-0">
-          <a className="button-primary !px-2 text-center" href={formatPhoneHref(project.contactPhone)}>
-            전화문의
-          </a>
-          <Link className="button-accent !px-2 text-center" href={`/contact?project=${project.slug}`}>
-            상담신청
-          </Link>
-          <a
-            className="button-secondary !px-2 text-center"
-            href={project.reservationUrl || `/contact?project=${project.slug}`}
-            rel="noreferrer"
-            target={project.reservationUrl ? "_blank" : undefined}
-          >
-            방문예약
-          </a>
-        </div>
-      </div>
     </>
   );
 }
