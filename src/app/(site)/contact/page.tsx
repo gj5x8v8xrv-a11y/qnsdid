@@ -28,43 +28,29 @@ export default async function ContactPage({
   return (
     <>
       <PageHero
-        actions={<a className="button-accent" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>전화문의</a>}
-        description="전화와 문의 폼을 통해 관심 현장 상담과 방문 문의를 편하게 남기실 수 있습니다."
+        actions={
+          <a
+            className="button-accent !min-h-[42px] !px-4 sm:!min-h-[44px] sm:!px-6"
+            href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}
+          >
+            전화문의
+          </a>
+        }
+        actionsClassName="flex"
+        description="문의칸에 남겨주시면 확인 후 순차적으로 연락드립니다."
         eyebrow="상담문의"
         title="궁금한 현장을 편하게 문의해보세요"
-        visual={
-          <div className="grid gap-4">
-            {[
-              `대표번호 ${site.companyPhone}`,
-              "관심 현장 선택 후 맞춤 상담 가능",
-              "방문 예약과 분양 조건 안내 연결"
-            ].map((item) => (
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 text-sm leading-7 text-white/75" key={item}>
-                {item}
-              </div>
-            ))}
-          </div>
-        }
       />
 
-      <section className="page-shell grid gap-6 pb-24 lg:grid-cols-[0.82fr_1.18fr]">
-        <div className="space-y-6">
-          <div className="surface-panel p-6 sm:p-8">
-            <h2 className="text-3xl">문의 안내</h2>
-            <div className="mt-5 space-y-3 text-sm leading-8 text-muted">
-              <p>대표번호 {site.companyPhone}</p>
-              <p>이메일 {site.companyEmail}</p>
-              <p>문의 접수 후 순차적으로 연락드립니다.</p>
-            </div>
-          </div>
-
+      <section className="page-shell pb-24">
+        <div className="mx-auto w-full max-w-3xl space-y-4">
           <div className="space-y-3">
             <FlashBanner message={message} tone="success" />
             <FlashBanner message={error} tone="error" />
           </div>
-        </div>
 
-        <InquiryForm projects={projects} selectedProjectId={selectedProjectId} />
+          <InquiryForm projects={projects} selectedProjectId={selectedProjectId} />
+        </div>
       </section>
     </>
   );

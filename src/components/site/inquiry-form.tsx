@@ -10,13 +10,10 @@ export function InquiryForm({
   selectedProjectId?: string | null;
 }) {
   return (
-    <form action={submitInquiryAction} className="surface-panel space-y-6 p-6 sm:p-8 lg:p-10">
+    <form action={submitInquiryAction} className="surface-panel space-y-5 p-5 sm:space-y-6 sm:p-8 lg:p-10">
       <div>
         <p className="text-xs uppercase tracking-[0.34em] text-muted">Inquiry Form</p>
-        <h2 className="mt-3 text-3xl">관심 현장 정보를 남겨주시면 순차적으로 안내해드립니다</h2>
-        <p className="mt-3 text-sm leading-7 text-muted">
-          관심 있는 현장과 궁금한 내용을 남겨주시면 확인 후 연락드리겠습니다.
-        </p>
+        <h2 className="mt-3 text-[1.8rem] leading-[1.2] sm:text-3xl">문의 남기기</h2>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
@@ -45,7 +42,7 @@ export function InquiryForm({
       <label className="grid gap-2 text-sm font-semibold">
         내용
         <textarea
-          className="field-shell min-h-[190px] resize-y"
+          className="field-shell min-h-[160px] resize-y sm:min-h-[190px]"
           name="message"
           placeholder="관심 타입, 방문 희망일, 궁금한 점을 남겨주세요."
           required
@@ -62,10 +59,6 @@ export function InquiryForm({
           에서 확인하실 수 있습니다.
         </span>
       </label>
-
-      <div className="rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
-        남겨주신 문의는 확인 후 순차적으로 연락드리며, 방문 일정과 상담 내용을 함께 안내해드립니다.
-      </div>
 
       <SubmitButton className="button-primary w-full">상담 문의 접수</SubmitButton>
     </form>
