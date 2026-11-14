@@ -66,8 +66,8 @@ export default async function HomePage() {
         }
       />
 
-      <section className="page-shell py-10 sm:py-16" aria-labelledby="region-finder-title">
-        <div className="border-y border-black/10 py-8 sm:py-10">
+      <section className="page-shell py-7 sm:py-16" aria-labelledby="region-finder-title">
+        <div className="border-y border-black/10 py-6 sm:py-10">
           <div className="grid gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted">빠른 현장 찾기</p>
@@ -94,7 +94,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="page-shell pb-24 pt-10 sm:pt-16">
+      <section className="page-shell pb-20 pt-7 sm:pb-24 sm:pt-16">
         <SectionHeading
           action={
             <Link className="button-secondary text-[length:var(--home-button-size,13px)]" href="/projects">
