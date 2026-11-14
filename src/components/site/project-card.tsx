@@ -1,14 +1,12 @@
 import Link from "next/link";
 
-import { StatusBadge } from "@/components/ui/status-badge";
 import { ProjectVisual } from "@/components/ui/project-visual";
 import type { HomePageSettings, Project } from "@/lib/types";
 import {
   formatPhoneHref,
   getDefaultHomePageSettings,
   getProjectAddressLine,
-  getProjectRegion,
-  summarizeText
+  NAVER_INQUIRY_URL
 } from "@/lib/utils";
 
 export function ProjectCard({
@@ -19,71 +17,62 @@ export function ProjectCard({
   settings?: HomePageSettings;
 }) {
   return (
-    <article className="surface-panel overflow-hidden rounded-[1.5rem] border border-black/8 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.045)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_46px_rgba(15,23,42,0.08)] sm:rounded-[2rem]">
-      <div className="relative p-2.5 pb-0 sm:p-4">
+    <article className="overflow-hidden rounded-[1.5rem] border border-black/10 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(15,23,42,0.07)] sm:rounded-[2rem]">
+      <div className="p-2.5 pb-0 sm:p-3.5">
         <ProjectVisual
-          className="aspect-[16/9.6] sm:aspect-[16/10]"
+          className="aspect-[16/10]"
           imageUrl={project.coverImageUrl}
           title={project.name}
         />
-        <div className="absolute left-4 top-4 sm:left-8 sm:top-8">
-          <StatusBadge status={project.status} />
-        </div>
       </div>
-      <div className="space-y-2 px-4 pb-4 pt-3 sm:space-y-5 sm:px-6 sm:pb-6 sm:pt-6">
-        <div className="space-y-1.5 sm:space-y-3">
-          <p className="text-[11px] font-medium tracking-[0.01em] text-muted sm:hidden">
-            {getProjectRegion(project)} · {project.contactPhone}
-          </p>
-          <p className="hidden text-[length:var(--home-card-meta-size,11.2px)] font-medium tracking-[0.06em] text-muted sm:block sm:text-sm sm:tracking-normal">
-            {getProjectRegion(project)} · {project.unitPlan} · {project.contactPhone}
-          </p>
-          <h3 className="text-[1.24rem] leading-[1.2] tracking-[-0.03em] sm:text-[1.85rem] sm:leading-[1.15]">
+      <div className="px-5 pb-5 pt-5 sm:px-7 sm:pb-7 sm:pt-6">
+        <div>
+          <h3 className="text-[1.35rem] leading-[1.25] tracking-[-0.035em] sm:text-[1.75rem]">
             {project.name}
           </h3>
-          <p className="text-[13px] leading-5 text-slate-700 sm:hidden">
-            {summarizeText(getProjectAddressLine(project), 38)}
+          <p className="mt-2 text-[13px] leading-6 text-muted sm:text-sm">
+            {getProjectAddressLine(project)}
           </p>
-          <p className="text-[12px] leading-5 text-muted sm:hidden">
-            {summarizeText(project.premiumSummary.replace(/\s+/g, " ").trim(), 52)}
-          </p>
-          <p className="hidden text-[length:var(--home-card-body-size,13px)] leading-7 text-slate-700 sm:block">{getProjectAddressLine(project)}</p>
-          <p className="hidden text-[length:var(--home-card-body-size,13px)] leading-7 text-muted sm:block">{project.premiumSummary}</p>
         </div>
 
-        <dl className="hidden grid-cols-2 gap-4 rounded-[1.6rem] bg-slate-50 px-4 py-5 text-[length:var(--home-card-label-size,13px)] sm:grid sm:text-sm">
+        <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 border-y border-black/8 py-5 text-sm">
           <div>
             <dt className="text-muted">{settings.projectCardHouseholdLabel}</dt>
-            <dd className="mt-1 font-semibold text-foreground">{project.householdCount}</dd>
+            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.householdCount}</dd>
           </div>
           <div>
             <dt className="text-muted">{settings.projectCardUnitPlanLabel}</dt>
-            <dd className="mt-1 font-semibold text-foreground">{project.unitPlan}</dd>
+            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.unitPlan}</dd>
           </div>
           <div>
             <dt className="text-muted">{settings.projectCardMoveInLabel}</dt>
-            <dd className="mt-1 font-semibold text-foreground">{project.expectedMoveIn}</dd>
+            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.expectedMoveIn}</dd>
           </div>
           <div>
-            <dt className="text-muted">{settings.projectCardPhoneLabel}</dt>
-            <dd className="mt-1 font-semibold text-foreground">{project.contactPhone}</dd>
+            <dt className="text-muted">대표번호</dt>
+            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.contactPhone}</dd>
           </div>
         </dl>
 
-            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:gap-3">
-              <a
-                className="button-primary min-h-[38px] rounded-[0.9rem] px-3 text-[12px] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
-                href={formatPhoneHref(project.contactPhone)}
-              >
-                {settings.projectCardPhoneButtonLabel}
-              </a>
-              <Link
-                className="button-secondary min-h-[38px] rounded-[0.9rem] px-3 text-[12px] leading-none font-semibold tracking-[-0.015em] sm:min-h-0 sm:flex-1 sm:rounded-full sm:px-5 sm:text-sm"
-                href={`/projects/${project.slug}`}
-              >
-                {settings.projectCardDetailButtonLabel}
-              </Link>
+        <div className="mt-5 grid grid-cols-2 gap-2.5">
+          <a
+            className="button-primary !min-h-[42px] !rounded-xl !px-3 !py-2.5 !text-[13px]"
+            href={NAVER_INQUIRY_URL}
+            rel="noreferrer"
+            target="_blank"
+          >
+            문의하기
+          </a>
+          <a
+            className="button-secondary !min-h-[42px] !rounded-xl !px-3 !py-2.5 !text-[13px]"
+            href={formatPhoneHref(project.contactPhone)}
+          >
+            전화연결
+          </a>
         </div>
+        <Link className="mt-4 block text-center text-xs font-semibold text-muted underline decoration-black/15 underline-offset-4" href={`/projects/${project.slug}`}>
+          현장 상세정보
+        </Link>
       </div>
     </article>
   );

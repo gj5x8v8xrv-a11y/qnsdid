@@ -5,7 +5,7 @@ import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { buildProjectsMetadata } from "@/lib/seo";
 import { getProjects } from "@/lib/data";
-import { getProjectRegion, getProjectReservationHref } from "@/lib/utils";
+import { getProjectRegion, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -32,11 +32,6 @@ export default async function ProjectsPage({
   const filteredProjects = activeRegion
     ? projects.filter((project) => getProjectRegion(project) === activeRegion)
     : projects;
-  const featuredReservationHref = filteredProjects[0]
-    ? getProjectReservationHref(filteredProjects[0])
-    : projects[0]
-      ? getProjectReservationHref(projects[0])
-      : "/projects";
 
   return (
     <>
@@ -45,11 +40,11 @@ export default async function ProjectsPage({
           <>
             <a
               className="button-primary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6"
-              href={featuredReservationHref}
+              href={NAVER_INQUIRY_URL}
               rel="noreferrer"
               target="_blank"
             >
-              방문예약
+              문의하기
             </a>
             <Link className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/completed">
               분양완료 보기

@@ -10,7 +10,7 @@ import {
   formatStatusLabel,
   getProjectAddressLine,
   getProjectRegion,
-  getProjectReservationHref
+  NAVER_INQUIRY_URL
 } from "@/lib/utils";
 import type { Project, ProjectImage, ProjectImageType } from "@/lib/types";
 
@@ -143,7 +143,6 @@ export default async function ProjectDetailPage({
 
   const addressLine = getProjectAddressLine(project);
   const groupedImages = groupImagesByType(project.gallery);
-  const reservationHref = getProjectReservationHref(project);
   const overviewRows = getOverviewRows(project, addressLine);
   const faqEntries = buildFaqEntries(project, addressLine);
   const heroImage = project.coverImageUrl || project.gallery[0]?.imageUrl || "";
@@ -192,16 +191,16 @@ export default async function ProjectDetailPage({
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-2 lg:hidden">
-              <a className="button-accent !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]" href={formatPhoneHref(project.contactPhone)}>
-                전화문의
-              </a>
               <a
                 className="button-primary !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]"
-                href={reservationHref}
+                href={NAVER_INQUIRY_URL}
                 rel="noreferrer"
                 target="_blank"
               >
-                방문예약
+                문의하기
+              </a>
+              <a className="button-accent !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]" href={formatPhoneHref(project.contactPhone)}>
+                전화연결
               </a>
             </div>
 
@@ -424,20 +423,20 @@ export default async function ProjectDetailPage({
             <p className="text-xs uppercase tracking-[0.32em] text-muted">Contact</p>
             <h2 className="mt-3 text-3xl">문의 안내</h2>
             <p className="mt-3 text-sm leading-8 text-muted">
-              궁금한 내용은 전화상담 또는 방문예약으로 바로 연결하실 수 있습니다.
+              궁금한 내용은 문의하기 또는 전화연결로 바로 상담하실 수 있습니다.
             </p>
 
             <div className="mt-6 grid gap-3">
-              <a className="button-accent w-full" href={formatPhoneHref(project.contactPhone)}>
-                전화상담
-              </a>
               <a
                 className="button-primary w-full"
-                href={reservationHref}
+                href={NAVER_INQUIRY_URL}
                 rel="noreferrer"
                 target="_blank"
               >
-                방문예약
+                문의하기
+              </a>
+              <a className="button-accent w-full" href={formatPhoneHref(project.contactPhone)}>
+                전화연결
               </a>
             </div>
 

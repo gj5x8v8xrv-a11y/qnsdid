@@ -1,14 +1,12 @@
 "use client";
 
 import type { HomePageSettings } from "@/lib/types";
-import { getSiteConfig } from "@/lib/utils";
+import { getSiteConfig, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export function SiteStickyCta({
-  settings,
-  reservationHref
+  settings
 }: {
   settings: HomePageSettings;
-  reservationHref: string;
 }) {
   const site = getSiteConfig();
   const phoneHref = `tel:${site.companyPhone.replace(/[^+\d]/g, "")}`;
@@ -25,16 +23,16 @@ export function SiteStickyCta({
             {settings.stickyDescription}
           </p>
           <div className="mt-5 grid gap-3">
-            <a className="button-primary w-full text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
-              {settings.stickyPhoneButtonLabel}
-            </a>
             <a
-              className="button-secondary w-full text-[length:var(--home-sticky-button-size,14px)]"
-              href={reservationHref}
+              className="button-primary w-full text-[length:var(--home-sticky-button-size,14px)]"
+              href={NAVER_INQUIRY_URL}
               rel="noreferrer"
               target="_blank"
             >
-              방문예약
+              문의하기
+            </a>
+            <a className="button-secondary w-full text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
+              전화연결
             </a>
           </div>
         </div>
@@ -42,16 +40,16 @@ export function SiteStickyCta({
 
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/8 bg-white/95 p-2.5 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
         <div className="page-shell flex gap-2 px-0">
-          <a className="button-primary !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
-            {settings.stickyPhoneButtonLabel}
-          </a>
           <a
-            className="button-accent !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]"
-            href={reservationHref}
+            className="button-primary !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]"
+            href={NAVER_INQUIRY_URL}
             rel="noreferrer"
             target="_blank"
           >
-            방문예약
+            문의하기
+          </a>
+          <a className="button-accent !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]" href={phoneHref}>
+            전화연결
           </a>
         </div>
       </div>

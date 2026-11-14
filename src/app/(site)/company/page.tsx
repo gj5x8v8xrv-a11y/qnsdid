@@ -48,7 +48,7 @@ export default function CompanyPage() {
               {[
                 "현재 안내 중인 현장과 소개 완료 현장을 구분해 살펴보실 수 있습니다.",
                 "지역, 평형, 세대수, 기본 정보를 함께 보여드려 비교가 편합니다.",
-                "궁금한 현장은 전화나 상담문의, 방문예약으로 바로 연결하실 수 있습니다."
+                "궁금한 현장은 문의하기나 전화연결로 바로 상담하실 수 있습니다."
               ].map((item) => (
                 <div className="rounded-[1.5rem] bg-slate-50 px-5 py-5 text-sm leading-8 text-foreground" key={item}>
                   {item}

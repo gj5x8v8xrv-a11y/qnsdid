@@ -4,14 +4,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import type { HomePageSettings } from "@/lib/types";
-import { getSiteConfig, getSiteNavItems } from "@/lib/utils";
+import { getSiteConfig, getSiteNavItems, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export function SiteHeader({
-  settings,
-  reservationHref
+  settings
 }: {
   settings: HomePageSettings;
-  reservationHref: string;
 }) {
   const pathname = usePathname();
   const site = getSiteConfig();
@@ -29,7 +27,7 @@ export function SiteHeader({
         </div>
       </div>
 
-      <div className="page-shell flex flex-col gap-1.5 py-1.5 sm:gap-4 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="page-shell flex flex-col gap-3 py-3 sm:gap-5 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
         <Link className="flex items-center gap-2.5 sm:gap-4" href="/">
           <div className="space-y-0 sm:space-y-1">
             <p className="text-[length:var(--home-brand-english-size,9px)] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[11px] sm:tracking-[0.32em]">
@@ -44,7 +42,7 @@ export function SiteHeader({
           </div>
         </Link>
 
-        <nav className="flex gap-1 overflow-x-auto pb-0.5 sm:gap-2 sm:pb-1">
+        <nav aria-label="주요 메뉴" className="flex gap-1 overflow-x-auto pb-0.5 sm:gap-2 sm:pb-1">
           {navItems.map((item) => {
             const isActive =
               item.href === "/"
@@ -55,7 +53,7 @@ export function SiteHeader({
 
             return (
               <Link
-                className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-[length:var(--home-nav-size,12px)] font-semibold transition sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`whitespace-nowrap rounded-full px-3 py-2 text-[length:var(--home-nav-size,12px)] font-semibold transition sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
                     ? "bg-black text-white shadow-soft"
                     : "border border-black/8 bg-white text-foreground hover:bg-slate-50"
@@ -70,16 +68,16 @@ export function SiteHeader({
         </nav>
 
         <div className="hidden lg:flex lg:items-center lg:gap-3">
-          <a className="button-secondary text-[length:var(--home-button-size,13px)]" href={phoneHref}>
-            {settings.headerPhoneButtonLabel}
-          </a>
           <a
             className="button-primary text-[length:var(--home-button-size,13px)]"
-            href={reservationHref}
+            href={NAVER_INQUIRY_URL}
             rel="noreferrer"
             target="_blank"
           >
-            방문예약
+            문의하기
+          </a>
+          <a className="button-secondary text-[length:var(--home-button-size,13px)]" href={phoneHref}>
+            전화연결
           </a>
         </div>
       </div>
