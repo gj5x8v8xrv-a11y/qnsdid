@@ -57,26 +57,26 @@ export default async function ProjectDetailPage({
   ].slice(0, 6);
 
   return (
-    <div className="bg-[#101010] text-white">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_50%_0%,#2a2a2a_0%,#151515_28rem,#090909_72rem)] text-white">
       <div className="mx-auto max-w-5xl px-5 py-6 sm:px-8 sm:py-10">
-        <div className="border-b border-white/10 pb-5">
+        <div className="border border-white/15 bg-white/[0.035] p-4 backdrop-blur-2xl sm:p-6">
           <div className="flex items-center justify-between gap-4">
             <Link className="min-w-0 truncate text-sm font-semibold text-white/90 sm:text-base" href="/projects">
               ← {project.name}
             </Link>
             <a
-              className="shrink-0 rounded-none border border-white/25 bg-white/5 px-3.5 py-2 text-xs font-medium text-white/80 backdrop-blur-xl sm:text-sm"
+              className="shrink-0 rounded-none border border-white/30 bg-white/[0.06] px-3.5 py-2 text-xs font-medium text-white/90 backdrop-blur-xl transition hover:bg-white hover:text-black sm:text-sm"
               href={formatPhoneHref(project.contactPhone)}
             >
               {project.contactPhone}
             </a>
           </div>
 
-          <nav aria-label="현장 상세 메뉴" className="mt-5 flex gap-5 overflow-x-auto pb-1 text-xs text-white/55 sm:text-sm">
-            <a className="whitespace-nowrap hover:text-white" href="#overview">사업개요</a>
-            <a className="whitespace-nowrap hover:text-white" href="#location">입지</a>
-            <a className="whitespace-nowrap hover:text-white" href="#gallery">갤러리</a>
-            <a className="whitespace-nowrap hover:text-white" href="#contact">문의하기</a>
+          <nav aria-label="현장 상세 메뉴" className="mt-5 grid grid-cols-4 border-l border-t border-white/15 text-center text-[11px] text-white/60 sm:text-sm">
+            <a className="border-b border-r border-white/15 px-2 py-2.5 transition hover:bg-white hover:text-black" href="#overview">사업개요</a>
+            <a className="border-b border-r border-white/15 px-2 py-2.5 transition hover:bg-white hover:text-black" href="#location">입지</a>
+            <a className="border-b border-r border-white/15 px-2 py-2.5 transition hover:bg-white hover:text-black" href="#gallery">갤러리</a>
+            <a className="border-b border-r border-white/15 px-2 py-2.5 transition hover:bg-white hover:text-black" href="#contact">문의하기</a>
           </nav>
         </div>
 
@@ -84,7 +84,7 @@ export default async function ProjectDetailPage({
           <p className="text-xs tracking-[0.08em] text-white/45">
             {getProjectRegion(project)} · {project.householdCount} · {project.unitPlan}
           </p>
-          <h1 className="mt-5 max-w-3xl break-keep bg-gradient-to-r from-white via-white to-neutral-400 bg-clip-text text-[2.25rem] font-medium leading-[1.12] tracking-[-0.055em] text-transparent sm:text-6xl">
+          <h1 className="mt-5 max-w-3xl break-keep text-[2.25rem] font-medium leading-[1.12] tracking-[-0.055em] text-white sm:text-6xl">
             {project.name}
           </h1>
           <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
@@ -97,7 +97,10 @@ export default async function ProjectDetailPage({
               imageUrl={project.coverImageUrl}
               title={project.name}
             />
-            <p className="mt-3 text-[11px] text-white/35">현장 이미지이며 실제와 차이가 있을 수 있습니다.</p>
+            <p className="mt-3 flex items-center justify-between gap-3 text-[11px] text-white/40">
+              <span>현장 이미지이며 실제와 차이가 있을 수 있습니다.</span>
+              <span className="shrink-0 text-white/65">사진을 누르면 확대됩니다</span>
+            </p>
           </div>
 
           <section className="mt-10 border-y border-white/10 py-7" id="overview">
@@ -129,6 +132,7 @@ export default async function ProjectDetailPage({
             <section className="py-10 sm:py-14" id="gallery">
               <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Gallery</p>
               <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 이미지</h2>
+              <p className="mt-2 text-xs text-white/45">사진을 선택하면 화면에 크게 확대해서 볼 수 있습니다.</p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 {gallery.map((image) => (
                   <LightboxImage
@@ -136,7 +140,7 @@ export default async function ProjectDetailPage({
                     imageClassName="aspect-[16/10] rounded-none"
                     key={image.id}
                     src={image.imageUrl}
-                    wrapperClassName="overflow-hidden rounded-none bg-white/5"
+                    wrapperClassName="overflow-hidden rounded-none border border-white/15 bg-white/5"
                   />
                 ))}
               </div>

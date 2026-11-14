@@ -43,7 +43,7 @@ export function LightboxImage({
     <>
       <button
         aria-label={`${alt} 크게 보기`}
-        className={`group block w-full text-left ${wrapperClassName}`}
+        className={`group relative block w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black ${wrapperClassName}`}
         onClick={() => setIsOpen(true)}
         type="button"
       >
@@ -53,18 +53,21 @@ export function LightboxImage({
           src={src}
         />
         {overlayClassName ? <div className={overlayClassName} /> : null}
+        <span className="pointer-events-none absolute bottom-3 right-3 border border-white/35 bg-black/55 px-3 py-1.5 text-[10px] font-medium tracking-[0.08em] text-white backdrop-blur-xl transition group-hover:bg-black/75 sm:bottom-4 sm:right-4 sm:text-xs">
+          + 크게 보기
+        </span>
       </button>
 
       {isOpen ? (
         <div
           aria-modal="true"
-          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/88 p-4 sm:p-6"
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/95 p-3 backdrop-blur-xl sm:p-8"
           onClick={() => setIsOpen(false)}
           role="dialog"
         >
           <button
             aria-label="사진 닫기"
-            className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/14 text-2xl text-white transition hover:bg-white/22"
+            className="absolute right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center border border-white/35 bg-black/60 text-2xl font-light text-white backdrop-blur-xl transition hover:bg-white hover:text-black sm:right-6 sm:top-6"
             onClick={() => setIsOpen(false)}
             type="button"
           >
@@ -72,7 +75,7 @@ export function LightboxImage({
           </button>
           <img
             alt={alt}
-            className="max-h-[88vh] w-auto max-w-[94vw] rounded-[1.5rem] object-contain shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+            className="max-h-[90vh] w-auto max-w-[96vw] border border-white/15 object-contain shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
             onClick={(event) => event.stopPropagation()}
             src={src}
           />
