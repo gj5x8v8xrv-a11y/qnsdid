@@ -53,10 +53,10 @@ export function SiteHeader({
 
             return (
               <Link
-                className={`whitespace-nowrap rounded-none px-2 py-1.5 text-[11px] font-medium transition sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`whitespace-nowrap rounded-none border px-2 py-1.5 text-[11px] font-medium transition sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
-                    ? "bg-neutral-950 text-white shadow-[0_7px_18px_rgba(0,0,0,0.16)]"
-                    : "bg-transparent text-neutral-600 hover:bg-white/70 hover:text-black sm:border sm:border-black/10"
+                    ? "border-neutral-950 bg-neutral-950 text-white shadow-[0_7px_18px_rgba(0,0,0,0.16)]"
+                    : "border-black/10 bg-white/35 text-neutral-600 backdrop-blur-xl hover:border-black/25 hover:bg-white/70 hover:text-black"
                 }`}
                 href={item.href}
                 key={item.href}

@@ -29,8 +29,11 @@ body {
   min-height: 100vh;
   color: var(--foreground);
   background:
-    radial-gradient(circle at 88% 4%, rgba(255, 255, 255, 0.9), transparent 30rem),
-    linear-gradient(180deg, #fafafa 0%, #f1f1ef 52%, #e9e9e7 100%);
+    radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 1), transparent 22rem),
+    radial-gradient(circle at 88% 18%, rgba(182, 182, 182, 0.35), transparent 26rem),
+    radial-gradient(circle at 38% 52%, rgba(255, 255, 255, 0.86), transparent 30rem),
+    linear-gradient(145deg, #eeeeec 0%, #dcdedc 48%, #f5f5f3 100%);
+  background-attachment: fixed;
   font-family: var(--font-body), sans-serif;
   letter-spacing: -0.01em;
   line-height: 1.65;

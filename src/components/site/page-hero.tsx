@@ -26,8 +26,9 @@ export function PageHero({
 }) {
   return (
     <section className="page-shell pb-5 pt-3 sm:pb-16 sm:pt-12">
-      <div className="relative overflow-hidden rounded-none border border-white/80 bg-white/58 px-4 py-5 text-black shadow-[0_22px_60px_rgba(0,0,0,0.07)] backdrop-blur-2xl sm:px-12 sm:py-14 lg:px-16 lg:py-16">
-        <div className="pointer-events-none absolute -right-28 -top-32 h-80 w-80 rounded-full bg-white/90 blur-3xl" />
+      <div className="relative overflow-hidden rounded-none border border-white/90 bg-[linear-gradient(135deg,rgba(255,255,255,0.62),rgba(255,255,255,0.24))] px-4 py-5 text-black shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(255,255,255,0.35),0_28px_70px_rgba(0,0,0,0.09)] backdrop-blur-[28px] sm:px-12 sm:py-14 lg:px-16 lg:py-16">
+        <div className="pointer-events-none absolute -right-28 -top-32 h-80 w-80 rounded-full bg-white/70 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-20 h-64 w-64 rounded-full bg-black/[0.04] blur-3xl" />
         <div className={`grid gap-6 sm:gap-12 lg:items-center ${visual ? "lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]" : "lg:grid-cols-1"}`}>
           <div className="relative">
             <p className="inline-flex rounded-none border border-black/10 bg-white/55 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.2em] text-neutral-600 backdrop-blur-xl sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.3em]">
@@ -52,7 +53,7 @@ export function PageHero({
               <div className="mt-6 grid grid-cols-3 gap-2 sm:mt-11 sm:gap-3">
                 {stats.map((stat) => (
                   <div
-                    className="min-w-0 rounded-none border border-white/80 bg-white/48 px-2.5 py-3 backdrop-blur-xl sm:px-5 sm:py-5"
+                    className="min-w-0 rounded-none border border-white/90 bg-white/30 px-2.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl sm:px-5 sm:py-5"
                     key={`${stat.label}-${stat.value}`}
                   >
                     <p className="truncate text-[9px] uppercase tracking-[0.08em] text-muted sm:text-xs sm:tracking-[0.28em]">{stat.label}</p>
