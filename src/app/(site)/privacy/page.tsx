@@ -40,7 +40,7 @@ export default function PrivacyPage() {
       <section className="page-shell pb-24">
         <div className="surface-panel space-y-6 p-8 lg:p-10">
           {policySections.map((section) => (
-            <div className="rounded-[1.5rem] bg-slate-50 px-6 py-6" key={section.title}>
+            <div className="rounded-none border border-black/8 bg-white/45 px-6 py-6" key={section.title}>
               <h2 className="text-2xl">{section.title}</h2>
               <p className="mt-4 text-sm leading-8 text-muted">{section.body}</p>
             </div>

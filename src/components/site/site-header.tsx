@@ -53,7 +53,7 @@ export function SiteHeader({
 
             return (
               <Link
-                className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-[11px] font-semibold transition sm:rounded-full sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`whitespace-nowrap rounded-none px-2 py-1.5 text-[11px] font-medium transition sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
                     ? "bg-neutral-950 text-white shadow-[0_7px_18px_rgba(0,0,0,0.16)]"
                     : "bg-transparent text-neutral-600 hover:bg-white/70 hover:text-black sm:border sm:border-black/10"

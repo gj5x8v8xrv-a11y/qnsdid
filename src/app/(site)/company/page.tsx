@@ -53,7 +53,7 @@ export default function CompanyPage() {
                 "지역, 평형, 세대수, 기본 정보를 함께 보여드려 비교가 편합니다.",
                 "궁금한 현장은 문의하기나 전화연결로 바로 상담하실 수 있습니다."
               ].map((item) => (
-                <div className="rounded-[1.5rem] bg-slate-50 px-5 py-5 text-sm leading-8 text-foreground" key={item}>
+                <div className="rounded-none border border-black/8 bg-white/45 px-5 py-5 text-sm leading-8 text-foreground" key={item}>
                   {item}
                 </div>
               ))}

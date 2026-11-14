@@ -65,7 +65,7 @@ export default async function ProjectDetailPage({
               ← {project.name}
             </Link>
             <a
-              className="shrink-0 rounded-lg border border-white/25 bg-white/5 px-3.5 py-2 text-xs font-medium text-white/80 backdrop-blur-xl sm:text-sm"
+              className="shrink-0 rounded-none border border-white/25 bg-white/5 px-3.5 py-2 text-xs font-medium text-white/80 backdrop-blur-xl sm:text-sm"
               href={formatPhoneHref(project.contactPhone)}
             >
               {project.contactPhone}
@@ -133,10 +133,10 @@ export default async function ProjectDetailPage({
                 {gallery.map((image) => (
                   <LightboxImage
                     alt={`${project.name} 현장 이미지`}
-                    imageClassName="aspect-[16/10] rounded-xl"
+                    imageClassName="aspect-[16/10] rounded-none"
                     key={image.id}
                     src={image.imageUrl}
-                    wrapperClassName="overflow-hidden rounded-xl bg-white/5"
+                    wrapperClassName="overflow-hidden rounded-none bg-white/5"
                   />
                 ))}
               </div>
@@ -146,7 +146,7 @@ export default async function ProjectDetailPage({
           <section className="border-t border-white/10 pt-8" id="contact">
             <div className="grid gap-3 sm:grid-cols-[1fr_0.65fr]">
               <a
-                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-5 text-sm font-medium text-black shadow-[0_12px_28px_rgba(0,0,0,0.25)] transition hover:bg-neutral-200"
+                className="inline-flex min-h-12 items-center justify-center rounded-none bg-white px-5 text-sm font-medium text-black shadow-[0_12px_28px_rgba(0,0,0,0.25)] transition hover:bg-neutral-200"
                 href={NAVER_INQUIRY_URL}
                 rel="noreferrer"
                 target="_blank"
@@ -154,7 +154,7 @@ export default async function ProjectDetailPage({
                 문의하기
               </a>
               <a
-                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-5 text-sm font-medium text-white/85 backdrop-blur-xl transition hover:bg-white/10"
+                className="inline-flex min-h-12 items-center justify-center rounded-none border border-white/25 bg-white/5 px-5 text-sm font-medium text-white/85 backdrop-blur-xl transition hover:bg-white/10"
                 href={formatPhoneHref(project.contactPhone)}
               >
                 전화연결 {project.contactPhone}

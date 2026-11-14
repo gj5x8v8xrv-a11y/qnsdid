@@ -80,11 +80,11 @@ textarea {
 }
 
   .surface-panel {
-    @apply rounded-[1.5rem] border border-white/70 bg-panel shadow-soft backdrop-blur-2xl;
+    @apply rounded-none border border-white/70 bg-panel shadow-soft backdrop-blur-2xl;
   }
 
   .surface-dark {
-    @apply rounded-[2rem] border border-white/10 bg-deep text-white shadow-lift;
+    @apply rounded-none border border-white/10 bg-deep text-white shadow-lift;
   }
 
   .glass-panel {
@@ -92,7 +92,7 @@ textarea {
   }
 
   .section-kicker {
-    @apply inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.26em] text-neutral-600 backdrop-blur-xl;
+    @apply inline-flex items-center gap-2 rounded-none border border-black/10 bg-white/60 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.26em] text-neutral-600 backdrop-blur-xl;
   }
 
   .section-title {
@@ -106,7 +106,7 @@ textarea {
   }
 
   .button-base {
-    @apply inline-flex min-h-[44px] items-center justify-center rounded-xl px-4 py-3 text-[13px] font-semibold tracking-[0.01em] transition duration-200 sm:px-6 sm:py-4 sm:text-sm;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-none px-4 py-3 text-[13px] font-medium tracking-[0.01em] transition duration-200 sm:px-6 sm:py-4 sm:text-sm;
   }
 
   .button-primary {
@@ -127,7 +127,7 @@ textarea {
   }
 
   .field-shell {
-    @apply w-full rounded-[1.35rem] border border-[color:var(--line)] bg-white px-4 py-4 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2;
+    @apply w-full rounded-none border border-[color:var(--line)] bg-white px-4 py-4 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2;
   }
 
   .field-shell:focus {

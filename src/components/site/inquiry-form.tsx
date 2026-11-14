@@ -49,7 +49,7 @@ export function InquiryForm({
         />
       </label>
 
-      <label className="flex items-start gap-3 rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-7 text-muted">
+      <label className="flex items-start gap-3 rounded-none border border-black/8 bg-white/45 px-4 py-4 text-sm leading-7 text-muted">
         <input className="mt-1 h-4 w-4 shrink-0" name="privacyConsent" required type="checkbox" />
         <span>
           개인정보 수집 및 이용에 동의합니다. 자세한 내용은{" "}

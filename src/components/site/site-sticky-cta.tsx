@@ -14,7 +14,7 @@ export function SiteStickyCta({
   return (
     <>
       <div className="fixed bottom-4 right-4 z-50 hidden w-[320px] lg:block">
-        <div className="overflow-hidden rounded-[1.35rem] border border-white/80 bg-white/66 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.1)] backdrop-blur-2xl">
+        <div className="overflow-hidden rounded-none border border-white/80 bg-white/66 p-5 shadow-[0_20px_55px_rgba(0,0,0,0.1)] backdrop-blur-2xl">
           <p className="text-[length:var(--home-sticky-eyebrow-size,12px)] uppercase tracking-[0.34em] text-muted">{settings.stickyEyebrow}</p>
           <h2 className="mt-3 text-[length:var(--home-sticky-title-size,1.5rem)] leading-tight text-black">{settings.stickyTitle}</h2>
           <p className="mt-3 text-[length:var(--home-sticky-body-size,14px)] leading-7 text-muted">

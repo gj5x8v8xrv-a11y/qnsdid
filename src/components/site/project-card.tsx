@@ -17,7 +17,7 @@ export function ProjectCard({
   settings?: HomePageSettings;
 }) {
   return (
-    <article className="group overflow-hidden rounded-[1.35rem] border border-white/80 bg-white/62 shadow-[0_14px_40px_rgba(0,0,0,0.06)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1.5 hover:border-black/10 hover:bg-white/78 hover:shadow-[0_22px_55px_rgba(0,0,0,0.1)] sm:rounded-[1.6rem]">
+    <article className="group overflow-hidden rounded-none border border-white/80 bg-white/62 shadow-[0_14px_40px_rgba(0,0,0,0.06)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-black/10 hover:bg-white/78 hover:shadow-[0_22px_55px_rgba(0,0,0,0.1)]">
       <div className="p-2.5 pb-0 sm:p-3.5">
         <ProjectVisual
           className="aspect-[16/10]"
@@ -35,7 +35,7 @@ export function ProjectCard({
           </p>
         </div>
 
-        <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 rounded-xl border border-white/80 bg-white/44 px-4 py-5 text-sm backdrop-blur-xl">
+        <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 rounded-none border border-white/80 bg-white/44 px-4 py-5 text-sm backdrop-blur-xl">
           <div>
             <dt className="text-muted">{settings.projectCardHouseholdLabel}</dt>
             <dd className="mt-1 font-medium leading-6 text-foreground">{project.householdCount}</dd>
@@ -56,7 +56,7 @@ export function ProjectCard({
 
         <div className="mt-5 grid grid-cols-2 gap-2.5">
           <a
-            className="button-primary !min-h-[42px] !rounded-xl !px-3 !py-2.5 !text-[13px]"
+            className="button-primary !min-h-[42px] !rounded-none !px-3 !py-2.5 !text-[13px]"
             href={NAVER_INQUIRY_URL}
             rel="noreferrer"
             target="_blank"
@@ -64,7 +64,7 @@ export function ProjectCard({
             문의하기
           </a>
           <a
-            className="button-secondary !min-h-[42px] !rounded-xl !px-3 !py-2.5 !text-[13px]"
+            className="button-secondary !min-h-[42px] !rounded-none !px-3 !py-2.5 !text-[13px]"
             href={formatPhoneHref(project.contactPhone)}
           >
             전화연결
