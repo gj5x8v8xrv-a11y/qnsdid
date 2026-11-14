@@ -28,7 +28,7 @@ export function PageHero({
     <section className="page-shell pb-5 pt-3 sm:pb-16 sm:pt-12">
       <div className="relative overflow-hidden rounded-[1.25rem] border border-blue-100 bg-white/90 px-4 py-5 text-black shadow-[0_20px_55px_rgba(30,64,175,0.08)] backdrop-blur-xl sm:rounded-[2rem] sm:px-12 sm:py-14 lg:px-16 lg:py-16">
         <div className="pointer-events-none absolute -right-28 -top-32 h-80 w-80 rounded-full bg-blue-100/70 blur-3xl" />
-        <div className="grid gap-6 sm:gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-center">
+        <div className={`grid gap-6 sm:gap-12 lg:items-center ${visual ? "lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]" : "lg:grid-cols-1"}`}>
           <div className="relative">
             <p className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-blue-700 sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.3em]">
               {eyebrow}

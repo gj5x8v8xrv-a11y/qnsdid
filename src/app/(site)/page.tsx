@@ -2,7 +2,6 @@ import Link from "next/link";
 import { PageHero } from "@/components/site/page-hero";
 import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
-import { ProjectVisual } from "@/components/ui/project-visual";
 import { getHomePageSettings, getProjects } from "@/lib/data";
 import { getProjectRegion, getSiteConfig, NAVER_INQUIRY_URL } from "@/lib/utils";
 
@@ -15,7 +14,6 @@ export default async function HomePage() {
     getHomePageSettings()
   ]);
   const site = getSiteConfig();
-  const featuredProject = activeProjects[0];
   const regions = [...new Set(activeProjects.map((project) => getProjectRegion(project)).filter(Boolean))].sort(
     (left, right) => left.localeCompare(right, "ko")
   );
@@ -41,29 +39,6 @@ export default async function HomePage() {
           { label: homePageSettings.heroPhoneStatLabel, value: site.companyPhone }
         ]}
         title={homePageSettings.heroTitle}
-        visual={
-          featuredProject ? (
-            <div className="space-y-5">
-              <ProjectVisual
-                className="aspect-[16/11]"
-                imageUrl={featuredProject.coverImageUrl}
-                title={featuredProject.name}
-              />
-              <div className="px-1 pb-1 text-black">
-                <p className="text-[length:var(--home-featured-label-size,12px)] font-semibold uppercase tracking-[0.28em] text-muted">{homePageSettings.featuredProjectLabel}</p>
-                <h2 className="mt-3 text-[length:var(--home-card-title-size,1.08rem)] leading-[1.3] tracking-[-0.03em] sm:text-2xl">
-                  {featuredProject.name}
-                </h2>
-                <p className="mt-3 text-[length:var(--home-body-text-size,13px)] leading-6 text-muted sm:text-sm sm:leading-7">
-                  {featuredProject.premiumSummary}
-                </p>
-                <Link className="mt-4 inline-flex text-sm font-semibold underline decoration-black/20 underline-offset-4" href={`/projects/${featuredProject.slug}`}>
-                  현장 자세히 보기
-                </Link>
-              </div>
-            </div>
-          ) : undefined
-        }
       />
 
       <section className="page-shell py-7 sm:py-16" aria-labelledby="region-finder-title">
