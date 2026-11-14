@@ -27,22 +27,22 @@ export function SiteHeader({
         </div>
       </div>
 
-      <div className="page-shell flex flex-col gap-3 py-3 sm:gap-5 sm:py-5 lg:flex-row lg:items-center lg:justify-between">
-        <Link className="flex items-center gap-2.5 sm:gap-4" href="/">
+      <div className="page-shell flex items-center gap-2 !px-3 py-2 sm:flex-col sm:items-stretch sm:gap-5 sm:!px-8 sm:py-5 lg:flex-row lg:items-center lg:justify-between lg:!px-12">
+        <Link className="shrink-0 sm:flex sm:items-center sm:gap-4" href="/">
           <div className="space-y-0 sm:space-y-1">
-            <p className="text-[length:var(--home-brand-english-size,9px)] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[11px] sm:tracking-[0.32em]">
+            <p className="hidden text-[length:var(--home-brand-english-size,9px)] font-semibold uppercase tracking-[0.24em] text-muted sm:block sm:text-[11px] sm:tracking-[0.32em]">
               {settings.brandEnglishName}
             </p>
-            <p className="text-[length:var(--home-brand-name-size,1.05rem)] font-extrabold leading-none tracking-[-0.045em] text-black sm:text-[1.65rem]">
+            <p className="text-[14px] font-extrabold leading-none tracking-[-0.045em] text-black sm:text-[1.65rem]">
               {site.companyName}
             </p>
-            <p className="text-[length:var(--home-brand-caption-size,9px)] font-medium tracking-[0.04em] text-muted sm:text-xs sm:tracking-[0.08em]">
+            <p className="hidden text-[length:var(--home-brand-caption-size,9px)] font-medium tracking-[0.04em] text-muted sm:block sm:text-xs sm:tracking-[0.08em]">
               {settings.brandCaption}
             </p>
           </div>
         </Link>
 
-        <nav aria-label="주요 메뉴" className="flex gap-1 overflow-x-auto pb-0.5 sm:gap-2 sm:pb-1">
+        <nav aria-label="주요 메뉴" className="flex min-w-0 flex-1 items-center justify-between gap-0.5 sm:gap-2 sm:overflow-x-auto sm:pb-1 lg:flex-none">
           {navItems.map((item) => {
             const isActive =
               item.href === "/"
@@ -53,10 +53,10 @@ export function SiteHeader({
 
             return (
               <Link
-                className={`whitespace-nowrap rounded-full px-3 py-2 text-[length:var(--home-nav-size,12px)] font-semibold transition sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-[11px] font-semibold transition sm:rounded-full sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
                     ? "bg-black text-white shadow-soft"
-                    : "border border-black/8 bg-white text-foreground hover:bg-slate-50"
+                    : "bg-white text-foreground hover:bg-slate-50 sm:border sm:border-black/8"
                 }`}
                 href={item.href}
                 key={item.href}
