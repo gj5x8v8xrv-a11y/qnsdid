@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { PageHero } from "@/components/site/page-hero";
 import { SectionHeading } from "@/components/site/section-heading";
-import { getSiteConfig } from "@/lib/utils";
+import { getSiteConfig, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export const metadata = {
   title: "회사소개",
@@ -20,9 +20,12 @@ export default function CompanyPage() {
             <Link className="button-primary" href="/projects">
               분양중 현장 보기
             </Link>
-            <Link className="button-secondary" href="/contact">
-              상담문의
-            </Link>
+            <a className="button-secondary" href={NAVER_INQUIRY_URL} rel="noreferrer" target="_blank">
+              문의하기
+            </a>
+            <a className="button-secondary" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              전화연결
+            </a>
           </>
         }
         description="분양맵은 관심 있는 현장을 편하게 비교하고 필요한 정보를 차분하게 확인할 수 있도록 정리해 소개합니다."

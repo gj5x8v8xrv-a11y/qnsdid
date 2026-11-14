@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import type { HomePageSettings } from "@/lib/types";
-import { getSiteConfig, getSiteNavItems } from "@/lib/utils";
+import { getSiteConfig, getSiteNavItems, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export function SiteFooter({ settings }: { settings: HomePageSettings }) {
   const site = getSiteConfig();
@@ -36,9 +36,9 @@ export function SiteFooter({ settings }: { settings: HomePageSettings }) {
         <div>
           <p className="text-[length:var(--home-footer-title-size,14px)] font-semibold text-black">{settings.footerInquiryTitle}</p>
           <div className="mt-4 grid gap-3">
-            <Link className="text-[length:var(--home-footer-link-size,14px)] text-muted transition hover:text-black" href="/contact">
+            <a className="text-[length:var(--home-footer-link-size,14px)] text-muted transition hover:text-black" href={NAVER_INQUIRY_URL} rel="noreferrer" target="_blank">
               {settings.footerInquiryContactLabel}
-            </Link>
+            </a>
             <Link className="text-[length:var(--home-footer-link-size,14px)] text-muted transition hover:text-black" href="/privacy">
               {settings.footerPrivacyLabel}
             </Link>

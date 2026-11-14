@@ -5,7 +5,7 @@ import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { buildProjectsMetadata } from "@/lib/seo";
 import { getProjects } from "@/lib/data";
-import { getProjectRegion, NAVER_INQUIRY_URL } from "@/lib/utils";
+import { getProjectRegion, getSiteConfig, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +32,7 @@ export default async function ProjectsPage({
   const filteredProjects = activeRegion
     ? projects.filter((project) => getProjectRegion(project) === activeRegion)
     : projects;
+  const site = getSiteConfig();
 
   return (
     <>
@@ -46,9 +47,9 @@ export default async function ProjectsPage({
             >
               문의하기
             </a>
-            <Link className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/completed">
-              분양완료 보기
-            </Link>
+            <a className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              전화연결
+            </a>
           </>
         }
         actionsClassName="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap"
@@ -60,9 +61,9 @@ export default async function ProjectsPage({
       <section className="page-shell pb-24">
         <SectionHeading
           action={
-            <Link className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/contact">
-              상담문의
-            </Link>
+            <a className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href={NAVER_INQUIRY_URL} rel="noreferrer" target="_blank">
+              문의하기
+            </a>
           }
           description="원하는 지역을 선택해 현장을 확인해보세요."
           eyebrow="지역별 보기"

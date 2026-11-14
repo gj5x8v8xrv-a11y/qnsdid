@@ -5,7 +5,7 @@ import { ProjectCard } from "@/components/site/project-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { getProjects } from "@/lib/data";
 import { buildProjectsMetadata } from "@/lib/seo";
-import { getProjectRegion } from "@/lib/utils";
+import { getProjectRegion, getSiteConfig, NAVER_INQUIRY_URL } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +32,7 @@ export default async function CompletedProjectsPage({
   const filteredProjects = activeRegion
     ? projects.filter((project) => getProjectRegion(project) === activeRegion)
     : projects;
+  const site = getSiteConfig();
 
   return (
     <>
@@ -41,9 +42,12 @@ export default async function CompletedProjectsPage({
             <Link className="button-primary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/projects">
               분양중 현장 보기
             </Link>
-            <Link className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href="/contact">
-              상담문의
-            </Link>
+            <a className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href={NAVER_INQUIRY_URL} rel="noreferrer" target="_blank">
+              문의하기
+            </a>
+            <a className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href={`tel:${site.companyPhone.replace(/[^+\d]/g, "")}`}>
+              전화연결
+            </a>
           </>
         }
         actionsClassName="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap"
