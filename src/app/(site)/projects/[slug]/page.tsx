@@ -3,16 +3,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { LightboxImage } from "@/components/ui/lightbox-image";
-import { buildProjectMetadata } from "@/lib/seo";
+import { ProjectVisual } from "@/components/ui/project-visual";
 import { getProjectBySlug } from "@/lib/data";
+import { buildProjectMetadata } from "@/lib/seo";
 import {
   formatPhoneHref,
-  formatStatusLabel,
   getProjectAddressLine,
   getProjectRegion,
   NAVER_INQUIRY_URL
 } from "@/lib/utils";
-import type { Project, ProjectImage, ProjectImageType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -24,109 +23,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
-  if (!project) {
-    return {
-      title: "현장을 찾을 수 없습니다"
-    };
-  }
-
-  return buildProjectMetadata(project);
+  return project ? buildProjectMetadata(project) : { title: "현장을 찾을 수 없습니다" };
 }
 
-const IMAGE_SECTION_LABELS: Array<{
-  key: Exclude<ProjectImageType, "main">;
-  title: string;
-  description: string;
-}> = [
-  {
-    key: "floor_plan",
-    title: "타입 이미지",
-    description: "타입별 구조와 공간 구성을 확인하실 수 있습니다."
-  },
-  {
-    key: "location",
-    title: "입지 이미지",
-    description: "주변 생활권과 이동 동선을 이미지로 확인해보세요."
-  },
-  {
-    key: "community",
-    title: "커뮤니티",
-    description: "단지 내 주요 시설과 공용 공간을 확인하실 수 있습니다."
-  },
-  {
-    key: "premium",
-    title: "프리미엄 이미지",
-    description: "현장의 장점과 함께 눈여겨볼 포인트를 모아두었습니다."
-  },
-  {
-    key: "gallery",
-    title: "현장 갤러리",
-    description: "현장 분위기와 주요 이미지를 편하게 살펴보실 수 있습니다."
-  },
-  {
-    key: "site_plan",
-    title: "단지배치도",
-    description: "동 배치와 단지 구성을 확인해보세요."
-  }
-];
-
-function groupImagesByType(images: ProjectImage[]) {
-  return images.reduce<Record<string, ProjectImage[]>>((accumulator, image) => {
-    if (!accumulator[image.imageType]) {
-      accumulator[image.imageType] = [];
-    }
-    accumulator[image.imageType].push(image);
-    return accumulator;
-  }, {});
-}
-
-function getReadableParagraphs(content: string) {
-  return content
+function textLines(value: string) {
+  return value
     .split(/\r?\n+/)
     .map((line) => line.trim())
     .filter(Boolean);
-}
-
-function getOverviewRows(project: Project, addressLine: string) {
-  return [
-    { label: "현장구분", value: project.status === "active" ? "분양중 현장" : "분양완료 현장" },
-    { label: "단지명", value: project.name },
-    { label: "분양상태", value: formatStatusLabel(project.status) },
-    { label: "현장위치", value: addressLine || project.location },
-    { label: "공급세대", value: project.householdCount },
-    { label: "평형정보", value: project.unitPlan },
-    { label: "입주예정", value: project.expectedMoveIn },
-    { label: "상담전화", value: project.contactPhone }
-  ];
-}
-
-function buildFaqEntries(project: Project, addressLine: string) {
-  const locationLines = getReadableParagraphs(project.locationDescription);
-  const premiumLines = getReadableParagraphs(project.premiumSummary);
-  const salesLines = getReadableParagraphs(project.salesConditions);
-
-  return [
-    {
-      question: `${project.name} 현장 위치는 어디인가요?`,
-      answer: `${project.name} 현장은 ${addressLine || project.location}에 위치해 있습니다. ${getProjectRegion(project)} 생활권을 중심으로 이동과 문의가 편한 현장입니다.`
-    },
-    {
-      question: `${project.name} 공급 세대와 입주 예정일은 어떻게 되나요?`,
-      answer: `${project.name}은(는) ${project.householdCount} 규모이며, 입주 예정 시기는 ${project.expectedMoveIn}입니다. 자세한 일정은 상담 시 가장 빠르게 안내받으실 수 있습니다.`
-    },
-    {
-      question: `${project.name} 분양 조건은 어떻게 확인하면 되나요?`,
-      answer: salesLines[0]
-        ? `${salesLines[0]}${salesLines[1] ? ` ${salesLines[1]}` : ""}`
-        : "분양 조건은 현장별로 달라질 수 있어 전화 문의 또는 방문 예약을 통해 가장 정확하게 확인하실 수 있습니다."
-    },
-    {
-      question: `${project.name} 입지 장점은 무엇인가요?`,
-      answer: locationLines[0]
-        ? `${locationLines[0]}${premiumLines[0] ? ` ${premiumLines[0]}` : ""}`
-        : premiumLines[0] || "입지와 프리미엄 포인트는 상세 상담을 통해 안내해드리고 있습니다."
-    }
-  ];
 }
 
 export default async function ProjectDetailPage({
@@ -137,324 +41,128 @@ export default async function ProjectDetailPage({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
-  if (!project) {
-    notFound();
-  }
+  if (!project) notFound();
 
-  const addressLine = getProjectAddressLine(project);
-  const groupedImages = groupImagesByType(project.gallery);
-  const overviewRows = getOverviewRows(project, addressLine);
-  const faqEntries = buildFaqEntries(project, addressLine);
-  const heroImage = project.coverImageUrl || project.gallery[0]?.imageUrl || "";
-  const floorPlanImages = groupedImages.floor_plan || [];
-  const galleryImages = groupedImages.gallery || [];
-  const locationImages = groupedImages.location || [];
-  const lifestyleSections = IMAGE_SECTION_LABELS.filter((section) => {
-    const images = groupedImages[section.key] || [];
-    return images.length > 0 && section.key !== "floor_plan" && section.key !== "gallery";
-  });
-  const salesLines = getReadableParagraphs(project.salesConditions);
-  const locationLines = getReadableParagraphs(project.locationDescription);
-  const premiumLines = getReadableParagraphs(project.premiumSummary);
+  const address = getProjectAddressLine(project);
+  const gallery = project.gallery.filter((image) => image.imageUrl !== project.coverImageUrl);
+  const overview = [
+    { label: "세대수", value: project.householdCount },
+    { label: "평형", value: project.unitPlan },
+    { label: "입주예정", value: project.expectedMoveIn },
+    { label: "대표번호", value: project.contactPhone }
+  ];
+  const information = [
+    ...textLines(project.salesConditions),
+    ...textLines(project.locationDescription)
+  ].slice(0, 6);
 
   return (
-    <section className="page-shell pb-24 pt-3 sm:pt-6">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
-        <div className="space-y-4">
-          <section className="surface-panel p-3.5 sm:p-8">
-            {heroImage ? (
-              <div className="overflow-hidden rounded-[1.65rem] border border-[color:var(--line)] bg-slate-50">
-                <LightboxImage
-                  alt={`${project.name} 대표 이미지`}
-                  imageClassName="aspect-[16/10]"
-                  wrapperClassName="rounded-[1.65rem]"
-                  src={heroImage}
-                />
-              </div>
-            ) : null}
+    <div className="bg-[#121214] text-white">
+      <div className="mx-auto max-w-5xl px-5 py-6 sm:px-8 sm:py-10">
+        <div className="border-b border-white/10 pb-5">
+          <div className="flex items-center justify-between gap-4">
+            <Link className="min-w-0 truncate text-sm font-semibold text-white/90 sm:text-base" href="/projects">
+              ← {project.name}
+            </Link>
+            <a
+              className="shrink-0 rounded-lg border border-[#d18a9d]/70 px-3.5 py-2 text-xs font-semibold text-[#e8a5b7] sm:text-sm"
+              href={formatPhoneHref(project.contactPhone)}
+            >
+              {project.contactPhone}
+            </a>
+          </div>
 
-            <div className="mt-3 flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted sm:text-[13px] sm:tracking-[0.22em]">
-                  {getProjectRegion(project)}
-                </p>
-                <h1 className="mt-1.5 break-keep text-[1.36rem] leading-[1.18] tracking-[-0.04em] sm:text-[3rem]">
-                  {project.name}
-                </h1>
-                <p className="mt-1.5 break-keep text-[11.5px] leading-4.5 text-muted sm:text-[15px] sm:leading-7">
-                  {premiumLines[0] || addressLine || project.location}
-                </p>
-              </div>
-              <span className="shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-foreground sm:text-xs">
-                {formatStatusLabel(project.status)}
-              </span>
-            </div>
-
-            <div className="mt-3 grid grid-cols-2 gap-2 lg:hidden">
-              <a
-                className="button-primary !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]"
-                href={NAVER_INQUIRY_URL}
-                rel="noreferrer"
-                target="_blank"
-              >
-                문의하기
-              </a>
-              <a className="button-accent !min-h-[38px] !rounded-[0.95rem] !px-3 !text-[11px]" href={formatPhoneHref(project.contactPhone)}>
-                전화연결
-              </a>
-            </div>
-
-            <div className="mt-2.5 rounded-[1.3rem] border border-[color:var(--line)] bg-white px-3.5 py-3.5 lg:hidden">
-              <p className="text-[11px] font-semibold text-foreground">바로가기</p>
-              <div className="mt-2.5 grid grid-cols-2 gap-1.5">
-                <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
-                  href="#overview"
-                >
-                  기본정보
-                </a>
-                <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
-                  href="#types"
-                >
-                  타입정보
-                </a>
-                <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
-                  href="#location"
-                >
-                  입지안내
-                </a>
-                <a
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition hover:bg-slate-50"
-                  href="#faq"
-                >
-                  자주하는질문
-                </a>
-              </div>
-            </div>
-          </section>
-
-          <section className="surface-panel p-4 sm:p-8" id="overview">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">사업 개요</h2>
-              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-foreground sm:text-xs">
-                {formatStatusLabel(project.status)}
-              </span>
-            </div>
-
-            <div className="mt-4 space-y-2 sm:mt-6 sm:space-y-4">
-              {overviewRows.map((row) => (
-                <div
-                  className="rounded-[1.25rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3 sm:px-5 sm:py-5"
-                  key={row.label}
-                >
-                  <div className="flex items-center justify-between gap-4 sm:gap-6">
-                    <p className="shrink-0 text-[10px] font-semibold text-muted sm:text-[15px]">{row.label}</p>
-                    <p className="min-w-0 break-keep text-right text-[0.8rem] font-semibold leading-5 text-foreground sm:max-w-[70%] sm:text-[1.3rem] sm:leading-7">
-                      {row.value}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="surface-panel p-4 sm:p-8" id="types">
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">타입 정보</h2>
-              <span className="text-[10.5px] font-medium text-muted sm:text-sm">핵심 타입만 빠르게 확인</span>
-            </div>
-
-            <div className="mt-4 rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3.5 sm:mt-6 sm:px-5 sm:py-6">
-              <p className="text-[11px] text-muted sm:text-sm">공급 타입</p>
-              <p className="mt-1.5 break-keep text-[0.9rem] font-semibold leading-[1.5] text-foreground sm:text-[1.8rem]">
-                {project.unitPlan}
-              </p>
-            </div>
-
-            {floorPlanImages.length > 0 && (
-              <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2 sm:gap-4">
-                {floorPlanImages.map((image) => (
-                  <div
-                    className="overflow-hidden rounded-[1.5rem] border border-[color:var(--line)] bg-white"
-                    key={image.id}
-                  >
-                    <LightboxImage
-                      alt={`${project.name} 평면도`}
-                      imageClassName="aspect-[4/3]"
-                      wrapperClassName="rounded-[1.5rem]"
-                      src={image.imageUrl}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-4 grid gap-2 sm:mt-6 sm:grid-cols-2">
-              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-white px-3.5 py-3.5">
-                <p className="text-[11px] text-muted sm:text-sm">공급 세대</p>
-                <p className="mt-1.5 text-[0.92rem] font-semibold text-foreground sm:text-[1.7rem]">
-                  {project.householdCount}
-                </p>
-              </div>
-              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-white px-3.5 py-3.5">
-                <p className="text-[11px] text-muted sm:text-sm">입주 예정</p>
-                <p className="mt-1.5 text-[0.92rem] font-semibold text-foreground sm:text-[1.7rem]">
-                  {project.expectedMoveIn}
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section className="surface-panel p-4 sm:p-8" id="location">
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">입지 안내</h2>
-              <span className="text-[10.5px] font-medium text-muted sm:text-sm">현장 주변 핵심 정보</span>
-            </div>
-
-            <div className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-2">
-              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3.5">
-                <p className="text-[11px] font-semibold text-muted sm:text-sm">현장 위치 및 주변환경</p>
-                <div className="mt-2.5 space-y-2 text-[12px] leading-5 text-foreground sm:text-[15px] sm:leading-7">
-                  {locationLines.map((line, index) => (
-                    <p className="break-keep" key={`location-line-${index}`}>
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[1.35rem] border border-[color:var(--line)] bg-slate-50 px-3.5 py-3.5">
-                <p className="text-[11px] font-semibold text-muted sm:text-sm">프리미엄 포인트</p>
-                <div className="mt-2.5 space-y-2 text-[12px] leading-5 text-foreground sm:text-[15px] sm:leading-7">
-                  {premiumLines.map((line, index) => (
-                    <p className="break-keep" key={`premium-line-${index}`}>
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {locationImages.length > 0 && (
-              <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[color:var(--line)] bg-white sm:mt-6">
-                <LightboxImage
-                  alt={`${project.name} 입지 이미지`}
-                  imageClassName="aspect-[16/10]"
-                  wrapperClassName="rounded-[1.5rem]"
-                  src={locationImages[0].imageUrl}
-                />
-              </div>
-            )}
-
-            {lifestyleSections.length > 0 && (
-              <div className="mt-4 space-y-3 sm:mt-6">
-                {lifestyleSections.map((section) => {
-                  const images = groupedImages[section.key] || [];
-
-                  return (
-                    <div
-                      className="rounded-[1.35rem] border border-[color:var(--line)] bg-white p-3.5 sm:p-5"
-                      key={section.key}
-                    >
-                      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                        <h3 className="text-[0.9rem] leading-5 sm:text-[1.35rem]">{section.title}</h3>
-                        <span className="text-[10px] text-muted sm:text-[13px]">{section.description}</span>
-                      </div>
-                      <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-                        {images.slice(0, 4).map((image) => (
-                          <div
-                            className="overflow-hidden rounded-[1.05rem] border border-[color:var(--line)] bg-slate-50"
-                            key={image.id}
-                          >
-                            <LightboxImage
-                              alt={`${project.name} ${section.title}`}
-                              imageClassName="aspect-[4/3]"
-                              wrapperClassName="rounded-[1.05rem]"
-                              src={image.imageUrl}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-
-          <section className="surface-panel p-4 sm:p-8" id="faq">
-            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <h2 className="text-[1.38rem] leading-[1.15] sm:text-3xl">자주하는 질문</h2>
-              <span className="text-[10.5px] font-medium text-muted sm:text-sm">현장 문의 전 빠르게 확인</span>
-            </div>
-
-            <div className="mt-4 space-y-3 sm:mt-6">
-              {faqEntries.map((item, index) => (
-                <div
-                  className="overflow-hidden rounded-[1.35rem] border border-[color:var(--line)] bg-white shadow-[0_10px_22px_rgba(15,23,42,0.035)]"
-                  key={`${item.question}-${index}`}
-                >
-                  <div className="flex gap-2.5 border-b border-[color:var(--line)] px-3.5 py-3.5 sm:px-6 sm:py-5">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-[0.82rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
-                      Q
-                    </span>
-                    <p className="break-keep pt-0.5 text-[0.78rem] font-semibold leading-5 text-foreground sm:pt-1 sm:text-[1.35rem] sm:leading-8">
-                      {item.question}
-                    </p>
-                  </div>
-                  <div className="flex gap-2.5 px-3.5 py-3.5 sm:px-6 sm:py-5">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-[0.82rem] font-bold text-white sm:h-12 sm:w-12 sm:text-lg">
-                      A
-                    </span>
-                    <p className="break-keep pt-0.5 text-[11px] leading-4.5 text-slate-700 sm:pt-1 sm:text-[1.02rem] sm:leading-8">
-                      {item.answer}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+          <nav aria-label="현장 상세 메뉴" className="mt-5 flex gap-5 overflow-x-auto pb-1 text-xs text-white/55 sm:text-sm">
+            <a className="whitespace-nowrap hover:text-white" href="#overview">사업개요</a>
+            <a className="whitespace-nowrap hover:text-white" href="#location">입지</a>
+            <a className="whitespace-nowrap hover:text-white" href="#gallery">갤러리</a>
+            <a className="whitespace-nowrap hover:text-white" href="#contact">문의하기</a>
+          </nav>
         </div>
 
-        <aside className="space-y-6 lg:sticky lg:top-28 lg:h-fit">
-          <div className="surface-panel p-6">
-            <p className="text-xs uppercase tracking-[0.32em] text-muted">Contact</p>
-            <h2 className="mt-3 text-3xl">문의 안내</h2>
-            <p className="mt-3 text-sm leading-8 text-muted">
-              궁금한 내용은 문의하기 또는 전화연결로 바로 상담하실 수 있습니다.
-            </p>
+        <main className="py-10 sm:py-14">
+          <p className="text-xs tracking-[0.08em] text-white/45">
+            {getProjectRegion(project)} · {project.householdCount} · {project.unitPlan}
+          </p>
+          <h1 className="mt-5 max-w-3xl break-keep text-[2.25rem] font-medium leading-[1.12] tracking-[-0.055em] text-[#e3a0b1] sm:text-6xl">
+            {project.name}
+          </h1>
+          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
+            {address}
+          </p>
 
-            <div className="mt-6 grid gap-3">
+          <div className="mt-9">
+            <ProjectVisual
+              className="aspect-[16/10] rounded-none sm:aspect-[16/9]"
+              imageUrl={project.coverImageUrl}
+              title={project.name}
+            />
+            <p className="mt-3 text-[11px] text-white/35">현장 이미지이며 실제와 차이가 있을 수 있습니다.</p>
+          </div>
+
+          <section className="mt-10 border-y border-white/10 py-7" id="overview">
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
+              {overview.map((item) => (
+                <div key={item.label}>
+                  <dt className="text-xs text-white/40">{item.label}</dt>
+                  <dd className="mt-2 break-keep text-base font-medium leading-6 text-[#dda0b0] sm:text-lg">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          {information.length ? (
+            <section className="border-b border-white/10 py-10 sm:py-14" id="location">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#dda0b0]">Information</p>
+              <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 안내</h2>
+              <div className="mt-6 grid gap-3 text-sm leading-7 text-white/65 sm:grid-cols-2">
+                {information.map((line, index) => (
+                  <p className="border-l border-white/15 pl-4" key={`${line}-${index}`}>{line}</p>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {gallery.length ? (
+            <section className="py-10 sm:py-14" id="gallery">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#dda0b0]">Gallery</p>
+              <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 이미지</h2>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {gallery.map((image) => (
+                  <LightboxImage
+                    alt={`${project.name} 현장 이미지`}
+                    imageClassName="aspect-[16/10] rounded-xl"
+                    key={image.id}
+                    src={image.imageUrl}
+                    wrapperClassName="overflow-hidden rounded-xl bg-white/5"
+                  />
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          <section className="border-t border-white/10 pt-8" id="contact">
+            <div className="grid gap-3 sm:grid-cols-[1fr_0.65fr]">
               <a
-                className="button-primary w-full"
+                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#8f243f] px-5 text-sm font-semibold text-white transition hover:bg-[#a72d4b]"
                 href={NAVER_INQUIRY_URL}
                 rel="noreferrer"
                 target="_blank"
               >
                 문의하기
               </a>
-              <a className="button-accent w-full" href={formatPhoneHref(project.contactPhone)}>
-                전화연결
+              <a
+                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-[#d18a9d]/65 px-5 text-sm font-semibold text-[#e8a5b7] transition hover:bg-white/5"
+                href={formatPhoneHref(project.contactPhone)}
+              >
+                전화연결 {project.contactPhone}
               </a>
             </div>
-
-            <div className="mt-6 rounded-[1.5rem] bg-slate-50 px-4 py-4 text-sm leading-8 text-muted">
-              대표번호 {project.contactPhone}
-              <br />
-              관심 현장을 남겨주시면 빠르게 상담 도와드립니다.
-            </div>
-
-            <Link
-              className="mt-4 inline-flex text-sm font-semibold text-muted transition hover:text-foreground"
-              href={project.status === "active" ? "/projects" : "/completed"}
-            >
-              {project.status === "active" ? "분양중 목록으로 돌아가기" : "분양완료 목록으로 돌아가기"}
-            </Link>
-          </div>
-        </aside>
+          </section>
+        </main>
       </div>
-    </section>
+    </div>
   );
 }
