@@ -17,7 +17,7 @@ export function ProjectCard({
   settings?: HomePageSettings;
 }) {
   return (
-    <article className="group overflow-hidden rounded-[1.35rem] border border-slate-200/90 bg-white shadow-[0_12px_36px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1.5 hover:border-blue-200 hover:shadow-[0_22px_55px_rgba(37,99,235,0.12)] sm:rounded-[1.6rem]">
+    <article className="group overflow-hidden rounded-[1.35rem] border border-white/80 bg-white/62 shadow-[0_14px_40px_rgba(0,0,0,0.06)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1.5 hover:border-black/10 hover:bg-white/78 hover:shadow-[0_22px_55px_rgba(0,0,0,0.1)] sm:rounded-[1.6rem]">
       <div className="p-2.5 pb-0 sm:p-3.5">
         <ProjectVisual
           className="aspect-[16/10]"
@@ -27,7 +27,7 @@ export function ProjectCard({
       </div>
       <div className="px-5 pb-5 pt-5 sm:px-7 sm:pb-7 sm:pt-6">
         <div>
-          <h3 className="text-[1.35rem] leading-[1.25] tracking-[-0.035em] transition group-hover:text-blue-700 sm:text-[1.75rem]">
+          <h3 className="text-[1.35rem] font-medium leading-[1.25] tracking-[-0.035em] transition sm:text-[1.75rem]">
             {project.name}
           </h3>
           <p className="mt-2 text-[13px] leading-6 text-muted sm:text-sm">
@@ -35,22 +35,22 @@ export function ProjectCard({
           </p>
         </div>
 
-        <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 rounded-xl bg-slate-50 px-4 py-5 text-sm">
+        <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 rounded-xl border border-white/80 bg-white/44 px-4 py-5 text-sm backdrop-blur-xl">
           <div>
             <dt className="text-muted">{settings.projectCardHouseholdLabel}</dt>
-            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.householdCount}</dd>
+            <dd className="mt-1 font-medium leading-6 text-foreground">{project.householdCount}</dd>
           </div>
           <div>
             <dt className="text-muted">{settings.projectCardUnitPlanLabel}</dt>
-            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.unitPlan}</dd>
+            <dd className="mt-1 font-medium leading-6 text-foreground">{project.unitPlan}</dd>
           </div>
           <div>
             <dt className="text-muted">{settings.projectCardMoveInLabel}</dt>
-            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.expectedMoveIn}</dd>
+            <dd className="mt-1 font-medium leading-6 text-foreground">{project.expectedMoveIn}</dd>
           </div>
           <div>
             <dt className="text-muted">대표번호</dt>
-            <dd className="mt-1 font-semibold leading-6 text-foreground">{project.contactPhone}</dd>
+            <dd className="mt-1 font-medium leading-6 text-foreground">{project.contactPhone}</dd>
           </div>
         </dl>
 

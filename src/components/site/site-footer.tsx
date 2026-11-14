@@ -11,7 +11,7 @@ export function SiteFooter({ settings }: { settings: HomePageSettings }) {
     <footer className="mt-16 border-t border-white/8 bg-slate-950 text-white lg:mt-24">
       <div className="page-shell grid gap-10 py-14 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div className="space-y-5">
-          <p className="text-[length:var(--home-footer-eyebrow-size,11px)] uppercase tracking-[0.34em] text-blue-400">{settings.footerBrandEyebrow}</p>
+          <p className="text-[length:var(--home-footer-eyebrow-size,11px)] uppercase tracking-[0.34em] text-white/45">{settings.footerBrandEyebrow}</p>
           <h2 className="text-4xl text-white">{site.companyName}</h2>
           <p className="max-w-2xl text-[length:var(--home-footer-body-size,14px)] leading-8 text-slate-400">
             {settings.footerDescription}

@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --background: #f3f6fb;
-  --foreground: #0b1220;
-  --panel: rgba(255, 255, 255, 0.88);
+  --background: #f4f4f3;
+  --foreground: #111111;
+  --panel: rgba(255, 255, 255, 0.72);
   --panel-strong: #ffffff;
-  --muted: #64748b;
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --deep: #0f172a;
-  --deep-2: #1e293b;
-  --line: rgba(15, 23, 42, 0.09);
-  --line-strong: rgba(15, 23, 42, 0.16);
+  --muted: #686868;
+  --accent: #171717;
+  --accent-strong: #000000;
+  --deep: #111111;
+  --deep-2: #242424;
+  --line: rgba(17, 17, 17, 0.09);
+  --line-strong: rgba(17, 17, 17, 0.17);
 }
 
 * {
@@ -29,8 +29,8 @@ body {
   min-height: 100vh;
   color: var(--foreground);
   background:
-    radial-gradient(circle at 88% 4%, rgba(37, 99, 235, 0.09), transparent 28rem),
-    linear-gradient(180deg, #ffffff 0%, #f4f7fb 48%, #eef3f9 100%);
+    radial-gradient(circle at 88% 4%, rgba(255, 255, 255, 0.9), transparent 30rem),
+    linear-gradient(180deg, #fafafa 0%, #f1f1ef 52%, #e9e9e7 100%);
   font-family: var(--font-body), sans-serif;
   letter-spacing: -0.01em;
   line-height: 1.65;
@@ -56,7 +56,7 @@ textarea {
 
 ::selection {
   color: white;
-  background: rgba(37, 99, 235, 0.92);
+  background: rgba(0, 0, 0, 0.86);
 }
 
 @layer base {
@@ -65,7 +65,7 @@ textarea {
   h3,
   h4 {
     font-family: var(--font-body), sans-serif;
-    font-weight: 800;
+    font-weight: 650;
     letter-spacing: -0.035em;
   }
 }
@@ -80,7 +80,7 @@ textarea {
 }
 
   .surface-panel {
-    @apply rounded-[1.5rem] border border-[color:var(--line)] bg-panel shadow-soft backdrop-blur-xl;
+    @apply rounded-[1.5rem] border border-white/70 bg-panel shadow-soft backdrop-blur-2xl;
   }
 
   .surface-dark {
@@ -92,7 +92,7 @@ textarea {
   }
 
   .section-kicker {
-    @apply inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.26em] text-blue-700;
+    @apply inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.26em] text-neutral-600 backdrop-blur-xl;
   }
 
   .section-title {
@@ -110,15 +110,15 @@ textarea {
   }
 
   .button-primary {
-    @apply button-base bg-blue-600 text-white shadow-[0_10px_26px_rgba(37,99,235,0.22)] hover:-translate-y-0.5 hover:bg-blue-700;
+    @apply button-base bg-neutral-950 text-white shadow-[0_10px_26px_rgba(0,0,0,0.14)] hover:-translate-y-0.5 hover:bg-neutral-800;
   }
 
   .button-accent {
-    @apply button-base border border-blue-200 bg-blue-50 text-blue-700 shadow-soft hover:-translate-y-0.5 hover:bg-blue-100;
+    @apply button-base border border-white/80 bg-white/55 text-neutral-900 shadow-soft backdrop-blur-xl hover:-translate-y-0.5 hover:bg-white/80;
   }
 
   .button-secondary {
-    @apply button-base border bg-white/90 text-foreground hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50;
+    @apply button-base border bg-white/55 text-foreground backdrop-blur-xl hover:-translate-y-0.5 hover:border-black/20 hover:bg-white/80;
     border-color: var(--line-strong);
   }
 

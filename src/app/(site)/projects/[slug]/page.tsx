@@ -57,7 +57,7 @@ export default async function ProjectDetailPage({
   ].slice(0, 6);
 
   return (
-    <div className="bg-[#081120] text-white">
+    <div className="bg-[#101010] text-white">
       <div className="mx-auto max-w-5xl px-5 py-6 sm:px-8 sm:py-10">
         <div className="border-b border-white/10 pb-5">
           <div className="flex items-center justify-between gap-4">
@@ -65,7 +65,7 @@ export default async function ProjectDetailPage({
               ← {project.name}
             </Link>
             <a
-              className="shrink-0 rounded-lg border border-cyan-400/45 bg-cyan-400/5 px-3.5 py-2 text-xs font-semibold text-cyan-300 sm:text-sm"
+              className="shrink-0 rounded-lg border border-white/25 bg-white/5 px-3.5 py-2 text-xs font-medium text-white/80 backdrop-blur-xl sm:text-sm"
               href={formatPhoneHref(project.contactPhone)}
             >
               {project.contactPhone}
@@ -84,7 +84,7 @@ export default async function ProjectDetailPage({
           <p className="text-xs tracking-[0.08em] text-white/45">
             {getProjectRegion(project)} · {project.householdCount} · {project.unitPlan}
           </p>
-          <h1 className="mt-5 max-w-3xl break-keep bg-gradient-to-r from-white via-blue-100 to-cyan-300 bg-clip-text text-[2.25rem] font-medium leading-[1.12] tracking-[-0.055em] text-transparent sm:text-6xl">
+          <h1 className="mt-5 max-w-3xl break-keep bg-gradient-to-r from-white via-white to-neutral-400 bg-clip-text text-[2.25rem] font-medium leading-[1.12] tracking-[-0.055em] text-transparent sm:text-6xl">
             {project.name}
           </h1>
           <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
@@ -105,7 +105,7 @@ export default async function ProjectDetailPage({
               {overview.map((item) => (
                 <div key={item.label}>
                   <dt className="text-xs text-white/40">{item.label}</dt>
-                  <dd className="mt-2 break-keep text-base font-medium leading-6 text-cyan-300 sm:text-lg">
+                  <dd className="mt-2 break-keep text-base font-medium leading-6 text-white/85 sm:text-lg">
                     {item.value}
                   </dd>
                 </div>
@@ -115,7 +115,7 @@ export default async function ProjectDetailPage({
 
           {information.length ? (
             <section className="border-b border-white/10 py-10 sm:py-14" id="location">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300">Information</p>
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Information</p>
               <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 안내</h2>
               <div className="mt-6 grid gap-3 text-sm leading-7 text-white/65 sm:grid-cols-2">
                 {information.map((line, index) => (
@@ -127,7 +127,7 @@ export default async function ProjectDetailPage({
 
           {gallery.length ? (
             <section className="py-10 sm:py-14" id="gallery">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300">Gallery</p>
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Gallery</p>
               <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 이미지</h2>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 {gallery.map((image) => (
@@ -146,7 +146,7 @@ export default async function ProjectDetailPage({
           <section className="border-t border-white/10 pt-8" id="contact">
             <div className="grid gap-3 sm:grid-cols-[1fr_0.65fr]">
               <a
-                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-blue-600 px-5 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(37,99,235,0.28)] transition hover:bg-blue-500"
+                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-5 text-sm font-medium text-black shadow-[0_12px_28px_rgba(0,0,0,0.25)] transition hover:bg-neutral-200"
                 href={NAVER_INQUIRY_URL}
                 rel="noreferrer"
                 target="_blank"
@@ -154,7 +154,7 @@ export default async function ProjectDetailPage({
                 문의하기
               </a>
               <a
-                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-cyan-400/45 px-5 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-400/10"
+                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-5 text-sm font-medium text-white/85 backdrop-blur-xl transition hover:bg-white/10"
                 href={formatPhoneHref(project.contactPhone)}
               >
                 전화연결 {project.contactPhone}
