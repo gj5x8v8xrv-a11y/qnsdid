@@ -77,12 +77,12 @@ export default async function HomePage() {
               <p className="mt-3 text-sm leading-7 text-muted">지역을 선택하면 현재 상담 가능한 현장만 모아볼 수 있습니다.</p>
             </div>
             <div className="flex flex-wrap gap-2.5 sm:justify-end">
-              <Link className="rounded-full bg-black px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5" href="/projects">
+              <Link className="rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_9px_22px_rgba(37,99,235,0.2)] transition hover:-translate-y-0.5 hover:bg-blue-700" href="/projects">
                 전체 현장
               </Link>
               {regions.map((region) => (
                 <Link
-                  className="rounded-full border border-black/10 bg-white px-5 py-3 text-sm font-semibold text-foreground transition hover:-translate-y-0.5 hover:border-black/25"
+                  className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
                   href={`/projects?region=${encodeURIComponent(region)}`}
                   key={region}
                 >
@@ -162,7 +162,7 @@ export default async function HomePage() {
       </section>
 
       <section className="page-shell pb-24">
-        <div className="rounded-[2rem] bg-black px-7 py-9 text-white sm:px-10 sm:py-12">
+        <div className="rounded-[1.5rem] bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 px-7 py-9 text-white shadow-[0_24px_65px_rgba(37,99,235,0.24)] sm:px-10 sm:py-12">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.34em] text-white/55">{homePageSettings.contactSectionEyebrow}</p>

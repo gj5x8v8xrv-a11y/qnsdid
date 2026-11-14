@@ -14,7 +14,7 @@ export function SiteStickyCta({
   return (
     <>
       <div className="fixed bottom-4 right-4 z-50 hidden w-[320px] lg:block">
-        <div className="overflow-hidden rounded-[1.75rem] border border-black/8 bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+        <div className="overflow-hidden rounded-[1.35rem] border border-blue-100 bg-white/92 p-5 shadow-[0_20px_55px_rgba(37,99,235,0.14)] backdrop-blur-xl">
           <p className="text-[length:var(--home-sticky-eyebrow-size,12px)] uppercase tracking-[0.34em] text-muted">{settings.stickyEyebrow}</p>
           <h2 className="mt-3 text-[length:var(--home-sticky-title-size,1.5rem)] leading-tight text-black">{settings.stickyTitle}</h2>
           <p className="mt-3 text-[length:var(--home-sticky-body-size,14px)] leading-7 text-muted">
@@ -38,7 +38,7 @@ export function SiteStickyCta({
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/8 bg-white/95 p-2.5 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/92 p-2.5 shadow-[0_-10px_35px_rgba(15,23,42,0.1)] backdrop-blur-xl lg:hidden">
         <div className="page-shell flex gap-2 px-0">
           <a
             className="button-primary !min-h-[40px] flex-1 text-[length:var(--home-sticky-button-size,14px)]"

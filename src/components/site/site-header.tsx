@@ -17,8 +17,8 @@ export function SiteHeader({
   const navItems = getSiteNavItems(settings);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/92 backdrop-blur-xl">
-      <div className="border-b border-black/6 bg-black text-white">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/88 shadow-[0_8px_30px_rgba(15,23,42,0.04)] backdrop-blur-2xl">
+      <div className="border-b border-white/10 bg-slate-950 text-white">
         <div className="page-shell flex min-h-[28px] items-center justify-between gap-2 text-[length:var(--home-header-announcement-size,9px)] tracking-[0.01em] text-white/68 sm:min-h-[42px] sm:gap-4 sm:text-[11px]">
           <p className="truncate">{settings.headerAnnouncement}</p>
           <a className="hidden font-semibold text-white sm:block" href={phoneHref}>
@@ -55,8 +55,8 @@ export function SiteHeader({
               <Link
                 className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-[11px] font-semibold transition sm:rounded-full sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
-                    ? "bg-black text-white shadow-soft"
-                    : "bg-white text-foreground hover:bg-slate-50 sm:border sm:border-black/8"
+                    ? "bg-blue-600 text-white shadow-[0_7px_18px_rgba(37,99,235,0.24)]"
+                    : "bg-transparent text-slate-600 hover:bg-blue-50 hover:text-blue-700 sm:border sm:border-slate-200"
                 }`}
                 href={item.href}
                 key={item.href}
