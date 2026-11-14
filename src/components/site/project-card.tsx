@@ -70,8 +70,12 @@ export function ProjectCard({
             전화연결
           </a>
         </div>
-        <Link className="mt-4 block text-center text-xs font-semibold text-muted underline decoration-black/15 underline-offset-4" href={`/projects/${project.slug}`}>
-          현장 상세정보
+        <Link
+          className="mt-3 flex min-h-12 w-full items-center justify-between border border-neutral-950 bg-white/70 px-4 py-3 text-sm font-medium text-neutral-950 backdrop-blur-xl transition hover:bg-neutral-950 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+          href={`/projects/${project.slug}`}
+        >
+          <span>현장 상세보기</span>
+          <span aria-hidden="true" className="text-base">→</span>
         </Link>
       </div>
     </article>
