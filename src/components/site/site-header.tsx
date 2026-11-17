@@ -27,7 +27,7 @@ export function SiteHeader({
         </div>
       </div>
 
-      <div className="page-shell flex items-center gap-2 !px-3 py-2 sm:flex-col sm:items-stretch sm:gap-5 sm:!px-8 sm:py-5 lg:flex-row lg:items-center lg:justify-between lg:!px-12">
+      <div className="page-shell flex items-center gap-3 !px-3 py-2 sm:flex-col sm:items-stretch sm:gap-5 sm:!px-8 sm:py-5 lg:flex-row lg:items-center lg:justify-between lg:!px-12">
         <Link className="shrink-0 sm:flex sm:items-center sm:gap-4" href="/">
           <div className="space-y-0 sm:space-y-1">
             <p className="hidden text-[length:var(--home-brand-english-size,9px)] font-semibold uppercase tracking-[0.24em] text-muted sm:block sm:text-[11px] sm:tracking-[0.32em]">
@@ -42,7 +42,7 @@ export function SiteHeader({
           </div>
         </Link>
 
-        <nav aria-label="주요 메뉴" className="flex min-w-0 flex-1 items-center justify-between gap-0.5 sm:gap-2 sm:overflow-x-auto sm:pb-1 lg:flex-none">
+        <nav aria-label="주요 메뉴" className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto sm:gap-2 sm:pb-1 lg:flex-none">
           {navItems.map((item) => {
             const isActive =
               item.href === "/"
@@ -53,7 +53,7 @@ export function SiteHeader({
 
             return (
               <Link
-                className={`whitespace-nowrap rounded-none border px-2 py-1.5 text-[11px] font-medium transition sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`shrink-0 whitespace-nowrap rounded-none border px-2.5 py-1.5 text-[11px] font-medium transition sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
                     ? "border-neutral-950 bg-neutral-950 text-white shadow-[0_7px_18px_rgba(0,0,0,0.16)]"
                     : "border-black/10 bg-white/35 text-neutral-600 backdrop-blur-xl hover:border-black/25 hover:bg-white/70 hover:text-black"
