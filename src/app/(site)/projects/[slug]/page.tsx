@@ -12,6 +12,7 @@ import {
   getProjectRegion,
   NAVER_INQUIRY_URL
 } from "@/lib/utils";
+import type { ProjectImage, ProjectImageType } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,26 @@ function textLines(value: string) {
     .filter(Boolean);
 }
 
+const IMAGE_SECTIONS: Array<{
+  key: Exclude<ProjectImageType, "main">;
+  eyebrow: string;
+  title: string;
+}> = [
+  { key: "premium", eyebrow: "Premium", title: "프리미엄" },
+  { key: "location", eyebrow: "Location", title: "입지 환경" },
+  { key: "site_plan", eyebrow: "Complex", title: "단지 배치" },
+  { key: "floor_plan", eyebrow: "Floor Plan", title: "평면 안내" },
+  { key: "community", eyebrow: "Community", title: "커뮤니티" },
+  { key: "gallery", eyebrow: "Gallery", title: "현장 갤러리" }
+];
+
+function groupImages(images: ProjectImage[]) {
+  return images.reduce<Record<string, ProjectImage[]>>((groups, image) => {
+    groups[image.imageType] = [...(groups[image.imageType] || []), image];
+    return groups;
+  }, {});
+}
+
 export default async function ProjectDetailPage({
   params
 }: {
@@ -44,7 +65,9 @@ export default async function ProjectDetailPage({
   if (!project) notFound();
 
   const address = getProjectAddressLine(project);
-  const gallery = project.gallery.filter((image) => image.imageUrl !== project.coverImageUrl);
+  const groupedImages = groupImages(
+    project.gallery.filter((image) => image.imageUrl !== project.coverImageUrl)
+  );
   const overview = [
     { label: "세대수", value: project.householdCount },
     { label: "평형", value: project.unitPlan },
@@ -96,28 +119,28 @@ export default async function ProjectDetailPage({
           </nav>
         </div>
 
-        <main className="py-10 sm:py-14">
-          <p className="text-xs tracking-[0.08em] text-white/45">
-            {getProjectRegion(project)} · {project.householdCount} · {project.unitPlan}
-          </p>
-          <h1 className="mt-5 max-w-3xl break-keep text-[2.25rem] font-medium leading-[1.12] tracking-[-0.055em] text-white sm:text-6xl">
-            {project.name}
-          </h1>
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-            {address}
-          </p>
-
-          <div className="mt-9">
+        <main className="pb-10 pt-6 sm:pb-14 sm:pt-8">
+          <section className="relative min-h-[560px] overflow-hidden border border-white/15 sm:min-h-[720px]">
             <ProjectVisual
-              className="aspect-[16/10] rounded-none sm:aspect-[16/9]"
+              className="absolute inset-0 h-full w-full"
               imageUrl={project.coverImageUrl}
               title={project.name}
             />
-            <p className="mt-3 flex items-center justify-between gap-3 text-[11px] text-white/40">
-              <span>현장 이미지이며 실제와 차이가 있을 수 있습니다.</span>
-              <span className="shrink-0 text-white/65">사진을 누르면 확대됩니다</span>
-            </p>
-          </div>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/15 to-black/20" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-14">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-white/65 sm:text-xs">
+                {getProjectRegion(project)} · 분양 현장
+              </p>
+              <h1 className="mt-4 max-w-4xl break-keep text-[2.5rem] font-medium leading-[1.08] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
+                {project.name}
+              </h1>
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">{address}</p>
+            </div>
+          </section>
+          <p className="mt-3 flex items-center justify-between gap-3 text-[11px] text-white/40">
+            <span>현장 이미지이며 실제와 차이가 있을 수 있습니다.</span>
+            <span className="shrink-0 text-white/65">사진을 누르면 확대됩니다</span>
+          </p>
 
           <section className="mt-10 border-y border-white/10 py-7" id="overview">
             <dl className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
@@ -133,50 +156,55 @@ export default async function ProjectDetailPage({
           </section>
 
           {detailSections.length ? (
-            <div className="border-b border-white/10">
-              {detailSections.map((section) => (
-                <section
-                  className="border-b border-white/10 py-10 last:border-b-0 sm:py-14"
-                  id={section.id}
-                  key={section.id}
-                >
-                  <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">
-                    {section.eyebrow}
-                  </p>
-                  <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">{section.title}</h2>
-                  <div className="mt-6 grid gap-3 text-sm leading-7 text-white/70 sm:grid-cols-2">
-                    {section.lines.map((line, index) => (
-                      <p
-                        className="border border-white/10 bg-white/[0.035] px-4 py-3 backdrop-blur-xl"
-                        key={`${section.id}-${line}-${index}`}
-                      >
-                        {line}
-                      </p>
-                    ))}
+            <section className="border-b border-white/10 py-14 text-center sm:py-20" id="location">
+              <p className="text-xs font-medium uppercase tracking-[0.28em] text-white/45">Highlights</p>
+              <h2 className="mt-4 text-3xl font-medium tracking-[-0.04em] sm:text-5xl">현장의 핵심 가치</h2>
+              <div className="mx-auto mt-10 grid max-w-4xl gap-px border border-white/10 bg-white/10 sm:grid-cols-3">
+                {detailSections.map((section) => (
+                  <div className="bg-[#101010] px-5 py-8 sm:px-6 sm:py-10" key={section.id}>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/35">{section.eyebrow}</p>
+                    <h3 className="mt-3 text-lg font-medium text-white/90">{section.title}</h3>
+                    <div className="mt-5 space-y-2 text-sm leading-6 text-white/55">
+                      {section.lines.map((line, index) => (
+                        <p key={`${section.id}-${line}-${index}`}>{line}</p>
+                      ))}
+                    </div>
                   </div>
-                </section>
-              ))}
-            </div>
-          ) : null}
-
-          {gallery.length ? (
-            <section className="py-10 sm:py-14" id="gallery">
-              <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Gallery</p>
-              <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 이미지</h2>
-              <p className="mt-2 text-xs text-white/45">사진을 선택하면 화면에 크게 확대해서 볼 수 있습니다.</p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {gallery.map((image) => (
-                  <LightboxImage
-                    alt={`${project.name} 현장 이미지`}
-                    imageClassName="aspect-[16/10] rounded-none"
-                    key={image.id}
-                    src={image.imageUrl}
-                    wrapperClassName="overflow-hidden rounded-none border border-white/15 bg-white/5"
-                  />
                 ))}
               </div>
             </section>
           ) : null}
+
+          <div id="gallery">
+            {IMAGE_SECTIONS.map((section) => {
+              const images = groupedImages[section.key] || [];
+              if (!images.length) return null;
+              const containImage = section.key === "floor_plan" || section.key === "site_plan" || section.key === "location";
+
+              return (
+                <section className="border-b border-white/10 py-14 sm:py-20" key={section.key}>
+                  <div className="mb-8 flex items-end justify-between gap-5 sm:mb-10">
+                    <div>
+                      <p className="text-xs font-medium uppercase tracking-[0.28em] text-white/40">{section.eyebrow}</p>
+                      <h2 className="mt-3 text-3xl font-medium tracking-[-0.04em] sm:text-5xl">{section.title}</h2>
+                    </div>
+                    <p className="hidden text-xs text-white/40 sm:block">사진을 누르면 크게 볼 수 있습니다</p>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {images.map((image, index) => (
+                      <LightboxImage
+                        alt={`${project.name} ${section.title} ${index + 1}`}
+                        imageClassName={`${index === 0 && images.length % 2 === 1 ? "sm:aspect-[16/8]" : "sm:aspect-[4/3]"} aspect-[4/3] rounded-none ${containImage ? "!object-contain bg-white" : "object-cover"}`}
+                        key={image.id}
+                        src={image.imageUrl}
+                        wrapperClassName={`overflow-hidden border border-white/15 bg-white/5 ${index === 0 && images.length % 2 === 1 ? "sm:col-span-2" : ""}`}
+                      />
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
+          </div>
 
           <section className="border-t border-white/10 pt-8" id="contact">
             <div className="grid gap-3 sm:grid-cols-[1fr_0.65fr]">
