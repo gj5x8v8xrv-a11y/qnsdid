@@ -3,6 +3,7 @@ import { AdminProjectImageManager } from "@/components/admin/admin-project-image
 import { SubmitButton } from "@/components/ui/submit-button";
 import { PROJECT_IMAGE_TYPE_OPTIONS } from "@/lib/constants";
 import type { ProjectImage, ProjectWithImages } from "@/lib/types";
+import { parseProjectPageMeta } from "@/lib/project-page-meta";
 
 type AdminProjectFormProps = {
   action: (formData: FormData) => Promise<void>;
@@ -30,6 +31,7 @@ export function AdminProjectForm({
   submitLabel
 }: AdminProjectFormProps) {
   const imagesByType = groupImagesByType(project?.gallery || []);
+  const pageMeta = parseProjectPageMeta(project?.locationDescription);
 
   return (
     <div className="admin-panel overflow-hidden">
@@ -198,7 +200,7 @@ export function AdminProjectForm({
               입지 설명
               <textarea
                 className="field-shell min-h-[140px] resize-y"
-                defaultValue={project?.locationDescription || ""}
+                defaultValue={pageMeta.content}
                 name="locationDescription"
                 required
               />
@@ -206,6 +208,37 @@ export function AdminProjectForm({
                 상세페이지 `입지 안내` 본문과 FAQ 답변에 반영됩니다. 줄바꿈 기준으로 문단이 나뉩니다.
               </span>
             </label>
+            <div className="grid gap-5 md:grid-cols-2">
+              <label className="grid gap-2 text-sm font-semibold md:col-span-2">
+                유튜브 영상 URL
+                <input
+                  className="field-shell"
+                  defaultValue={pageMeta.meta.youtubeUrl}
+                  name="youtubeUrl"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
+                <span className="text-xs font-normal leading-6 text-muted">입력한 영상은 상세페이지에서 바로 재생됩니다.</span>
+              </label>
+              <label className="grid gap-2 text-sm font-semibold">
+                모델하우스 주소
+                <input className="field-shell" defaultValue={pageMeta.meta.modelHouseAddress} name="modelHouseAddress" />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold">
+                현장 주소
+                <input className="field-shell" defaultValue={pageMeta.meta.siteAddress || project?.location || ""} name="siteAddress" />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold md:col-span-2">
+                사진 섹션 순서
+                <input
+                  className="field-shell"
+                  defaultValue={pageMeta.meta.sectionOrder.join(",")}
+                  name="sectionOrder"
+                />
+                <span className="text-xs font-normal leading-6 text-muted">
+                  원하는 순서대로 쉼표로 배치하세요: premium, location, site_plan, floor_plan, community, gallery
+                </span>
+              </label>
+            </div>
             <label className="grid gap-2 text-sm font-semibold">
               네이버 예약 URL
               <input

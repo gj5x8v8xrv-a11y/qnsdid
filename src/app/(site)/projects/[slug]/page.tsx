@@ -13,6 +13,11 @@ import {
   NAVER_INQUIRY_URL
 } from "@/lib/utils";
 import type { ProjectImage, ProjectImageType } from "@/lib/types";
+import {
+  DEFAULT_PROJECT_SECTION_ORDER,
+  getYoutubeEmbedUrl,
+  parseProjectPageMeta
+} from "@/lib/project-page-meta";
 
 export const dynamic = "force-dynamic";
 
@@ -65,6 +70,17 @@ export default async function ProjectDetailPage({
   if (!project) notFound();
 
   const address = getProjectAddressLine(project);
+  const pageContent = parseProjectPageMeta(project.locationDescription);
+  const youtubeEmbedUrl = getYoutubeEmbedUrl(pageContent.meta.youtubeUrl);
+  const modelHouseAddress = pageContent.meta.modelHouseAddress;
+  const siteAddress = pageContent.meta.siteAddress || address;
+  const sectionOrder = [
+    ...pageContent.meta.sectionOrder,
+    ...DEFAULT_PROJECT_SECTION_ORDER.filter((key) => !pageContent.meta.sectionOrder.includes(key))
+  ];
+  const orderedImageSections = sectionOrder
+    .map((key) => IMAGE_SECTIONS.find((section) => section.key === key))
+    .filter((section): section is (typeof IMAGE_SECTIONS)[number] => Boolean(section));
   const groupedImages = groupImages(
     project.gallery.filter((image) => image.imageUrl !== project.coverImageUrl)
   );
@@ -91,7 +107,7 @@ export default async function ProjectDetailPage({
       id: "location",
       eyebrow: "Location",
       title: "입지 설명",
-      lines: textLines(project.locationDescription)
+      lines: textLines(pageContent.content)
     }
   ].filter((section) => section.lines.length > 0);
 
@@ -175,8 +191,25 @@ export default async function ProjectDetailPage({
             </section>
           ) : null}
 
+          {youtubeEmbedUrl ? (
+            <section className="border-b border-white/10 py-14 sm:py-20" id="video">
+              <p className="text-xs font-medium uppercase tracking-[0.28em] text-white/40">Movie</p>
+              <h2 className="mt-3 text-3xl font-medium tracking-[-0.04em] sm:text-5xl">현장 영상</h2>
+              <div className="mt-8 aspect-video overflow-hidden border border-white/15 bg-black">
+                <iframe
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="h-full w-full"
+                  loading="lazy"
+                  src={youtubeEmbedUrl}
+                  title={`${project.name} 현장 영상`}
+                />
+              </div>
+            </section>
+          ) : null}
+
           <div id="gallery">
-            {IMAGE_SECTIONS.map((section) => {
+            {orderedImageSections.map((section) => {
               const images = groupedImages[section.key] || [];
               if (!images.length) return null;
               const containImage = section.key === "floor_plan" || section.key === "site_plan" || section.key === "location";
@@ -205,6 +238,48 @@ export default async function ProjectDetailPage({
               );
             })}
           </div>
+
+          <section className="border-b border-white/10 py-14 sm:py-20" id="directions">
+            <p className="text-xs font-medium uppercase tracking-[0.28em] text-white/40">Directions</p>
+            <h2 className="mt-3 text-3xl font-medium tracking-[-0.04em] sm:text-5xl">오시는 길</h2>
+            <div className="mt-8 grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2">
+              {modelHouseAddress ? (
+                <div className="bg-[#101010] p-6 sm:p-8">
+                  <p className="text-xs text-white/40">모델하우스</p>
+                  <p className="mt-3 break-keep text-lg leading-8 text-white/85">{modelHouseAddress}</p>
+                  <a
+                    className="mt-6 inline-flex border border-white/25 px-4 py-2.5 text-sm text-white/80 transition hover:bg-white hover:text-black"
+                    href={`https://map.naver.com/p/search/${encodeURIComponent(modelHouseAddress)}`}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    네이버 지도에서 보기 →
+                  </a>
+                </div>
+              ) : null}
+              <div className="bg-[#101010] p-6 sm:p-8">
+                <p className="text-xs text-white/40">현장 위치</p>
+                <p className="mt-3 break-keep text-lg leading-8 text-white/85">{siteAddress}</p>
+                <a
+                  className="mt-6 inline-flex border border-white/25 px-4 py-2.5 text-sm text-white/80 transition hover:bg-white hover:text-black"
+                  href={`https://map.naver.com/p/search/${encodeURIComponent(siteAddress)}`}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  네이버 지도에서 보기 →
+                </a>
+              </div>
+            </div>
+            <a
+              className="mt-4 flex min-h-14 w-full items-center justify-between bg-white px-5 text-sm font-medium text-black transition hover:bg-neutral-200"
+              href={project.reservationUrl || NAVER_INQUIRY_URL}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span>모델하우스 방문예약하기</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </section>
 
           <section className="border-t border-white/10 pt-8" id="contact">
             <div className="grid gap-3 sm:grid-cols-[1fr_0.65fr]">

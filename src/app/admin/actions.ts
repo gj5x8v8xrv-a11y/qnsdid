@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import nodemailer from "nodemailer";
 
 import {
   PROJECT_IMAGE_MAX_COUNT
@@ -16,6 +17,7 @@ import {
   writeHomePageSettingsToStorage
 } from "@/lib/storage";
 import type { HomePageSettings, InquiryStatus, ProjectImageType, ProjectStatus } from "@/lib/types";
+import { serializeProjectPageMeta } from "@/lib/project-page-meta";
 import {
   buildProjectLocation,
   getSupabaseConfigMessage,
@@ -62,6 +64,46 @@ function getOptionalTextField(formData: FormData, key: string) {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : null;
+}
+
+async function sendNaverInquiryNotification({
+  projectName
+}: {
+  projectName: string | null;
+}) {
+  const user = process.env.NAVER_SMTP_USER;
+  const password = process.env.NAVER_SMTP_PASSWORD;
+  const recipient = process.env.INQUIRY_NOTIFICATION_EMAIL || process.env.NEXT_PUBLIC_COMPANY_EMAIL;
+
+  if (!user || !password || !recipient) return;
+
+  const submittedAt = new Intl.DateTimeFormat("ko-KR", {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: "Asia/Seoul"
+  }).format(new Date());
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.naver.com",
+    port: 465,
+    secure: true,
+    auth: { user, pass: password }
+  });
+
+  await transporter.sendMail({
+    from: `분양맵 상담알림 <${user}>`,
+    to: recipient,
+    subject: `[분양맵] ${projectName || "홈페이지"} 새 상담문의`,
+    text: [
+      "새 상담문의가 접수되었습니다.",
+      "",
+      `관심 현장: ${projectName || "미선택"}`,
+      `접수 시간: ${submittedAt}`,
+      "",
+      "개인정보와 문의 내용은 분양맵 관리자 페이지에서 확인해주세요.",
+      `${process.env.NEXT_PUBLIC_SITE_URL || "https://qnsdid.vercel.app"}/admin/inquiries`
+    ].join("\n")
+  });
 }
 
 function getNumberField(
@@ -205,7 +247,18 @@ function getProjectPayload(formData: FormData) {
     expected_move_in: getTextField(formData, "expectedMoveIn", "입주예정일"),
     sales_conditions: getTextField(formData, "salesConditions", "분양조건"),
     premium_summary: getTextField(formData, "premiumSummary", "프리미엄 요약"),
-    location_description: getTextField(formData, "locationDescription", "입지 설명"),
+    location_description: serializeProjectPageMeta(
+      getTextField(formData, "locationDescription", "입지 설명"),
+      {
+        youtubeUrl: getOptionalTextField(formData, "youtubeUrl") || "",
+        modelHouseAddress: getOptionalTextField(formData, "modelHouseAddress") || "",
+        siteAddress: getOptionalTextField(formData, "siteAddress") || location,
+        sectionOrder: (getOptionalTextField(formData, "sectionOrder") || "premium,location,site_plan,floor_plan,community,gallery")
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean)
+      }
+    ),
     contact_phone: getTextField(formData, "contactPhone", "전화문의 번호"),
     reservation_url: getOptionalTextField(formData, "reservationUrl")
   };
@@ -1013,6 +1066,22 @@ export async function submitInquiryAction(formData: FormData) {
 
     if (error) {
       throw new Error(error.message);
+    }
+
+    let projectName: string | null = null;
+
+    if (projectId) {
+      try {
+        projectName = (await getProjectById(projectId))?.name || null;
+      } catch (projectLookupError) {
+        console.error("Failed to resolve inquiry project name", projectLookupError);
+      }
+    }
+
+    try {
+      await sendNaverInquiryNotification({ projectName });
+    } catch (notificationError) {
+      console.error("Failed to send Naver inquiry notification", notificationError);
     }
 
     revalidatePath("/admin");
