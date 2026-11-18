@@ -51,10 +51,26 @@ export default async function ProjectDetailPage({
     { label: "입주예정", value: project.expectedMoveIn },
     { label: "대표번호", value: project.contactPhone }
   ];
-  const information = [
-    ...textLines(project.salesConditions),
-    ...textLines(project.locationDescription)
-  ].slice(0, 6);
+  const detailSections = [
+    {
+      id: "sales",
+      eyebrow: "Sales",
+      title: "분양조건",
+      lines: textLines(project.salesConditions)
+    },
+    {
+      id: "premium",
+      eyebrow: "Premium",
+      title: "프리미엄 요약",
+      lines: textLines(project.premiumSummary)
+    },
+    {
+      id: "location",
+      eyebrow: "Location",
+      title: "입지 설명",
+      lines: textLines(project.locationDescription)
+    }
+  ].filter((section) => section.lines.length > 0);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_50%_0%,#2a2a2a_0%,#151515_28rem,#090909_72rem)] text-white">
@@ -116,16 +132,31 @@ export default async function ProjectDetailPage({
             </dl>
           </section>
 
-          {information.length ? (
-            <section className="border-b border-white/10 py-10 sm:py-14" id="location">
-              <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Information</p>
-              <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">현장 안내</h2>
-              <div className="mt-6 grid gap-3 text-sm leading-7 text-white/65 sm:grid-cols-2">
-                {information.map((line, index) => (
-                  <p className="border-l border-white/15 pl-4" key={`${line}-${index}`}>{line}</p>
-                ))}
-              </div>
-            </section>
+          {detailSections.length ? (
+            <div className="border-b border-white/10">
+              {detailSections.map((section) => (
+                <section
+                  className="border-b border-white/10 py-10 last:border-b-0 sm:py-14"
+                  id={section.id}
+                  key={section.id}
+                >
+                  <p className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">
+                    {section.eyebrow}
+                  </p>
+                  <h2 className="mt-3 text-2xl font-medium tracking-[-0.035em]">{section.title}</h2>
+                  <div className="mt-6 grid gap-3 text-sm leading-7 text-white/70 sm:grid-cols-2">
+                    {section.lines.map((line, index) => (
+                      <p
+                        className="border border-white/10 bg-white/[0.035] px-4 py-3 backdrop-blur-xl"
+                        key={`${section.id}-${line}-${index}`}
+                      >
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
           ) : null}
 
           {gallery.length ? (
