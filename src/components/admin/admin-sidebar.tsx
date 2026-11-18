@@ -4,8 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const adminNavItems = [
-  { href: "/admin", label: "대시보드" },
-  { href: "/admin/projects/new", label: "현장 등록" },
+  { href: "/admin", label: "대시보드", exact: true },
+  { href: "/admin/projects", label: "현장 목록", exact: true },
+  { href: "/admin/projects/new", label: "새 현장 등록" },
   { href: "/admin/inquiries", label: "문의 목록" }
 ];
 
@@ -24,7 +25,9 @@ export function AdminSidebar() {
 
       <nav className="mt-4 grid gap-2">
         {adminNavItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const isActive = item.exact
+            ? pathname === item.href
+            : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link
