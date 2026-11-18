@@ -212,8 +212,6 @@ export default async function ProjectDetailPage({
             {orderedImageSections.map((section) => {
               const images = groupedImages[section.key] || [];
               if (!images.length) return null;
-              const containImage = section.key === "floor_plan" || section.key === "site_plan" || section.key === "location";
-
               return (
                 <section className="border-b border-white/10 py-14 sm:py-20" key={section.key}>
                   <div className="mb-8 flex items-end justify-between gap-5 sm:mb-10">
@@ -223,14 +221,14 @@ export default async function ProjectDetailPage({
                     </div>
                     <p className="hidden text-xs text-white/40 sm:block">사진을 누르면 크게 볼 수 있습니다</p>
                   </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="-mx-5 grid grid-cols-1 gap-0 sm:-mx-8">
                     {images.map((image, index) => (
                       <LightboxImage
                         alt={`${project.name} ${section.title} ${index + 1}`}
-                        imageClassName={`${index === 0 && images.length % 2 === 1 ? "sm:aspect-[16/8]" : "sm:aspect-[4/3]"} aspect-[4/3] rounded-none ${containImage ? "!object-contain bg-white" : "object-cover"}`}
+                        imageClassName="!h-auto !w-full rounded-none !object-contain"
                         key={image.id}
                         src={image.imageUrl}
-                        wrapperClassName={`overflow-hidden border border-white/15 bg-white/5 ${index === 0 && images.length % 2 === 1 ? "sm:col-span-2" : ""}`}
+                        wrapperClassName="overflow-hidden border-0 bg-transparent"
                       />
                     ))}
                   </div>
