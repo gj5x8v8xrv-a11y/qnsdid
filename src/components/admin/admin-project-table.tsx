@@ -7,6 +7,25 @@ import type { Project } from "@/lib/types";
 import { getProjectAddressLine, getProjectRegion } from "@/lib/utils";
 
 export function AdminProjectTable({ projects }: { projects: Project[] }) {
+  const projectGroups = [
+    {
+      status: "active",
+      title: "분양중 현장",
+      description: "현재 홈페이지의 분양중 목록에 노출되는 현장입니다.",
+      projects: projects.filter((project) => project.status === "active"),
+      headerClassName: "border-blue-200 bg-blue-50 text-blue-950",
+      countClassName: "bg-blue-700 text-white"
+    },
+    {
+      status: "completed",
+      title: "분양완료 현장",
+      description: "분양이 종료되어 분양완료 목록에 보관된 현장입니다.",
+      projects: projects.filter((project) => project.status === "completed"),
+      headerClassName: "border-slate-300 bg-slate-100 text-slate-900",
+      countClassName: "bg-slate-700 text-white"
+    }
+  ] as const;
+
   return (
     <div className="admin-panel overflow-hidden">
       <div className="flex flex-col gap-4 border-b border-black/5 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
@@ -22,8 +41,22 @@ export function AdminProjectTable({ projects }: { projects: Project[] }) {
       </div>
 
       {projects.length > 0 ? (
-        <div className="grid gap-5 p-6 lg:p-7">
-          {projects.map((project) => (
+        <div className="grid gap-8 p-6 lg:p-7">
+          {projectGroups.map((group) => (
+            <section className="grid gap-4" key={group.status}>
+              <div className={`flex flex-col gap-3 rounded-[1.5rem] border px-5 py-5 sm:flex-row sm:items-center sm:justify-between ${group.headerClassName}`}>
+                <div>
+                  <h3 className="text-2xl font-bold">{group.title}</h3>
+                  <p className="mt-1 text-sm opacity-70">{group.description}</p>
+                </div>
+                <span className={`inline-flex w-fit rounded-full px-4 py-2 text-sm font-bold ${group.countClassName}`}>
+                  {group.projects.length}개 현장
+                </span>
+              </div>
+
+              {group.projects.length > 0 ? (
+                <div className="grid gap-5">
+                  {group.projects.map((project) => (
             <article
               className="rounded-[1.75rem] border border-[color:var(--line)] bg-white p-5 shadow-soft"
               key={project.id}
@@ -90,6 +123,14 @@ export function AdminProjectTable({ projects }: { projects: Project[] }) {
                 </div>
               </div>
             </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-[1.5rem] border border-dashed border-slate-300 bg-slate-50 px-5 py-8 text-center text-sm text-muted">
+                  {group.title}이 없습니다.
+                </div>
+              )}
+            </section>
           ))}
         </div>
       ) : (
