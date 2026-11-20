@@ -16,7 +16,14 @@ export function VisitorTracker() {
       void fetch("/api/visitors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ visitorId }),
+        body: JSON.stringify({
+          visitorId,
+          referrer: document.referrer,
+          landingPath: `${window.location.pathname}${window.location.search}`,
+          utmSource: new URLSearchParams(window.location.search).get("utm_source"),
+          utmMedium: new URLSearchParams(window.location.search).get("utm_medium"),
+          utmCampaign: new URLSearchParams(window.location.search).get("utm_campaign")
+        }),
         keepalive: true
       });
     } catch {

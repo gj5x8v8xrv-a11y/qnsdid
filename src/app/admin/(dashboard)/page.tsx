@@ -17,6 +17,15 @@ export default async function AdminDashboardPage({
   const message = Array.isArray(params.message) ? params.message[0] : params.message;
   const error = Array.isArray(params.error) ? params.error[0] : params.error;
   const dashboard = await getAdminDashboardData();
+  const insightSections = dashboard.visitorInsights
+    ? [
+        { title: "유입 경로", items: dashboard.visitorInsights.sources },
+        { title: "광고 캠페인", items: dashboard.visitorInsights.campaigns },
+        { title: "첫 방문 페이지", items: dashboard.visitorInsights.landingPages },
+        { title: "접속 기기", items: dashboard.visitorInsights.devices },
+        { title: "대략적 지역", items: dashboard.visitorInsights.locations }
+      ]
+    : [];
 
   return (
     <div className="space-y-6">
@@ -41,6 +50,32 @@ export default async function AdminDashboardPage({
               <p className="text-xs text-muted">{item.date.slice(5).replace("-", ".")}</p>
               <p className="mt-2 text-3xl font-bold text-slate-900">{item.count}</p>
               <p className="mt-1 text-xs text-muted">명</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="admin-panel p-6 lg:p-7">
+        <p className="text-xs uppercase tracking-[0.32em] text-muted">Traffic Sources</p>
+        <h2 className="mt-3 text-3xl">오늘 방문자 유입 정보</h2>
+        <p className="mt-2 text-sm leading-7 text-muted">
+          오늘 처음 방문한 경로를 기준으로 집계합니다. IP 원문은 저장하지 않으며 지역 정보는 실제 위치와 다를 수 있습니다.
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          {insightSections.map((section) => (
+            <div className="rounded-[1.25rem] bg-slate-50 p-4" key={section.title}>
+              <h3 className="text-sm font-bold text-slate-900">{section.title}</h3>
+              {section.items.length > 0 ? (
+                <div className="mt-4 space-y-2.5">
+                  {section.items.map((item) => (
+                    <div className="flex items-start justify-between gap-3 text-sm" key={item.label}>
+                      <span className="min-w-0 break-all text-muted">{item.label}</span>
+                      <strong className="shrink-0 text-slate-900">{item.count}명</strong>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-4 text-sm leading-6 text-muted">아직 기록이 없습니다.</p>
+              )}
             </div>
           ))}
         </div>
