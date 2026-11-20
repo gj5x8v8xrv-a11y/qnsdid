@@ -2,6 +2,8 @@ import { SITE_NAV_ITEMS } from "@/lib/constants";
 import type { HomePageSettings, InquiryStatus, Project, ProjectStatus, SiteConfig } from "@/lib/types";
 
 export const NAVER_INQUIRY_URL = "https://naver.me/FLEH4exx";
+export const REAL_ESTATE_INQUIRY_URL =
+  process.env.NEXT_PUBLIC_REAL_ESTATE_INQUIRY_URL || NAVER_INQUIRY_URL;
 
 type SupabaseConfigIssue =
   | "missing-url"

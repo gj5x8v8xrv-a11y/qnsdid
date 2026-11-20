@@ -4,7 +4,12 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import type { HomePageSettings } from "@/lib/types";
-import { getSiteConfig, getSiteNavItems, NAVER_INQUIRY_URL } from "@/lib/utils";
+import {
+  getSiteConfig,
+  getSiteNavItems,
+  NAVER_INQUIRY_URL,
+  REAL_ESTATE_INQUIRY_URL
+} from "@/lib/utils";
 
 export function SiteHeader({
   settings
@@ -15,6 +20,15 @@ export function SiteHeader({
   const site = getSiteConfig();
   const phoneHref = `tel:${site.companyPhone.replace(/[^+\d]/g, "")}`;
   const navItems = getSiteNavItems(settings);
+  const headerNavItems = [
+    ...navItems.slice(0, 3),
+    {
+      href: REAL_ESTATE_INQUIRY_URL,
+      label: "부동산 문의",
+      external: true
+    },
+    ...navItems.slice(3)
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/70 bg-white/68 shadow-[0_8px_30px_rgba(0,0,0,0.045)] backdrop-blur-2xl">
@@ -43,9 +57,11 @@ export function SiteHeader({
         </Link>
 
         <nav aria-label="주요 메뉴" className="flex min-w-0 flex-1 items-center justify-start gap-1.5 overflow-x-auto sm:gap-2 sm:pb-1 lg:flex-none">
-          {navItems.map((item) => {
+          {headerNavItems.map((item) => {
             const isActive =
-              item.href === "/"
+              "external" in item && item.external
+                ? false
+                : item.href === "/"
                 ? pathname === "/"
                 : item.href === "/projects"
                   ? pathname === "/projects" || pathname.startsWith("/projects/")
@@ -60,6 +76,8 @@ export function SiteHeader({
                 }`}
                 href={item.href}
                 key={item.href}
+                rel={"external" in item && item.external ? "noreferrer" : undefined}
+                target={"external" in item && item.external ? "_blank" : undefined}
               >
                 {item.label}
               </Link>
