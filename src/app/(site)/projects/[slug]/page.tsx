@@ -173,7 +173,7 @@ export default async function ProjectDetailPage({
                   <div className="bg-[#101010] px-5 py-8 sm:px-6 sm:py-10" key={section.id}>
                     <p className="text-[10px] uppercase tracking-[0.2em] text-white/35">{section.eyebrow}</p>
                     <h3 className="mt-3 text-lg font-medium text-white/90">{section.title}</h3>
-                    <p className="mt-5 whitespace-pre-wrap break-words text-sm leading-6 text-white/55">
+                    <p className="mt-5 whitespace-pre-wrap break-words text-left text-sm font-medium leading-7 text-white/90">
                       {section.content}
                     </p>
                   </div>
