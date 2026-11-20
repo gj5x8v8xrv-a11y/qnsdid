@@ -204,7 +204,7 @@ export default async function ProjectDetailPage({
               const images = groupedImages[section.key] || [];
               if (!images.length) return null;
               return (
-                <section className="border-b border-white/10 py-14 sm:py-20" key={section.key}>
+                <section className="border-b border-white/10 py-6 sm:py-8" key={section.key}>
                   <div className="mb-8 flex items-end justify-between gap-5 sm:mb-10">
                     <div>
                       <p className="text-xs font-medium uppercase tracking-[0.28em] text-white/40">{section.eyebrow}</p>
