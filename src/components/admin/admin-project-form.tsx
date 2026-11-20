@@ -1,4 +1,5 @@
 import {
+  deleteAllProjectImagesAction,
   deleteProjectImageAction,
   deleteProjectImagesByTypeAction
 } from "@/app/admin/actions";
@@ -276,11 +277,20 @@ export function AdminProjectForm({
 
         {project?.gallery.length ? (
           <section className="space-y-5">
-            <div>
-              <h3 className="text-2xl">등록된 이미지</h3>
-              <p className="mt-2 text-sm leading-8 text-muted">
-                업로드된 이미지는 유형별로 확인할 수 있으며, 필요 없는 이미지는 바로 삭제할 수 있습니다.
-              </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h3 className="text-2xl">등록된 이미지</h3>
+                <p className="mt-2 text-sm leading-8 text-muted">
+                  업로드된 이미지는 유형별로 확인할 수 있으며, 필요 없는 이미지는 바로 삭제할 수 있습니다.
+                </p>
+              </div>
+              <SubmitButton
+                className="button-secondary shrink-0 !border-red-300 !text-red-700"
+                formAction={deleteAllProjectImagesAction.bind(null, project.id)}
+                formNoValidate
+              >
+                전체 이미지 삭제
+              </SubmitButton>
             </div>
 
             <div className="grid gap-5">
