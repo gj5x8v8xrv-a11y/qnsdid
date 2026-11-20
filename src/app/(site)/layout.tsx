@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteStickyCta } from "@/components/site/site-sticky-cta";
+import { VisitorTracker } from "@/components/site/visitor-tracker";
 import { getHomePageSettings } from "@/lib/data";
 
 export default async function SiteLayout({
@@ -46,6 +47,7 @@ export default async function SiteLayout({
   return (
     <div className="min-h-screen overflow-x-clip" style={homePageStyle}>
       <SiteHeader settings={homePageSettings} />
+      <VisitorTracker />
       <main className="pb-24 lg:pb-0">{children}</main>
       <SiteFooter settings={homePageSettings} />
       <SiteStickyCta settings={homePageSettings} />

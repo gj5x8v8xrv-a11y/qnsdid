@@ -1,20 +1,23 @@
 export function AdminStatGrid({
   activeCount,
   completedCount,
-  inquiryCount
+  inquiryCount,
+  todayVisitorCount
 }: {
   activeCount: number;
   completedCount: number;
   inquiryCount: number;
+  todayVisitorCount: number;
 }) {
   const items = [
     { label: "분양중 현장", value: activeCount, accent: "bg-[#eef5ff] text-[#18407d]" },
     { label: "분양완료 현장", value: completedCount, accent: "bg-slate-100 text-slate-700" },
-    { label: "신규 문의", value: inquiryCount, accent: "bg-[#fff4df] text-[#8f6831]" }
+    { label: "신규 문의", value: inquiryCount, accent: "bg-[#fff4df] text-[#8f6831]" },
+    { label: "오늘 방문자", value: todayVisitorCount, accent: "bg-emerald-100 text-emerald-800" }
   ];
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => (
         <div className="admin-panel rounded-[1.75rem] p-6" key={item.label}>
           <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${item.accent}`}>

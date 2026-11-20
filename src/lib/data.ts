@@ -14,6 +14,7 @@ import type {
 } from "@/lib/types";
 import { buildProjectLocation, getDefaultHomePageSettings, inferProjectRegion } from "@/lib/utils";
 import { isSupabaseConfigured } from "@/lib/utils";
+import { getDailyVisitorCounts } from "@/lib/visitor-analytics";
 
 type ProjectRow = {
   id: string;
@@ -208,10 +209,11 @@ export async function getProjectById(projectId: string) {
 }
 
 export async function getAdminDashboardData() {
-  const [projects, inquiries, homePageSettings] = await Promise.all([
+  const [projects, inquiries, homePageSettings, visitorCounts] = await Promise.all([
     getProjects(),
     getInquiries(),
-    getHomePageSettings()
+    getHomePageSettings(),
+    isSupabaseConfigured() ? getDailyVisitorCounts(7) : Promise.resolve([])
   ]);
 
   return {
@@ -220,7 +222,8 @@ export async function getAdminDashboardData() {
     inquiryCount: inquiries.length,
     projects,
     inquiries,
-    homePageSettings
+    homePageSettings,
+    visitorCounts
   };
 }
 

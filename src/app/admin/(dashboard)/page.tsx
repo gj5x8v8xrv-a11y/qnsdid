@@ -27,7 +27,24 @@ export default async function AdminDashboardPage({
         activeCount={dashboard.activeCount}
         completedCount={dashboard.completedCount}
         inquiryCount={dashboard.inquiryCount}
+        todayVisitorCount={dashboard.visitorCounts[0]?.count || 0}
       />
+      <div className="admin-panel p-6 lg:p-7">
+        <p className="text-xs uppercase tracking-[0.32em] text-muted">Daily Visitors</p>
+        <h2 className="mt-3 text-3xl">최근 7일 방문자</h2>
+        <p className="mt-2 text-sm leading-7 text-muted">
+          같은 브라우저의 반복 방문은 하루에 한 번만 집계합니다.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-7">
+          {dashboard.visitorCounts.map((item) => (
+            <div className="rounded-[1.25rem] bg-slate-50 px-4 py-4 text-center" key={item.date}>
+              <p className="text-xs text-muted">{item.date.slice(5).replace("-", ".")}</p>
+              <p className="mt-2 text-3xl font-bold text-slate-900">{item.count}</p>
+              <p className="mt-1 text-xs text-muted">명</p>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Link className="admin-panel rounded-[1.5rem] p-5 transition hover:-translate-y-0.5 hover:shadow-soft" href="/admin/projects">
           <p className="text-xs uppercase tracking-[0.24em] text-muted">Projects</p>
