@@ -32,13 +32,6 @@ export async function generateMetadata({
   return project ? buildProjectMetadata(project) : { title: "현장을 찾을 수 없습니다" };
 }
 
-function textLines(value: string) {
-  return value
-    .split(/\r?\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
-
 const IMAGE_SECTIONS: Array<{
   key: Exclude<ProjectImageType, "main">;
   eyebrow: string;
@@ -95,21 +88,21 @@ export default async function ProjectDetailPage({
       id: "sales",
       eyebrow: "Sales",
       title: "분양조건",
-      lines: textLines(project.salesConditions)
+      content: project.salesConditions
     },
     {
       id: "premium",
       eyebrow: "Premium",
       title: "프리미엄 요약",
-      lines: textLines(project.premiumSummary)
+      content: project.premiumSummary
     },
     {
       id: "location",
       eyebrow: "Location",
       title: "입지 설명",
-      lines: textLines(pageContent.content)
+      content: pageContent.content
     }
-  ].filter((section) => section.lines.length > 0);
+  ].filter((section) => section.content.trim().length > 0);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_50%_0%,#2a2a2a_0%,#151515_28rem,#090909_72rem)] text-white">
@@ -180,11 +173,9 @@ export default async function ProjectDetailPage({
                   <div className="bg-[#101010] px-5 py-8 sm:px-6 sm:py-10" key={section.id}>
                     <p className="text-[10px] uppercase tracking-[0.2em] text-white/35">{section.eyebrow}</p>
                     <h3 className="mt-3 text-lg font-medium text-white/90">{section.title}</h3>
-                    <div className="mt-5 space-y-2 text-sm leading-6 text-white/55">
-                      {section.lines.map((line, index) => (
-                        <p key={`${section.id}-${line}-${index}`}>{line}</p>
-                      ))}
-                    </div>
+                    <p className="mt-5 whitespace-pre-wrap break-words text-sm leading-6 text-white/55">
+                      {section.content}
+                    </p>
                   </div>
                 ))}
               </div>
