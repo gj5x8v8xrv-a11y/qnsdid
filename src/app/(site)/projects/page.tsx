@@ -54,7 +54,6 @@ export default async function ProjectsPage({
         }
         actionsClassName="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap"
         description="현재 안내 중인 현장을 빠르게 보고 바로 문의하실 수 있습니다."
-        eyebrow="분양중 현장"
         title="현재 상담 가능한 분양 현장"
       />
 

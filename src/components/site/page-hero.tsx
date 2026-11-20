@@ -15,7 +15,7 @@ export function PageHero({
   actionsClassName,
   descriptionClassName
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: ReactNode;
   actions?: ReactNode;
@@ -31,10 +31,12 @@ export function PageHero({
         <div className="pointer-events-none absolute -bottom-32 -left-20 h-64 w-64 rounded-full bg-black/[0.04] blur-3xl" />
         <div className={`grid gap-6 sm:gap-12 lg:items-center ${visual ? "lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]" : "lg:grid-cols-1"}`}>
           <div className="relative">
-            <p className="inline-flex rounded-none border border-black/10 bg-white/55 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.2em] text-neutral-600 backdrop-blur-xl sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.3em]">
-              {eyebrow}
-            </p>
-            <h1 className="mt-3 max-w-3xl text-[1.45rem] leading-[1.2] tracking-[-0.045em] text-black sm:mt-7 sm:text-[2.8rem] lg:text-[3.75rem]">
+            {eyebrow ? (
+              <p className="inline-flex rounded-none border border-black/10 bg-white/55 px-3 py-1 text-[9px] font-medium uppercase tracking-[0.2em] text-neutral-600 backdrop-blur-xl sm:px-4 sm:py-2 sm:text-[11px] sm:tracking-[0.3em]">
+                {eyebrow}
+              </p>
+            ) : null}
+            <h1 className={`${eyebrow ? "mt-3 sm:mt-7" : "mt-0"} max-w-3xl text-[1.45rem] leading-[1.2] tracking-[-0.045em] text-black sm:text-[2.8rem] lg:text-[3.75rem]`}>
               {title}
             </h1>
             <div
