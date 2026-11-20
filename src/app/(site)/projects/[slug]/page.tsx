@@ -129,7 +129,7 @@ export default async function ProjectDetailPage({
         </div>
 
         <main className="pb-10 pt-6 sm:pb-14 sm:pt-8">
-          <section className="relative min-h-[560px] overflow-hidden border border-white/15 sm:min-h-[720px]">
+          <section className="relative min-h-[420px] overflow-hidden border border-white/15 sm:min-h-[480px]">
             <ProjectVisual
               className="absolute inset-0 h-full w-full"
               imageUrl={project.coverImageUrl}
