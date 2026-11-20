@@ -60,18 +60,13 @@ export default async function ProjectsPage({
 
       <section className="page-shell pb-24">
         <SectionHeading
-          action={
-            <a className="button-secondary !min-h-[40px] !px-4 sm:!min-h-[44px] sm:!px-6" href={NAVER_INQUIRY_URL} rel="noreferrer" target="_blank">
-              문의하기
-            </a>
-          }
           description="원하는 지역을 선택해 현장을 확인해보세요."
           eyebrow="지역별 보기"
           title={activeRegion ? `${activeRegion} 분양 현장` : "지역별 분양 현장"}
         />
 
         {regions.length ? (
-          <div className="mt-6 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
+          <div className="mt-3 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
             <Link
               className={`rounded-none border px-4 py-2.5 text-[15px] font-medium transition sm:px-5 sm:py-3 sm:text-sm ${
                 activeRegion
