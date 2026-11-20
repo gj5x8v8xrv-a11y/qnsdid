@@ -53,9 +53,6 @@ export function LightboxImage({
           src={src}
         />
         {overlayClassName ? <div className={overlayClassName} /> : null}
-        <span className="pointer-events-none absolute bottom-3 right-3 border border-white/35 bg-black/55 px-3 py-1.5 text-[10px] font-medium tracking-[0.08em] text-white backdrop-blur-xl transition group-hover:bg-black/75 sm:bottom-4 sm:right-4 sm:text-xs">
-          + 크게 보기
-        </span>
       </button>
 
       {isOpen ? (
