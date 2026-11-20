@@ -1,4 +1,7 @@
-import { deleteProjectImageAction } from "@/app/admin/actions";
+import {
+  deleteProjectImageAction,
+  deleteProjectImagesByTypeAction
+} from "@/app/admin/actions";
 import { AdminProjectImageManager } from "@/components/admin/admin-project-image-manager";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { PROJECT_IMAGE_TYPE_OPTIONS } from "@/lib/constants";
@@ -286,9 +289,22 @@ export function AdminProjectForm({
                   className="rounded-[1.5rem] border border-[color:var(--line)] bg-white p-5 shadow-soft"
                   key={option.value}
                 >
-                  <div className="mb-4">
-                    <h4 className="text-xl">{option.label}</h4>
-                    <p className="mt-2 text-sm leading-7 text-muted">{option.description}</p>
+                  <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h4 className="text-xl">{option.label}</h4>
+                      <p className="mt-2 text-sm leading-7 text-muted">{option.description}</p>
+                    </div>
+                    <SubmitButton
+                      className="button-secondary shrink-0 !text-red-600"
+                      formAction={deleteProjectImagesByTypeAction.bind(
+                        null,
+                        project.id,
+                        option.value
+                      )}
+                      formNoValidate
+                    >
+                      {option.label} 전체 삭제
+                    </SubmitButton>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {(imagesByType[option.value] || []).map((image) => (
@@ -303,10 +319,12 @@ export function AdminProjectForm({
                         />
                         <SubmitButton
                           className="button-secondary mt-3 w-full !text-red-600"
-                          formAction={deleteProjectImageAction}
+                          formAction={deleteProjectImageAction.bind(
+                            null,
+                            image.id,
+                            project.id
+                          )}
                           formNoValidate
-                          name="imageId"
-                          value={image.id}
                         >
                           이미지 삭제
                         </SubmitButton>

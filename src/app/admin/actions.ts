@@ -934,10 +934,7 @@ export async function updateHomePageSettingsAction(formData: FormData) {
   redirect(destination);
 }
 
-export async function deleteProjectImageAction(formData: FormData) {
-  const projectId =
-    typeof formData.get("projectId") === "string" ? String(formData.get("projectId")) : "";
-
+export async function deleteProjectImageAction(imageId: string, projectId: string) {
   if (!isSupabaseConfigured()) {
     redirect(
       buildRedirectUrl(
@@ -954,24 +951,33 @@ export async function deleteProjectImageAction(formData: FormData) {
   let destination = "/admin";
 
   try {
-    const imageId = getTextField(formData, "imageId", "이미지 ID");
-    const projectId = getTextField(formData, "projectId", "프로젝트 ID");
+    if (!imageId?.trim()) {
+      throw new Error("삭제할 이미지를 찾을 수 없습니다.");
+    }
+    if (!projectId?.trim()) {
+      throw new Error("이미지가 등록된 현장을 찾을 수 없습니다.");
+    }
 
     const supabase = getAdminSupabaseClient();
     const { data: imageRow, error: imageError } = await supabase
       .from("project_images")
       .select("image_path")
       .eq("id", imageId)
+      .eq("project_id", projectId)
       .maybeSingle();
 
     if (imageError) {
       throw new Error(imageError.message);
     }
+    if (!imageRow) {
+      throw new Error("삭제할 이미지를 찾을 수 없습니다.");
+    }
 
     const { error: deleteError } = await supabase
       .from("project_images")
       .delete()
-      .eq("id", imageId);
+      .eq("id", imageId)
+      .eq("project_id", projectId);
 
     if (deleteError) {
       throw new Error(deleteError.message);
@@ -988,6 +994,70 @@ export async function deleteProjectImageAction(formData: FormData) {
       {
         error: getErrorMessage(error)
       }
+    );
+  }
+
+  redirect(destination);
+}
+
+export async function deleteProjectImagesByTypeAction(
+  projectId: string,
+  imageType: ProjectImageType
+) {
+  if (!isSupabaseConfigured()) {
+    redirect(
+      buildRedirectUrl(
+        projectId ? `/admin/projects/${projectId}/edit` : "/admin",
+        { error: "Supabase 설정 후 이미지를 삭제할 수 있습니다." }
+      )
+    );
+  }
+
+  await requireAdminUser();
+
+  let destination = "/admin";
+
+  try {
+    if (!projectId?.trim()) {
+      throw new Error("이미지가 등록된 현장을 찾을 수 없습니다.");
+    }
+    if (imageType === "main" || !isSupportedProjectImageType(imageType)) {
+      throw new Error("삭제할 이미지 항목이 올바르지 않습니다.");
+    }
+
+    const supabase = getAdminSupabaseClient();
+    const { data: imageRows, error: imageError } = await supabase
+      .from("project_images")
+      .select("image_path")
+      .eq("project_id", projectId)
+      .eq("image_type", imageType);
+
+    if (imageError) {
+      throw new Error(imageError.message);
+    }
+
+    const { error: deleteError } = await supabase
+      .from("project_images")
+      .delete()
+      .eq("project_id", projectId)
+      .eq("image_type", imageType);
+
+    if (deleteError) {
+      throw new Error(deleteError.message);
+    }
+
+    for (const imageRow of imageRows || []) {
+      await removeProjectAsset(imageRow.image_path || null);
+    }
+
+    revalidatePath(`/admin/projects/${projectId}/edit`);
+    destination = buildRedirectUrl(`/admin/projects/${projectId}/edit`, {
+      message: `${imageRows?.length || 0}장의 이미지가 모두 삭제되었습니다.`
+    });
+  } catch (error) {
+    destination = buildRedirectUrl(
+      projectId ? `/admin/projects/${projectId}/edit` : "/admin",
+      { error: getErrorMessage(error) }
     );
   }
 
