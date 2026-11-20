@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { LightboxImage } from "@/components/ui/lightbox-image";
 import { ProjectVisual } from "@/components/ui/project-visual";
+import { ProjectStickyCta } from "@/components/site/project-sticky-cta";
 import { getProjectBySlug } from "@/lib/data";
 import { buildProjectMetadata } from "@/lib/seo";
 import {
@@ -67,6 +68,7 @@ export default async function ProjectDetailPage({
   const youtubeEmbedUrl = getYoutubeEmbedUrl(pageContent.meta.youtubeUrl);
   const modelHouseAddress = pageContent.meta.modelHouseAddress;
   const siteAddress = pageContent.meta.siteAddress || address;
+  const projectInquiryUrl = project.reservationUrl || NAVER_INQUIRY_URL;
   const sectionOrder = [
     ...pageContent.meta.sectionOrder,
     ...DEFAULT_PROJECT_SECTION_ORDER.filter((key) => !pageContent.meta.sectionOrder.includes(key))
@@ -261,7 +263,7 @@ export default async function ProjectDetailPage({
             </div>
             <a
               className="mt-4 flex min-h-14 w-full items-center justify-between bg-white px-5 text-sm font-medium text-black transition hover:bg-neutral-200"
-              href={project.reservationUrl || NAVER_INQUIRY_URL}
+              href={projectInquiryUrl}
               rel="noreferrer"
               target="_blank"
             >
@@ -274,7 +276,7 @@ export default async function ProjectDetailPage({
             <div className="grid gap-3 sm:grid-cols-[1fr_0.65fr]">
               <a
                 className="inline-flex min-h-12 items-center justify-center rounded-none bg-white px-5 text-sm font-medium text-black shadow-[0_12px_28px_rgba(0,0,0,0.25)] transition hover:bg-neutral-200"
-                href={NAVER_INQUIRY_URL}
+                href={projectInquiryUrl}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -290,6 +292,7 @@ export default async function ProjectDetailPage({
           </section>
         </main>
       </div>
+      <ProjectStickyCta inquiryUrl={projectInquiryUrl} phone={project.contactPhone} />
     </div>
   );
 }

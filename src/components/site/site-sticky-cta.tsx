@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import type { HomePageSettings } from "@/lib/types";
 import { getSiteConfig, NAVER_INQUIRY_URL } from "@/lib/utils";
 
@@ -8,8 +10,13 @@ export function SiteStickyCta({
 }: {
   settings: HomePageSettings;
 }) {
+  const pathname = usePathname();
   const site = getSiteConfig();
   const phoneHref = `tel:${site.companyPhone.replace(/[^+\d]/g, "")}`;
+
+  if (/^\/projects\/[^/]+$/.test(pathname)) {
+    return null;
+  }
 
   return (
     <>
