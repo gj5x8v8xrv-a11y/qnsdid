@@ -77,7 +77,6 @@ export default async function HomePage() {
             </Link>
           }
           description={homePageSettings.activeSectionDescription}
-          eyebrow={homePageSettings.activeSectionEyebrow}
           title={homePageSettings.activeSectionTitle}
         />
 

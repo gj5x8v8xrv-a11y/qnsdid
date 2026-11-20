@@ -60,7 +60,6 @@ export default async function ProjectsPage({
       <section className="page-shell pb-24">
         <SectionHeading
           description="원하는 지역을 선택해 현장을 확인해보세요."
-          eyebrow="지역별 보기"
           title={activeRegion ? `${activeRegion} 분양 현장` : "지역별 분양 현장"}
         />
 
