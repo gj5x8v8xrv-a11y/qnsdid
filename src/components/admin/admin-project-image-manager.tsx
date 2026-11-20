@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, type ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   PROJECT_IMAGE_ACCEPTED_EXTENSIONS,
@@ -57,6 +58,7 @@ export function AdminProjectImageManager({
   existingImages,
   projectId
 }: AdminProjectImageManagerProps) {
+  const router = useRouter();
   const [coverAsset, setCoverAsset] = useState<UploadedCoverAsset | null>(null);
   const [uploadedAssets, setUploadedAssets] = useState<UploadedProjectAsset[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -169,14 +171,30 @@ export function AdminProjectImageManager({
         });
       }
 
-      setUploadedAssets((current) => [
-        ...current,
-        ...uploadedResults.map((item, index) => ({
-          ...item,
-          sortOrder: current.length + index
-        }))
-      ]);
-      setFeedback(`${files.length}장의 이미지를 업로드했습니다.`);
+      if (projectId) {
+        const response = await fetch(`/api/admin/projects/${projectId}/images`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ images: uploadedResults })
+        });
+        const payload = (await response.json()) as { message?: string };
+
+        if (!response.ok) {
+          throw new Error(payload.message || "업로드한 이미지를 현장에 저장하지 못했습니다.");
+        }
+
+        setFeedback(`${files.length}장의 이미지를 업로드하고 자동 저장했습니다.`);
+        router.refresh();
+      } else {
+        setUploadedAssets((current) => [
+          ...current,
+          ...uploadedResults.map((item, index) => ({
+            ...item,
+            sortOrder: current.length + index
+          }))
+        ]);
+        setFeedback(`${files.length}장의 이미지를 업로드했습니다. 현장 등록 버튼을 눌러 저장해주세요.`);
+      }
     } catch (error) {
       setFeedback(formatUploadError(error));
     } finally {

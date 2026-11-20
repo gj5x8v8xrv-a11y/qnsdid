@@ -76,9 +76,7 @@ export default async function ProjectDetailPage({
   const orderedImageSections = sectionOrder
     .map((key) => IMAGE_SECTIONS.find((section) => section.key === key))
     .filter((section): section is (typeof IMAGE_SECTIONS)[number] => Boolean(section));
-  const groupedImages = groupImages(
-    project.gallery.filter((image) => image.imageUrl !== project.coverImageUrl)
-  );
+  const groupedImages = groupImages(project.gallery);
   const overview = [
     { label: "세대수", value: project.householdCount },
     { label: "평형", value: project.unitPlan },
