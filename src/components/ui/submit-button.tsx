@@ -1,19 +1,20 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 
 export function SubmitButton({
   children,
-  className
+  className,
+  ...buttonProps
 }: {
   children: ReactNode;
   className?: string;
-}) {
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children" | "className" | "type">) {
   const { pending } = useFormStatus();
 
   return (
-    <button className={className} disabled={pending} type="submit">
+    <button {...buttonProps} className={className} disabled={pending || buttonProps.disabled} type="submit">
       {pending ? "처리 중..." : children}
     </button>
   );

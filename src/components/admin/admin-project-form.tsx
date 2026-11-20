@@ -301,13 +301,15 @@ export function AdminProjectForm({
                           className="aspect-[4/3] w-full rounded-[1.25rem] object-cover"
                           src={image.imageUrl}
                         />
-                        <form action={deleteProjectImageAction} className="mt-3">
-                          <input name="imageId" type="hidden" value={image.id} />
-                          <input name="projectId" type="hidden" value={project.id} />
-                          <SubmitButton className="button-secondary w-full !text-red-600">
-                            이미지 삭제
-                          </SubmitButton>
-                        </form>
+                        <SubmitButton
+                          className="button-secondary mt-3 w-full !text-red-600"
+                          formAction={deleteProjectImageAction}
+                          formNoValidate
+                          name="imageId"
+                          value={image.id}
+                        >
+                          이미지 삭제
+                        </SubmitButton>
                       </div>
                     ))}
                   </div>
