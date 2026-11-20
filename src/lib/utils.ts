@@ -60,7 +60,7 @@ export function getDefaultHomePageSettings(): HomePageSettings {
     navHomeLabel: "홈",
     navProjectsLabel: "분양중",
     navCompletedLabel: "분양완료",
-    navContactLabel: "상담문의",
+    navContactLabel: "분양 상담",
     headerPhoneButtonLabel: "전화문의",
     headerContactButtonLabel: "상담신청",
     heroEyebrow: "분양 정보 플랫폼",

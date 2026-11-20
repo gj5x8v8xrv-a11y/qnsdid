@@ -205,6 +205,10 @@ function normalizeHomePageSettings(value: unknown): HomePageSettings {
     }
   }
 
+  if (normalized.navContactLabel === "상담문의") {
+    normalized.navContactLabel = "분양 상담";
+  }
+
   return normalized;
 }
 
