@@ -66,6 +66,59 @@ function getOptionalTextField(formData: FormData, key: string) {
   return trimmed.length > 0 ? trimmed : null;
 }
 
+async function sendTelegramInquiryNotification({
+  name,
+  phone,
+  message,
+  projectName
+}: {
+  name: string;
+  phone: string;
+  message: string;
+  projectName: string | null;
+}) {
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!botToken || !chatId) {
+    return;
+  }
+
+  const submittedAt = new Intl.DateTimeFormat("ko-KR", {
+    dateStyle: "short",
+    timeStyle: "short",
+    timeZone: "Asia/Seoul"
+  }).format(new Date());
+
+  const telegramMessage = [
+    "새 상담문의가 접수되었습니다.",
+    "",
+    `관심 현장: ${projectName || "미선택"}`,
+    `이름: ${name}`,
+    `연락처: ${phone}`,
+    `접수 시간: ${submittedAt}`,
+    "",
+    "문의 내용",
+    message
+  ].join("\n");
+
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: telegramMessage
+    }),
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Telegram notification failed with status ${response.status}`);
+  }
+}
+
 async function sendNaverInquiryNotification({
   projectName
 }: {
@@ -1205,7 +1258,20 @@ export async function submitInquiryAction(formData: FormData) {
     }
 
     try {
-      await sendNaverInquiryNotification({ projectName });
+      await sendTelegramInquiryNotification({
+        name,
+        phone,
+        message,
+        projectName
+      });
+    } catch (notificationError) {
+      console.error("Failed to send Telegram inquiry notification", notificationError);
+    }
+
+    try {
+      await sendNaverInquiryNotification({
+        projectName
+      });
     } catch (notificationError) {
       console.error("Failed to send Naver inquiry notification", notificationError);
     }
